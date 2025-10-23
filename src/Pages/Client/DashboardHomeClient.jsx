@@ -3,7 +3,7 @@ import { Outlet } from 'react-router-dom';
 import NavigationHeader from '../../Components/NavigationHeader';
 
 
-export default function DashboardHome() {
+export default function DashboardHomeClient() {
   return (
     <div>
         <NavigationHeader userType="provider" />
