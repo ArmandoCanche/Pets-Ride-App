@@ -8,7 +8,8 @@ export default function DashboardHome() {
     <div>
       <NavbarClient/>
       <main>
-        <Outlet />
+        <h1>Hola</h1>
+        <h2>Hola</h2>
       </main>
     </div>
   );
