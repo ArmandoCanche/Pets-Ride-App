@@ -1,7 +1,7 @@
 import { Routes, Route } from 'react-router-dom'
 import './App.css'
 import HomePage from './Components/HomePage'
-import DashboardHome from './Pages/Client/DashboardHome'
+import DashboardHomeClient from './Pages/Client/DashboardHomeClient'
 
 function App() {
 
@@ -22,7 +22,7 @@ function App() {
         />
         <Route
           path="/dashboard/cliente"
-          element={<DashboardHome/>}
+          element={<DashboardHomeClient/>}
         />
         <Route
           path="/dashboard/proveedor"
