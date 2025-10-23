@@ -1,12 +1,13 @@
 import * as React from 'react';
 import {useNavigate } from 'react-router-dom';
 import { ArrowRight, StarIcon, HeartIcon, ShieldCheckIcon,CheckCircleIcon } from "lucide-react";
+import Footer from './Footer';
 
 export default function HomePage() {
   const navigate = useNavigate();
   return (
     <div>
-        <section
+      <section
           className="w-full h-screen flex items-center justify-center bg-cover bg-center relative"
         >
           {/* Fondo */}
@@ -103,9 +104,9 @@ export default function HomePage() {
               </div>
             </div>
           </div>
-        </section>
+      </section>
 
-        <section className="w-full bg-[#005c71] py-16">
+      <section className="w-full bg-[#005c71] py-16">
           <div className="max-w-7xl mx-auto px-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 text-center text-white">
             
             {/* Mascotas Felices */}
@@ -137,12 +138,13 @@ export default function HomePage() {
             </div>
 
           </div>
-        </section>
+      </section>
 
-        <section>
-          
-        </section>
+      <section>
 
+      </section>
+
+      <Footer/>
     </div>
   );
 }
