@@ -6,7 +6,7 @@ import NavigationHeader from '../../Components/NavigationHeader';
 export default function DashboardHome() {
   return (
     <div>
-        <NavigationHeader userType="client" />
+        <NavigationHeader userType="provider" />
         <main>
             <h1>Hola</h1>
             <h2>Hola</h2>

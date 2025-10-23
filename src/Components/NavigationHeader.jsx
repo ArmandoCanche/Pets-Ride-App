@@ -31,7 +31,7 @@ export default function NavigationHeader({ userType }) {
   return (
     <header className="flex  w-full border-gray-200 shadow-sm">
       <div className="container mx-auto">
-        <div className="flex py-2 px-10 items-center justify-between">
+        <div className="flex py-2 px-10 items-center justify-between md:px-0 lg:px-15 xl:px-10">
           <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
               <img src="/logo.png" alt="Pet's Ride Logo" style={{ width: '5rem', height: 'auto' }} />
           </Link>
@@ -139,7 +139,72 @@ export default function NavigationHeader({ userType }) {
                   </div>
                 </>
               )}
-              {/* Aquí puedes replicar la navegación móvil para client/provider/admin usando Link + Buttons */}
+              { userType === "client" && (
+                  <>
+                    <Link to="/client" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Dashboard</Link>
+                    <Link to="/client/search" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Find Services</Link>
+                    <Link to="/client/bookings" className="text-sm font-medium text-foreground hover:text-primary transition-colors">My Bookings</Link>
+                    <Link to="/client/pets" className="text-sm font-medium text-foreground hover:text-primary transition-colors">My Pets</Link>
+                    <Link to="/client/messages" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Messages</Link>
+                    <div className="flex flex-col gap-2 pt-2 border-t">
+                      <Link href="/client/profile" className="flex w-full justify-start">
+                        <Button variant="ghost" sx={{fontFamily:'Poppins', paddingLeft:'0'}}>
+                          <UserIcon className="mr-2 h-4 w-4" />
+                          Profile
+                        </Button>
+                      </Link>
+                      <Link href="/client/settings">
+                        <Button variant="ghost" sx={{fontFamily:'Poppins', paddingLeft:'0'}}>
+                          <SettingsIcon className="mr-2 h-4 w-4" />
+                          Settings
+                        </Button>
+                      </Link>
+                      <Link href="/login/client">
+                        <Button variant="ghost" sx={{fontFamily:'Poppins', justifyContent:'flex-start', paddingLeft:'0'}}>
+                          <LogOutIcon className="mr-2 h-4 w-4" />
+                          Log out
+                        </Button>
+                      </Link>
+                    </div>
+                  </>
+              )}
+              { userType === "provider" && (
+                  <>
+                    <Link to="/provider" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Dashboard</Link>
+                    <Link to="/provider/services" className="text-sm font-medium text-foreground hover:text-primary transition-colors">My Services</Link>
+                    <Link to="/provider/bookings" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Bookings</Link>
+                    <Link to="/provider/earnings" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Earnings</Link>
+                    <Link to="/provider/messages" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Messages</Link>
+                    <div className="flex flex-col gap-2 pt-2 border-t">
+                      <Link href="/provider/profile" className="flex w-full justify-start">
+                        <Button variant="ghost" sx={{fontFamily:'Poppins', paddingLeft:'0', justifyContent:'flex-start' }} className='w-full'>
+                          <UserIcon className="mr-2 h-4 w-4" />
+                          Profile
+                        </Button>
+                      </Link>
+                      <Link href="/provider/settings">
+                        <Button variant="ghost" sx={{fontFamily:'Poppins', paddingLeft:'0', justifyContent:'flex-start' }} className='w-full'>
+                          <SettingsIcon className="mr-2 h-4 w-4" />
+                          Settings
+                        </Button>
+                      </Link>
+                      <Link href="/login/provider">
+                        <Button variant="ghost" sx={{fontFamily:'Poppins', paddingLeft:'0', justifyContent:'flex-start' }} className='w-full'>
+                          <LogOutIcon className="mr-2 h-4 w-4" />
+                          Log out
+                        </Button>
+                      </Link>
+                    </div>
+                  </>
+              )}
+              { userType === "admin" && (
+                  <>
+                    <Link to="/admin" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Dashboard</Link>
+                    <Link to="/admin/users" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Users</Link>
+                    <Link to="/admin/providers" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Providers</Link>
+                    <Link to="/admin/reports" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Reports</Link>
+                  </>
+              )}
             </nav>
           </div>
         )}
