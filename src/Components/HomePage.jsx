@@ -1,7 +1,16 @@
 import * as React from 'react';
 import {useNavigate } from 'react-router-dom';
 import { ArrowRight, StarIcon, HeartIcon, ShieldCheckIcon,CheckCircleIcon } from "lucide-react";
+import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
+import SchoolIcon from '@mui/icons-material/School';
+import ContentCutIcon from '@mui/icons-material/ContentCut';
+import ApartmentIcon from '@mui/icons-material/Apartment';
+import HomeIcon from '@mui/icons-material/Home';
+import ElectricMopedIcon from '@mui/icons-material/ElectricMoped';
+import VaccinesIcon from '@mui/icons-material/Vaccines';
+import PetsIcon from '@mui/icons-material/Pets';
 import Footer from './Footer';
+import TestimonialsSection from './TestimonialSection';
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -50,11 +59,13 @@ export default function HomePage() {
 
               <div className="mt-4 flex flex-wrap gap-4">
                 <button
+                  onClick={navigate("/login/cliente")}
                   className="flex items-center gap-2 bg-orange-500 hover:bg-orange-700 text-white px-6 py-2 rounded-full font-semibold transition"
                 >
                   Buscas Servicios <ArrowRight size={15} />
                 </button>
                 <button
+                  onClick={navigate("/login/proveedor")}
                   className="flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-full font-semibold transition"
                 >
                   Ofrecer Servicios
@@ -140,8 +151,257 @@ export default function HomePage() {
           </div>
       </section>
 
-      <section>
+      <section className="w-full bg-[#f6fcfc] py-20">
+        <div className="max-w-6xl mx-auto text-center px-6">
+          {/* Encabezado */}
+          <div className="mb-10">
+            <span className="text-sm font-medium text-[#005c71] border border-[#005c71] px-3 py-1 rounded-full">
+              Proceso Simple
+            </span>
+            <h2 className="text-3xl md:text-4xl font-bold mt-4 text-gray-900">
+              ¿Cómo Funciona Pet's Ride?
+            </h2>
+            <p className="text-gray-600 mt-2">
+              Tres simples pasos para encontrar el cuidado perfecto para tu mascota
+            </p>
+          </div>
 
+          {/* Pasos */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            
+            {/* Paso 1 */}
+            <div className="bg-white shadow-sm rounded-2xl border border-gray-100 p-8 relative text-left hover:shadow-md transition">
+              <div className="absolute top-6 right-6 text-5xl font-extrabold text-gray-100 select-none">
+                01
+              </div>
+              <div className="mb-6 bg-gradient-to-tr from-[#e0f6f8] to-[#f7fbfc] p-3 w-12 h-12 rounded-xl flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="#005c71" className="w-6 h-6">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35M9.75 18a8.25 8.25 0 100-16.5 8.25 8.25 0 000 16.5z" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-semibold text-gray-800 mb-2">Busca y Compara</h3>
+              <p className="text-gray-600 leading-relaxed">
+                Explora proveedores verificados, lee reseñas reales y compara precios para encontrar el servicio perfecto.
+              </p>
+            </div>
+
+            {/* Paso 2 */}
+            <div className="bg-white shadow-sm rounded-2xl border border-gray-100 p-8 relative text-left hover:shadow-md transition">
+              <div className="absolute top-6 right-6 text-5xl font-extrabold text-gray-100 select-none">
+                02
+              </div>
+              <div className="mb-6 bg-gradient-to-tr from-[#e0f6f8] to-[#f7fbfc] p-3 w-12 h-12 rounded-xl flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="#005c71" className="w-6 h-6">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 7.5h7.5m-7.5 3.75h7.5m-9 3.75h9M9.75 3v1.5M14.25 3v1.5M3 9h18M5.25 5.25h13.5A2.25 2.25 0 0121 7.5v11.25A2.25 2.25 0 0118.75 21H5.25A2.25 2.25 0 013 18.75V7.5a2.25 2.25 0 012.25-2.25z" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-semibold text-gray-800 mb-2">Reserva Fácilmente</h3>
+              <p className="text-gray-600 leading-relaxed">
+                Selecciona fecha y hora, elige tu mascota y confirma tu reserva en minutos con pago seguro.
+              </p>
+            </div>
+
+            {/* Paso 3 */}
+            <div className="bg-white shadow-sm rounded-2xl border border-gray-100 p-8 relative text-left hover:shadow-md transition">
+              <div className="absolute top-6 right-6 text-5xl font-extrabold text-gray-100 select-none">
+                03
+              </div>
+              <div className="mb-6 bg-gradient-to-tr from-[#e0f6f8] to-[#f7fbfc] p-3 w-12 h-12 rounded-xl flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="#005c71" className="w-6 h-6">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-semibold text-gray-800 mb-2">Disfruta la Tranquilidad</h3>
+              <p className="text-gray-600 leading-relaxed">
+                Recibe actualizaciones en tiempo real y comunícate directamente con tu proveedor durante el servicio.
+              </p>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <section className="w-full bg-white py-20">
+        <div className="max-w-6xl mx-auto text-center px-6">
+          {/* Encabezado */}
+          <div className="mb-10">
+            <span className="text-sm font-medium text-[#005c71] border border-[#005c71] px-3 py-1 rounded-full">
+              Servicios Completos
+            </span>
+            <h2 className="text-3xl md:text-4xl font-bold mt-4 text-gray-900">
+              Todo lo que tu Mascota Necesita
+            </h2>
+            <p className="text-gray-600 mt-2">
+              Desde paseos diarios hasta cuidado veterinarios,<br/> encuentra todo en un solo lugar
+            </p>
+          </div>
+
+          {/* Servicios */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            
+            <div className="bg-white shadow-sm rounded-2xl border border-gray-100 p-8 relative text-center hover:shadow-md transition">
+              <div className="mb-6 bg-gradient-to-tr from-[#e0f6f8] to-[#f7fbfc] p-3 w-12 h-12 rounded-xl flex items-center justify-center mx-auto">
+                <PetsIcon sx={{ fontSize: 28, color: '#005c71' }} />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-800 mb-2">Paseos</h3>
+            </div>
+
+
+            <div className="bg-white shadow-sm rounded-2xl border border-gray-100 p-8 relative text-center hover:shadow-md transition">
+              <div className="mb-6 bg-gradient-to-tr from-[#e0f6f8] to-[#f7fbfc] p-3 w-12 h-12 rounded-xl flex items-center justify-center mx-auto">
+                <VaccinesIcon sx={{ fontSize: 28, color: '#005c71' }} />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-800 mb-2">Veterinaria</h3>
+            </div>
+
+            <div className="bg-white shadow-sm rounded-2xl border border-gray-100 p-8 relative text-center hover:shadow-md transition">
+              <div className="mb-6 bg-gradient-to-tr from-[#e0f6f8] to-[#f7fbfc] p-3 w-12 h-12 rounded-xl flex items-center justify-center mx-auto">
+                <ElectricMopedIcon sx={{ fontSize: 28, color: '#005c71' }} />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-800 mb-2">Transporte</h3>
+            </div>
+
+            <div className="bg-white shadow-sm rounded-2xl border border-gray-100 p-8 relative text-center hover:shadow-md transition">
+              <div className="mb-6 bg-gradient-to-tr from-[#e0f6f8] to-[#f7fbfc] p-3 w-12 h-12 rounded-xl flex items-center justify-center mx-auto">
+                <ApartmentIcon sx={{ fontSize: 28, color: '#005c71' }} />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-800 mb-2">Hoteles</h3>
+            </div>
+
+
+            <div className="bg-white shadow-sm rounded-2xl border border-gray-100 p-8 relative text-center hover:shadow-md transition">
+              <div className="mb-6 bg-gradient-to-tr from-[#e0f6f8] to-[#f7fbfc] p-3 w-12 h-12 rounded-xl flex items-center justify-center mx-auto">
+                <ContentCutIcon sx={{ fontSize: 28, color: '#005c71' }} />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-800 mb-2">Peluquería</h3>
+            </div>
+
+            <div className="bg-white shadow-sm rounded-2xl border border-gray-100 p-8 relative text-center hover:shadow-md transition">
+              <div className="mb-6 bg-gradient-to-tr from-[#e0f6f8] to-[#f7fbfc] p-3 w-12 h-12 rounded-xl flex items-center justify-center mx-auto">
+                <SchoolIcon sx={{ fontSize: 28, color: '#005c71' }} />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-800 mb-2">Entrenamiento</h3>
+            </div>
+
+            <div className="bg-white shadow-sm rounded-2xl border border-gray-100 p-8 relative text-center hover:shadow-md transition">
+              <div className="mb-6 bg-gradient-to-tr from-[#e0f6f8] to-[#f7fbfc] p-3 w-12 h-12 rounded-xl flex items-center justify-center mx-auto">
+                <HomeIcon sx={{ fontSize: 28, color: '#005c71' }} />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-800 mb-2">Cuidado en Casa</h3>
+            </div>
+
+
+            <div className="bg-white shadow-sm rounded-2xl border border-gray-100 p-8 relative text-center hover:shadow-md transition">
+              <div className="mb-6 bg-gradient-to-tr from-[#e0f6f8] to-[#f7fbfc] p-3 w-12 h-12 rounded-xl flex items-center justify-center mx-auto">
+                <LocalHospitalIcon sx={{ fontSize: 28, color: '#005c71' }} />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-800 mb-2">Emergencias</h3>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <TestimonialsSection/>
+
+      <section className="w-full bg-white py-20">
+        <div className="max-w-6xl mx-auto text-center px-6">
+          {/* Encabezado */}
+          <div className="mb-10">
+            <span className="text-sm font-medium text-[#005c71] border border-[#005c71] px-3 py-1 rounded-full">
+              Seguridad Garantizada
+            </span>
+            <h2 className="text-4xl md:text-5xl font-bold mt-4 text-gray-900">
+              <br/>Tu Confianza es Nuestra Prioridad<br/>
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            
+            {/* 1 */}
+            <div className="bg-white shadow-sm rounded-2xl border border-gray-100 p-8 relative text-center hover:shadow-md transition">
+              <div className="mb-6 bg-gradient-to-tr from-[#e0f6f8] to-[#f7fbfc] p-3 w-12 h-12 rounded-xl flex items-center justify-center mx-auto">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="#005c71" className="w-6 h-6">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35M9.75 18a8.25 8.25 0 100-16.5 8.25 8.25 0 000 16.5z" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-semibold text-gray-800 mb-2">Proveedores verificados</h3>
+              <p className="text-gray-600 leading-relaxed">
+                Todos los proveedores pasan por un riguroso proceso de verificación incluyendo antecedentes y certificaciones.
+              </p>
+            </div>
+
+            {/* 2 */}
+            <div className="bg-white shadow-sm rounded-2xl border border-gray-100 p-8 relative text-center hover:shadow-md transition">
+              <div className="mb-6 bg-gradient-to-tr from-[#e0f6f8] to-[#f7fbfc] p-3 w-12 h-12 rounded-xl flex items-center justify-center mx-auto">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="#005c71" className="w-6 h-6">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 7.5h7.5m-7.5 3.75h7.5m-9 3.75h9M9.75 3v1.5M14.25 3v1.5M3 9h18M5.25 5.25h13.5A2.25 2.25 0 0121 7.5v11.25A2.25 2.25 0 0118.75 21H5.25A2.25 2.25 0 013 18.75V7.5a2.25 2.25 0 012.25-2.25z" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-semibold text-gray-800 mb-2">Pagos Seguros</h3>
+              <p className="text-gray-600 leading-relaxed">
+                Procesamiento de pagos encriptado y protegido. Tu información financiera siempre está segura.
+              </p>
+            </div>
+
+            {/* 3 */}
+            <div className="bg-white shadow-sm rounded-2xl border border-gray-100 p-8 relative text-center hover:shadow-md transition">
+              <div className="mb-6 bg-gradient-to-tr from-[#e0f6f8] to-[#f7fbfc] p-3 w-12 h-12 rounded-xl flex items-center justify-center mx-auto">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="#005c71" className="w-6 h-6">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-semibold text-gray-800 mb-2">Garantía de Calidad</h3>
+              <p className="text-gray-600 leading-relaxed">
+                Sistema de calificaciones y reseñas verificadas. Solo los mejores proveedores permanecen en la plataforma.
+              </p>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <section
+        className="relative text-center text-white py-24 px-6 bg-[#005c71] overflow-hidden"
+        style={{
+          backgroundImage: "url('/bg-2.jpg')",
+          backgroundSize: "cover",
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "center",
+        }}
+      >
+        {/* Capa de oscurecimiento sutil */}
+        <div className="absolute inset-0 bg-[#005c71]/90"></div>
+
+        {/* Contenido principal */}
+        <div className="relative z-10 max-w-3xl mx-auto">
+          {/* Etiqueta superior */}
+          <span className="text-sm font-semibold tracking-wide bg-[#ff7043] text-white px-4 py-1 rounded-full inline-block mb-4">
+            Únete Hoy
+          </span>
+
+          {/* Título principal */}
+          <h2 className="text-4xl md:text-5xl font-extrabold mb-6 leading-tight">
+            ¿Listo para Darle a tu <br className="hidden md:block" /> 
+            Mascota el Mejor Cuidado?
+          </h2>
+
+          {/* Subtítulo */}
+          <p className="text-lg text-gray-100 mb-10">
+            Únete a miles de dueños felices que confían en Pet's Ride para las
+            necesidades de cuidado de sus mascotas.
+          </p>
+
+          {/* Botones */}
+          <div className="flex flex-col sm:flex-row justify-center gap-4">
+            <button className="flex items-center justify-center gap-2 bg-[#ff7043] hover:bg-[#ff5722] text-white font-semibold px-8 py-3 rounded-xl transition">
+              Comenzar Ahora <ArrowRight size={18} />
+            </button>
+            <button className="border border-gray-300 text-white hover:bg-white hover:text-[#005c71] font-semibold px-8 py-3 rounded-xl transition">
+              Ofrecer Servicios
+            </button>
+          </div>
+        </div>
       </section>
 
       <Footer/>
