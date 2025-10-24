@@ -1,10 +1,10 @@
 import React from 'react';
 
-export default function DashboardHomeProvider() {
+export default function DashboardMessagesProvider() {
   return (
     <div>
         <main>
-            <h1>PANEL PROVEEDOR</h1>
+            <h1>MIS MENSAJES</h1>
         </main>
     </div>
   );

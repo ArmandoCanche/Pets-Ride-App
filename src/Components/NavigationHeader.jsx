@@ -36,44 +36,44 @@ export default function NavigationHeader({ userType }) {
               <img src="/logo.png" alt="Pet's Ride Logo" style={{ width: '5rem', height: 'auto' }} />
           </Link>
 
-          <nav className="hidden md:flex  items-center gap-15">
+          <nav className="hidden md:flex  items-center gap-12">
             {!userType && (
               <>
-                <Link to="/services" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
+                <NavLink to="/services" className={({isActive}) => isActive ? "text-md font-medium text-purple-600 border-2 py-2 px-4 rounded-full" : "text-md font-medium py-2 px-4 rounded-full"}>
                   Servicios
-                </Link>
-                <Link to="/how-it-works" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
+                </NavLink>
+                <NavLink to="/how-it-works" className={({isActive}) => isActive ? "text-md font-medium text-purple-600 border-2 py-2 px-4 rounded-full" : "text-md font-medium py-2 px-4 rounded-full"}>
                   Cómo funciona
-                </Link>
-                <Link to="/about" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
+                </NavLink>
+                <NavLink to="/about" className={({isActive}) => isActive ? "text-md font-medium text-purple-600 border-2 py-2 px-4 rounded-full" : "text-md font-medium py-2 px-4 rounded-full"}>
                   Acerca de
-                </Link>
+                </NavLink>
               </>
             )}
             {userType === "client" && (
               <>
-                <Link to="/client" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Panel</Link>
-                <Link to="/client/search" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Buscar servicios</Link>
-                <Link to="/client/bookings" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Mis reservas</Link>
-                <Link to="/client/pets" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Mis mascotas</Link>
-                <Link to="/client/messages" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Mensajes</Link>
+                <NavLink to="/client" end className={({isActive}) => isActive ? "text-md font-medium text-green-600 border-2 py-2 px-4 rounded-full" : "text-md font-medium py-2 px-4 rounded-full"}>Panel</NavLink>
+                <NavLink to="/client/search" className={({isActive}) => isActive ? "text-md font-medium text-green-600 border-2 py-2 px-4 rounded-full" : "text-md font-medium py-2 px-4 rounded-full"}>Buscar servicios</NavLink>
+                <NavLink to="/client/bookings" className={({isActive}) => isActive ? "text-md font-medium text-green-600 border-2 py-2 px-4 rounded-full" : "text-md font-medium py-2 px-4 rounded-full"}>Mis reservas</NavLink>
+                <NavLink to="/client/pets" className={({isActive}) => isActive ? "text-md font-medium text-green-600 border-2 py-2 px-4 rounded-full" : "text-md font-medium py-2 px-4 rounded-full"}>Mis mascotas</NavLink>
+                <NavLink to="/client/messages" className={({isActive}) => isActive ? "text-md font-medium text-green-600 border-2 py-2 px-4 rounded-full" : "text-md font-medium py-2 px-4 rounded-full"}>Mensajes</NavLink>
               </>
             )}
             {userType === "provider" && (
               <>
-                <Link to="/provider" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Panel</Link>
-                <Link to="/provider/services" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Mis servicios</Link>
-                <Link to="/provider/bookings" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Reservas</Link>
-                <Link to="/provider/earnings" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Ganancias</Link>
-                <Link to="/provider/messages" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Mensajes</Link>
+                <NavLink end to="/provider" className={({isActive}) => isActive ? "text-md font-medium text-orange-600 border-2 py-2 px-4 rounded-full" : "text-md font-medium py-2 px-4 rounded-full"}>Panel</NavLink>
+                <NavLink to="/provider/services" className={({isActive}) => isActive ? "text-md font-medium text-orange-600 border-2 py-2 px-4 rounded-full" : "text-md font-medium py-2 px-4 rounded-full"}>Mis servicios</NavLink>
+                <NavLink to="/provider/bookings" className={({isActive}) => isActive ? "text-md font-medium text-orange-600 border-2 py-2 px-4 rounded-full" : "text-md font-medium py-2 px-4 rounded-full"}>Reservas</NavLink>
+                <NavLink to="/provider/earnings" className={({isActive}) => isActive ? "text-md font-medium text-orange-600 border-2 py-2 px-4 rounded-full" : "text-md font-medium py-2 px-4 rounded-full"}>Ganancias</NavLink>
+                <NavLink to="/provider/messages" className={({isActive}) => isActive ? "text-md font-medium text-orange-600 border-2 py-2 px-4 rounded-full" : "text-md font-medium py-2 px-4 rounded-full"}>Mensajes</NavLink>
               </>
             )}
             {userType === "admin" && (
               <>
-                <Link to="/admin" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Panel</Link>
-                <Link to="/admin/users" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Usuarios</Link>
-                <Link to="/admin/providers" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Proveedores</Link>
-                <Link to="/admin/reports" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Reportes</Link>
+                <Link to="/admin" className={({isActive}) => isActive ? "text-md font-medium text-blue-600 border-2 py-2 px-4 rounded-full" : "text-md font-medium py-2 px-4 rounded-full"}>Panel</Link>
+                <Link to="/admin/users" className={({isActive}) => isActive ? "text-md font-medium text-blue-600 border-2 py-2 px-4 rounded-full" : "text-md font-medium py-2 px-4 rounded-full"}>Usuarios</Link>
+                <Link to="/admin/providers" className={({isActive}) => isActive ? "text-md font-medium text-blue-600 border-2 py-2 px-4 rounded-full" : "text-md font-medium py-2 px-4 rounded-full"}>Proveedores</Link>
+                <Link to="/admin/reports" className={({isActive}) => isActive ? "text-md font-medium text-blue-600 border-2 py-2 px-4 rounded-full" : "text-md font-medium py-2 px-4 rounded-full"}>Reportes</Link>
               </>
             )}
           </nav>

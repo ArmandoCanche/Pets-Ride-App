@@ -1,12 +1,23 @@
 import { Routes, Route } from 'react-router-dom'
 import './App.css'
 import HomePage from './Components/HomePage'
+
+// Importacion de páginas de cliente
 import DashboardHomeClient from './Pages/Client/DashboardHomeClient'
 import LayoutClient from './Pages/Client/LayoutClient'
 import DashboardServices from './Pages/Client/DashboardServices'
 import DashboardBookings from './Pages/Client/DashboardBookings'
 import DashboardPets from './Pages/Client/DashboardPets'
 import DashboardMessages from './Pages/Client/DashboardMessages'
+
+// Importacion de páginas de proveedor
+import LayoutProvider from './Pages/Provider/LayoutProvider'
+import DashboardHomeProvider from './Pages/Provider/DashboardHomeProvider'
+import DashboardMyServices from './Pages/Provider/DashboardMyServices'
+import DashboardBookingsProvider from './Pages/Provider/DashboardBookingsProvider'
+import DashboardEarnings from './Pages/Provider/DashboardEarnings'
+import DashboardMessagesProvider from './Pages/Provider/DashboardMessagesProvider'
+
 function App() {
 
   return (
@@ -50,13 +61,13 @@ function App() {
         </Route>
 
         {/* Gestión de rutas de proveedor */}
-        <Route path="/client" element={<LayoutClient />}>
+        <Route path="/provider" element={<LayoutProvider />}>
           <Route
             index
-            element={<DashboardHomeClient/>}
+            element={<DashboardHomeProvider />}
           />
           <Route
-            path="search"
+            path="services"
             element={<DashboardServices />}
           />
           <Route
@@ -64,7 +75,7 @@ function App() {
             element={<DashboardBookings />}
           />
           <Route
-            path="pets"
+            path="earnings"
             element={<DashboardPets />}
           />
           <Route
