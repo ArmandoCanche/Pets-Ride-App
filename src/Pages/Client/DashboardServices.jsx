@@ -4,7 +4,7 @@ export default function DashboardServices() {
   return (
     <div>
         <main>
-            <h1>FIND SERVICES</h1>
+            <h1>BUSCAR SERVICIOS</h1>
         </main>
     </div>
   );

@@ -4,7 +4,7 @@ export default function DashboardPets(){
     return (
     <div>
         <main>
-            <h1>MY PETS</h1>
+            <h1>MIS MASCOTAS</h1>
         </main>
     </div>
     )

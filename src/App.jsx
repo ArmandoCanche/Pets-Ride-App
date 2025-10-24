@@ -25,6 +25,31 @@ function App() {
           element={<HomePage/>}
         />
 
+        {/* Gestión de rutas de cliente */}
+        <Route path="/client" element={<LayoutClient />}>
+          <Route
+            index
+            element={<DashboardHomeClient/>}
+          />
+          <Route
+            path="search"
+            element={<DashboardServices />}
+          />
+          <Route
+            path="bookings"
+            element={<DashboardBookings />}
+          />
+          <Route
+            path="pets"
+            element={<DashboardPets />}
+          />
+          <Route
+            path="messages"
+            element={<DashboardMessages />}
+          />
+        </Route>
+
+        {/* Gestión de rutas de proveedor */}
         <Route path="/client" element={<LayoutClient />}>
           <Route
             index

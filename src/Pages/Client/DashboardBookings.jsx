@@ -4,7 +4,7 @@ export default function DashboardBookings(){
     return (
     <div>
         <main>
-            <h1>MY BOOKINGS</h1>
+            <h1>MIS RESERVAS</h1>
         </main>
     </div>
     )

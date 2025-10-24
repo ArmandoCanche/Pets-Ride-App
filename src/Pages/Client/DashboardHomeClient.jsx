@@ -6,7 +6,7 @@ export default function DashboardHomeClient() {
   return (
     <div>
         <main>
-            <h1>DASHBOARD</h1>
+            <h1>PANEL</h1>
         </main>
     </div>
   );

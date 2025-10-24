@@ -1,6 +1,6 @@
 "use client"
 
-import { Link } from 'react-router-dom'
+import { Link , NavLink} from 'react-router-dom'
 import Button from '@mui/material/Button'
 import Avatar from '@mui/material/Avatar'
 import Menu from '@mui/material/Menu'
@@ -36,44 +36,44 @@ export default function NavigationHeader({ userType }) {
               <img src="/logo.png" alt="Pet's Ride Logo" style={{ width: '5rem', height: 'auto' }} />
           </Link>
 
-          <nav className="hidden md:flex  items-center gap-8">
+          <nav className="hidden md:flex  items-center gap-15">
             {!userType && (
               <>
                 <Link to="/services" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
-                  Services
+                  Servicios
                 </Link>
                 <Link to="/how-it-works" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
-                  How It Works
+                  Cómo funciona
                 </Link>
                 <Link to="/about" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
-                  About
+                  Acerca de
                 </Link>
               </>
             )}
             {userType === "client" && (
               <>
-                <Link to="/client" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Dashboard</Link>
-                <Link to="/client/search" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Find Services</Link>
-                <Link to="/client/bookings" className="text-sm font-medium text-foreground hover:text-primary transition-colors">My Bookings</Link>
-                <Link to="/client/pets" className="text-sm font-medium text-foreground hover:text-primary transition-colors">My Pets</Link>
-                <Link to="/client/messages" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Messages</Link>
+                <Link to="/client" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Panel</Link>
+                <Link to="/client/search" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Buscar servicios</Link>
+                <Link to="/client/bookings" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Mis reservas</Link>
+                <Link to="/client/pets" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Mis mascotas</Link>
+                <Link to="/client/messages" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Mensajes</Link>
               </>
             )}
             {userType === "provider" && (
               <>
-                <Link to="/provider" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Dashboard</Link>
-                <Link to="/provider/services" className="text-sm font-medium text-foreground hover:text-primary transition-colors">My Services</Link>
-                <Link to="/provider/bookings" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Bookings</Link>
-                <Link to="/provider/earnings" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Earnings</Link>
-                <Link to="/provider/messages" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Messages</Link>
+                <Link to="/provider" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Panel</Link>
+                <Link to="/provider/services" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Mis servicios</Link>
+                <Link to="/provider/bookings" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Reservas</Link>
+                <Link to="/provider/earnings" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Ganancias</Link>
+                <Link to="/provider/messages" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Mensajes</Link>
               </>
             )}
             {userType === "admin" && (
               <>
-                <Link to="/admin" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Dashboard</Link>
-                <Link to="/admin/users" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Users</Link>
-                <Link to="/admin/providers" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Providers</Link>
-                <Link to="/admin/reports" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Reports</Link>
+                <Link to="/admin" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Panel</Link>
+                <Link to="/admin/users" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Usuarios</Link>
+                <Link to="/admin/providers" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Proveedores</Link>
+                <Link to="/admin/reports" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Reportes</Link>
               </>
             )}
           </nav>
@@ -83,10 +83,10 @@ export default function NavigationHeader({ userType }) {
             {!userType ? (
               <>
                 <Link to="/login/client">
-                  <Button variant="outlined">Sign In</Button>
+                  <Button variant="outlined">Iniciar sesión</Button>
                 </Link>
                 <Link to="/login/client">
-                  <Button variant="contained" color="primary">Get Started</Button>
+                  <Button variant="contained" color="primary">Comenzar</Button>
                 </Link>
               </>
             ) : (
@@ -99,15 +99,15 @@ export default function NavigationHeader({ userType }) {
                 <Menu anchorEl={anchorEl} open={menuOpen} onClose={handleMenuClose}>
                   <MenuItem onClick={handleMenuClose}>
                     <UserIcon fontSize="small" className="mr-2" />
-                    <Link to={`/${userType}/profile`}>Profile</Link>
+                    <Link to={`/${userType}/profile`}>Perfil</Link>
                   </MenuItem>
                   <MenuItem onClick={handleMenuClose}>
                     <SettingsIcon fontSize="small" className="mr-2" />
-                    <Link to={`/${userType}/settings`}>Settings</Link>
+                    <Link to={`/${userType}/settings`}>Configuración</Link>
                   </MenuItem>
                   <MenuItem onClick={handleMenuClose}>
                     <LogOutIcon fontSize="small" className="mr-2" />
-                    Log out
+                    Cerrar sesión
                   </MenuItem>
                 </Menu>
               </>
@@ -130,39 +130,39 @@ export default function NavigationHeader({ userType }) {
             <nav className="flex flex-col gap-4">
               {!userType && (
                 <>
-                  <Link to="/services" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Services</Link>
-                  <Link to="/how-it-works" className="text-sm font-medium text-foreground hover:text-primary transition-colors">How It Works</Link>
-                  <Link to="/about" className="text-sm font-medium text-foreground hover:text-primary transition-colors">About</Link>
+                  <Link to="/services" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Servicios</Link>
+                  <Link to="/how-it-works" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Cómo funciona</Link>
+                  <Link to="/about" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Acerca de</Link>
                   <div className="flex flex-col gap-2 pt-2">
-                    <Link to="/login/client"><Button variant="outlined" fullWidth>Sign In</Button></Link>
-                    <Link to="/login/client"><Button variant="contained" color="primary" fullWidth>Get Started</Button></Link>
+                    <Link to="/login/client"><Button variant="outlined" fullWidth>Iniciar sesión</Button></Link>
+                    <Link to="/login/client"><Button variant="contained" color="primary" fullWidth>Comenzar</Button></Link>
                   </div>
                 </>
               )}
               { userType === "client" && (
                   <>
-                    <Link to="/client" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Dashboard</Link>
-                    <Link to="/client/search" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Find Services</Link>
-                    <Link to="/client/bookings" className="text-sm font-medium text-foreground hover:text-primary transition-colors">My Bookings</Link>
-                    <Link to="/client/pets" className="text-sm font-medium text-foreground hover:text-primary transition-colors">My Pets</Link>
-                    <Link to="/client/messages" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Messages</Link>
+                    <Link to="/client" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Panel</Link>
+                    <Link to="/client/search" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Buscar servicios</Link>
+                    <Link to="/client/bookings" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Mis reservas</Link>
+                    <Link to="/client/pets" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Mis mascotas</Link>
+                    <Link to="/client/messages" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Mensajes</Link>
                     <div className="flex flex-col gap-2 pt-2 border-t">
                       <Link href="/client/profile" className="flex w-full justify-start">
                         <Button variant="ghost" sx={{fontFamily:'Poppins', paddingLeft:'0'}}>
                           <UserIcon className="mr-2 h-4 w-4" />
-                          Profile
+                          Perfil
                         </Button>
                       </Link>
                       <Link href="/client/settings">
                         <Button variant="ghost" sx={{fontFamily:'Poppins', paddingLeft:'0'}}>
                           <SettingsIcon className="mr-2 h-4 w-4" />
-                          Settings
+                          Configuración
                         </Button>
                       </Link>
                       <Link href="/login/client">
                         <Button variant="ghost" sx={{fontFamily:'Poppins', justifyContent:'flex-start', paddingLeft:'0'}}>
                           <LogOutIcon className="mr-2 h-4 w-4" />
-                          Log out
+                          Cerrar sesión
                         </Button>
                       </Link>
                     </div>
@@ -170,28 +170,28 @@ export default function NavigationHeader({ userType }) {
               )}
               { userType === "provider" && (
                   <>
-                    <Link to="/provider" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Dashboard</Link>
-                    <Link to="/provider/services" className="text-sm font-medium text-foreground hover:text-primary transition-colors">My Services</Link>
-                    <Link to="/provider/bookings" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Bookings</Link>
-                    <Link to="/provider/earnings" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Earnings</Link>
-                    <Link to="/provider/messages" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Messages</Link>
+                    <Link to="/provider" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Panel</Link>
+                    <Link to="/provider/services" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Mis servicios</Link>
+                    <Link to="/provider/bookings" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Reservas</Link>
+                    <Link to="/provider/earnings" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Ganancias</Link>
+                    <Link to="/provider/messages" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Mensajes</Link>
                     <div className="flex flex-col gap-2 pt-2 border-t">
                       <Link href="/provider/profile" className="flex w-full justify-start">
                         <Button variant="ghost" sx={{fontFamily:'Poppins', paddingLeft:'0', justifyContent:'flex-start' }} className='w-full'>
                           <UserIcon className="mr-2 h-4 w-4" />
-                          Profile
+                          Perfil
                         </Button>
                       </Link>
                       <Link href="/provider/settings">
                         <Button variant="ghost" sx={{fontFamily:'Poppins', paddingLeft:'0', justifyContent:'flex-start' }} className='w-full'>
                           <SettingsIcon className="mr-2 h-4 w-4" />
-                          Settings
+                          Configuración
                         </Button>
                       </Link>
                       <Link href="/login/provider">
                         <Button variant="ghost" sx={{fontFamily:'Poppins', paddingLeft:'0', justifyContent:'flex-start' }} className='w-full'>
                           <LogOutIcon className="mr-2 h-4 w-4" />
-                          Log out
+                          Cerrar sesión
                         </Button>
                       </Link>
                     </div>
@@ -199,10 +199,10 @@ export default function NavigationHeader({ userType }) {
               )}
               { userType === "admin" && (
                   <>
-                    <Link to="/admin" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Dashboard</Link>
-                    <Link to="/admin/users" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Users</Link>
-                    <Link to="/admin/providers" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Providers</Link>
-                    <Link to="/admin/reports" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Reports</Link>
+                    <Link to="/admin" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Panel</Link>
+                    <Link to="/admin/users" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Usuarios</Link>
+                    <Link to="/admin/providers" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Proveedores</Link>
+                    <Link to="/admin/reports" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Reportes</Link>
                   </>
               )}
             </nav>
