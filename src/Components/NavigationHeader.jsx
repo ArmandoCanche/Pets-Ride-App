@@ -29,9 +29,9 @@ export default function NavigationHeader({ userType }) {
   }
 
   return (
-    <header className="flex  flex-col w-full border-gray-200 shadow-sm">
+    <header className="flex border-b flex-col w-full border-gray-200 shadow-sm">
       <>
-        <div className="flex w-full py-2 px-10 items-center justify-between md:px-5 lg:px-10 xl:px-25">
+        <div className="flex py-2 px-10 items-center justify-between  md:px-5 lg:px-10 xl:px-25">
           <NavLink to="/" className="flex items-center  hover:opacity-80 transition-opacity">
               <img src="/logo.png" alt="Pet's Ride Logo" style={{ width: '5rem', height: '5rem' }} />
           </NavLink>
