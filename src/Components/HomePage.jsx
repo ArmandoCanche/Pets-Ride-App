@@ -170,28 +170,29 @@ export default function HomePage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             
             {/* Paso 1 */}
-            <div className="bg-white shadow-sm rounded-2xl border border-gray-100 p-8 relative text-left hover:shadow-md transition">
+            <div className="bg-white shadow-sm rounded-2xl border border-gray-100 p-8 relative text-left hover:shadow-md hover:border-[#005c71] transition">
               <div className="absolute top-6 right-6 text-5xl font-extrabold text-gray-100 select-none">
                 01
               </div>
               <div className="mb-6 bg-gradient-to-tr from-[#e0f6f8] to-[#f7fbfc] p-3 w-12 h-12 rounded-xl flex items-center justify-center">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="#005c71" className="w-6 h-6">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35M9.75 18a8.25 8.25 0 100-16.5 8.25 8.25 0 000 16.5z" />
+                <svg xmlns="http://www.w3.org/2000/svg"  fill="none"  viewBox="0 0 24 24"  strokeWidth={2}  stroke="#005c71"  className="w-6 h-6">
+                  <path  strokeLinecap="round"  strokeLinejoin="round"  d="M21 21l-4.35-4.35M9.75 18a8.25 8.25 0 100-16.5 8.25 8.25 0 000 16.5z"/>
                 </svg>
               </div>
               <h3 className="text-xl font-semibold text-gray-800 mb-2">Busca y Compara</h3>
               <p className="text-gray-600 leading-relaxed">
-                Explora proveedores verificados, lee reseñas reales y compara precios para encontrar el servicio perfecto.
+                Explora proveedores verificados, lee reseñas reales y compara precios para
+                encontrar el servicio perfecto.
               </p>
             </div>
 
             {/* Paso 2 */}
-            <div className="bg-white shadow-sm rounded-2xl border border-gray-100 p-8 relative text-left hover:shadow-md transition">
+            <div className="bg-white shadow-sm rounded-2xl border border-gray-100 p-8 relative text-left hover:shadow-md hover:border-[#005c71] transition">
               <div className="absolute top-6 right-6 text-5xl font-extrabold text-gray-100 select-none">
                 02
               </div>
               <div className="mb-6 bg-gradient-to-tr from-[#e0f6f8] to-[#f7fbfc] p-3 w-12 h-12 rounded-xl flex items-center justify-center">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="#005c71" className="w-6 h-6">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="#005c71" className="w-6 h-6">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 7.5h7.5m-7.5 3.75h7.5m-9 3.75h9M9.75 3v1.5M14.25 3v1.5M3 9h18M5.25 5.25h13.5A2.25 2.25 0 0121 7.5v11.25A2.25 2.25 0 0118.75 21H5.25A2.25 2.25 0 013 18.75V7.5a2.25 2.25 0 012.25-2.25z" />
                 </svg>
               </div>
@@ -202,12 +203,12 @@ export default function HomePage() {
             </div>
 
             {/* Paso 3 */}
-            <div className="bg-white shadow-sm rounded-2xl border border-gray-100 p-8 relative text-left hover:shadow-md transition">
+            <div className="bg-white shadow-sm rounded-2xl border border-gray-100 p-8 relative text-left hover:shadow-md hover:border-[#005c71] transition">
               <div className="absolute top-6 right-6 text-5xl font-extrabold text-gray-100 select-none">
                 03
               </div>
               <div className="mb-6 bg-gradient-to-tr from-[#e0f6f8] to-[#f7fbfc] p-3 w-12 h-12 rounded-xl flex items-center justify-center">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="#005c71" className="w-6 h-6">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="#005c71" className="w-6 h-6">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z" />
                 </svg>
               </div>
@@ -239,7 +240,7 @@ export default function HomePage() {
           {/* Servicios */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             
-            <div className="bg-white shadow-sm rounded-2xl border border-gray-100 p-8 relative text-center hover:shadow-md transition">
+            <div className="bg-white shadow-sm rounded-2xl border border-gray-100 p-8 relative text-center hover:shadow-md hover:border-[#005c71] transition">
               <div className="mb-6 bg-gradient-to-tr from-[#e0f6f8] to-[#f7fbfc] p-3 w-12 h-12 rounded-xl flex items-center justify-center mx-auto">
                 <PetsIcon sx={{ fontSize: 28, color: '#005c71' }} />
               </div>
@@ -247,21 +248,21 @@ export default function HomePage() {
             </div>
 
 
-            <div className="bg-white shadow-sm rounded-2xl border border-gray-100 p-8 relative text-center hover:shadow-md transition">
+            <div className="bg-white shadow-sm rounded-2xl border border-gray-100 p-8 relative text-center hover:shadow-md hover:border-[#005c71] transition">
               <div className="mb-6 bg-gradient-to-tr from-[#e0f6f8] to-[#f7fbfc] p-3 w-12 h-12 rounded-xl flex items-center justify-center mx-auto">
                 <VaccinesIcon sx={{ fontSize: 28, color: '#005c71' }} />
               </div>
               <h3 className="text-xl font-semibold text-gray-800 mb-2">Veterinaria</h3>
             </div>
 
-            <div className="bg-white shadow-sm rounded-2xl border border-gray-100 p-8 relative text-center hover:shadow-md transition">
+            <div className="bg-white shadow-sm rounded-2xl border border-gray-100 p-8 relative text-center hover:shadow-md hover:border-[#005c71] transition">
               <div className="mb-6 bg-gradient-to-tr from-[#e0f6f8] to-[#f7fbfc] p-3 w-12 h-12 rounded-xl flex items-center justify-center mx-auto">
                 <ElectricMopedIcon sx={{ fontSize: 28, color: '#005c71' }} />
               </div>
               <h3 className="text-xl font-semibold text-gray-800 mb-2">Transporte</h3>
             </div>
 
-            <div className="bg-white shadow-sm rounded-2xl border border-gray-100 p-8 relative text-center hover:shadow-md transition">
+            <div className="bg-white shadow-sm rounded-2xl border border-gray-100 p-8 relative text-center hover:shadow-md hover:border-[#005c71] transition">
               <div className="mb-6 bg-gradient-to-tr from-[#e0f6f8] to-[#f7fbfc] p-3 w-12 h-12 rounded-xl flex items-center justify-center mx-auto">
                 <ApartmentIcon sx={{ fontSize: 28, color: '#005c71' }} />
               </div>
@@ -269,21 +270,21 @@ export default function HomePage() {
             </div>
 
 
-            <div className="bg-white shadow-sm rounded-2xl border border-gray-100 p-8 relative text-center hover:shadow-md transition">
+            <div className="bg-white shadow-sm rounded-2xl border border-gray-100 p-8 relative text-center hover:shadow-md hover:border-[#005c71] transition">
               <div className="mb-6 bg-gradient-to-tr from-[#e0f6f8] to-[#f7fbfc] p-3 w-12 h-12 rounded-xl flex items-center justify-center mx-auto">
                 <ContentCutIcon sx={{ fontSize: 28, color: '#005c71' }} />
               </div>
               <h3 className="text-xl font-semibold text-gray-800 mb-2">Peluquería</h3>
             </div>
 
-            <div className="bg-white shadow-sm rounded-2xl border border-gray-100 p-8 relative text-center hover:shadow-md transition">
+            <div className="bg-white shadow-sm rounded-2xl border border-gray-100 p-8 relative text-center hover:shadow-md hover:border-[#005c71] transition">
               <div className="mb-6 bg-gradient-to-tr from-[#e0f6f8] to-[#f7fbfc] p-3 w-12 h-12 rounded-xl flex items-center justify-center mx-auto">
                 <SchoolIcon sx={{ fontSize: 28, color: '#005c71' }} />
               </div>
               <h3 className="text-xl font-semibold text-gray-800 mb-2">Entrenamiento</h3>
             </div>
 
-            <div className="bg-white shadow-sm rounded-2xl border border-gray-100 p-8 relative text-center hover:shadow-md transition">
+            <div className="bg-white shadow-sm rounded-2xl border border-gray-100 p-8 relative text-center hover:shadow-md hover:border-[#005c71] transition">
               <div className="mb-6 bg-gradient-to-tr from-[#e0f6f8] to-[#f7fbfc] p-3 w-12 h-12 rounded-xl flex items-center justify-center mx-auto">
                 <HomeIcon sx={{ fontSize: 28, color: '#005c71' }} />
               </div>
@@ -291,7 +292,7 @@ export default function HomePage() {
             </div>
 
 
-            <div className="bg-white shadow-sm rounded-2xl border border-gray-100 p-8 relative text-center hover:shadow-md transition">
+            <div className="bg-white shadow-sm rounded-2xl border border-gray-100 p-8 relative text-center hover:shadow-md hover:border-[#005c71] transition">
               <div className="mb-6 bg-gradient-to-tr from-[#e0f6f8] to-[#f7fbfc] p-3 w-12 h-12 rounded-xl flex items-center justify-center mx-auto">
                 <LocalHospitalIcon sx={{ fontSize: 28, color: '#005c71' }} />
               </div>
@@ -394,10 +395,14 @@ export default function HomePage() {
 
           {/* Botones */}
           <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <button className="flex items-center justify-center gap-2 bg-[#ff7043] hover:bg-[#ff5722] text-white font-semibold px-8 py-3 rounded-xl transition">
+            <button 
+              onClick={() => navigate("/registro-cliente")}
+              className="flex items-center justify-center gap-2 bg-[#ff7043] hover:bg-[#ff5722] text-white font-semibold px-8 py-3 rounded-xl transition">
               Comenzar Ahora <ArrowRight size={18} />
             </button>
-            <button className="border border-gray-300 text-white hover:bg-white hover:text-[#005c71] font-semibold px-8 py-3 rounded-xl transition">
+            <button
+              onClick={() => navigate("/registro-prestador")}
+              className="border border-gray-300 text-white hover:bg-white hover:text-[#005c71] font-semibold px-8 py-3 rounded-xl transition">
               Ofrecer Servicios
             </button>
           </div>
