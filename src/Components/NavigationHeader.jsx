@@ -29,16 +29,16 @@ export default function NavigationHeader({ userType }) {
   }
 
   return (
-    <header className="flex  w-full border-gray-200 shadow-sm">
-      <div className="container mx-auto">
-        <div className="flex py-2 px-10 items-center justify-between md:px-0 lg:px-15 xl:px-10">
-          <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-              <img src="/logo.png" alt="Pet's Ride Logo" style={{ width: '5rem', height: 'auto' }} />
-          </Link>
+    <header className="flex border-b flex-col w-full border-gray-200 shadow-sm">
+      <>
+        <div className="flex py-2 px-10 items-center justify-between  md:px-5 lg:px-10 xl:px-25">
+          <NavLink to="/" className="flex items-center  hover:opacity-80 transition-opacity">
+              <img src="/logo.png" alt="Pet's Ride Logo" style={{ width: '5rem', height: '5rem' }} />
+          </NavLink>
 
-          <nav className="hidden md:flex  items-center gap-12">
+          <nav className="hidden md:flex  items-center justify-text-center md:text-xs md:gap-2  lg:text-sm lg:gap-6 xl:text-base xl:gap-12">
             {!userType && (
-              <>
+              <div className="xs:font-size-sm ">
                 <NavLink to="/services" className={({isActive}) => isActive ? "text-md font-medium text-purple-600 border-2 py-2 px-4 rounded-full" : "text-md font-medium py-2 px-4 rounded-full"}>
                   Servicios
                 </NavLink>
@@ -48,7 +48,7 @@ export default function NavigationHeader({ userType }) {
                 <NavLink to="/about" className={({isActive}) => isActive ? "text-md font-medium text-purple-600 border-2 py-2 px-4 rounded-full" : "text-md font-medium py-2 px-4 rounded-full"}>
                   Acerca de
                 </NavLink>
-              </>
+              </div>
             )}
             {userType === "client" && (
               <>
@@ -127,7 +127,7 @@ export default function NavigationHeader({ userType }) {
         {/* Mobile Menu */}
         {mobileMenuOpen && (
           <div className="md:hidden py-4 border-t">
-            <nav className="flex flex-col gap-4">
+            <nav className="flex flex-col gap-4 px-4">
               {!userType && (
                 <>
                   <Link to="/services" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Servicios</Link>
@@ -208,7 +208,7 @@ export default function NavigationHeader({ userType }) {
             </nav>
           </div>
         )}
-      </div>
+      </>
     </header>
   )
 }
