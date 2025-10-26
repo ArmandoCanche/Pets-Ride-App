@@ -17,6 +17,8 @@ import DashboardMyServices from './Pages/Provider/DashboardMyServices'
 import DashboardBookingsProvider from './Pages/Provider/DashboardBookingsProvider'
 import DashboardEarnings from './Pages/Provider/DashboardEarnings'
 import DashboardMessagesProvider from './Pages/Provider/DashboardMessagesProvider'
+import RegisterClient from './Pages/Client/RegisterClient'
+import RegisterProvider from './Pages/Provider/RegisterProvider'
 
 function App() {
 
@@ -34,6 +36,14 @@ function App() {
         <Route
           path="/login/proveedor"
           element={<HomePage/>}
+        />
+        <Route
+          path="/registro-cliente"
+          element={<RegisterClient/>}
+        />
+        <Route
+          path="/registro-prestador"
+          element={<RegisterProvider/>}
         />
 
         {/* Gestión de rutas de cliente */}
