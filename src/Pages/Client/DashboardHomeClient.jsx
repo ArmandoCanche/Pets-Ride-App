@@ -12,7 +12,7 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import AttachMoneyOutlinedIcon from '@mui/icons-material/AttachMoneyOutlined';
 // Routers...
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
 // Componentes
 import StatsCard from '../../Components/StatsCard';
@@ -44,7 +44,7 @@ const [selectedPet, setSelectedPet] = useState(null)
       time: "10:00 AM - 11:00 AM",
       location: "Central Park Area",
       price: 25,
-      status: "confirmed",
+      status: "confirmado",
     },
     {
       id: "2",
@@ -55,7 +55,7 @@ const [selectedPet, setSelectedPet] = useState(null)
       time: "2:00 PM - 3:00 PM",
       location: "Pet Care Clinic",
       price: 75,
-      status: "confirmed",
+      status: "confirmado",
     },
   ]
 
@@ -105,20 +105,23 @@ const [selectedPet, setSelectedPet] = useState(null)
     <>
         <main className='flex  py-6 px-10 md:px-5 lg:px-10 xl:px-25 bg-gray-100 min-h-screen flex-col gap-6'>
             <div className='w-full h-auto grid grid-cols-12 gap-6'>
-              <StatsCard title="Reservas totales" value={5} icon={CalendarTodayIcon} />
-              <StatsCard title="Próximas" value={3} icon={AccessTimeIcon} />
-              <StatsCard title="Mis mascotas" value={2} icon={PetsIcon} />
-              <StatsCard title="Favoritos" value={8} icon={FavoriteBorderIcon} />
+              <StatsCard title="Reservas totales" value={stats.totalBookings} icon={CalendarTodayIcon} />
+              <StatsCard title="Próximas" value={stats.upcomingBookings} icon={AccessTimeIcon} />
+              <StatsCard title="Mis mascotas" value={stats.activePets} icon={PetsIcon} />
+              <StatsCard title="Favoritos" value={stats.favoriteProviders} icon={FavoriteBorderIcon} />
             </div>
+
+
             {/* Segunda sección */}
             <div className='w-full h-auto grid grid-cols-12 gap-4'>
 
               {/* Sección PRÓXIMAS RESERVAS */}
               <div className='flex flex-col h-full border-2 gap-6 border-gray-200 rounded-lg p-10 bg-white  justify-between col-span-12  xl:col-span-8'>
-                <h1 className='text-2xl font-semibold'>PRÓXIMAS RESERVAS</h1>
-
-                {/* Card de la reserva primera */}
-
+                <div className='flex flex-row justify-between items-center w-full'>
+                  <h1 className='text-2xl font-semibold'>PRÓXIMAS RESERVAS</h1>
+                  <NavLink to='/client/bookings' className='text-[#005c71] font-medium hover:underline text-mxs'>Ver todas</NavLink>
+                </div>
+                {/* CARDS */}
                 {upcomingBookings.length > 0 ? (
                   upcomingBookings.map((booking) => (
                 <BookingCard
@@ -144,7 +147,7 @@ const [selectedPet, setSelectedPet] = useState(null)
 
                   <div className='flex flex-row justify-between items-center w-full'>
                     <h1 className='text-2xl font-semibold'>MIS MASCOTAS</h1>
-                    <NavLink to='/mis-mascotas' className='text-[#005c71] font-medium hover:underline text-mxs'>Ver todas</NavLink>
+                    <Link to='/client/pets' className='text-[#005c71] font-medium hover:underline text-mxs'>Ver todas</Link>
                   </div>
                   <div className='space-y-4'>
                     {myPets.map((pet) => (
@@ -169,6 +172,24 @@ const [selectedPet, setSelectedPet] = useState(null)
                   </div>
               </div>
             </div>
+
+            {selectedBooking && (
+              <>
+                <ClientBookingDetailModal
+                open={detailModalOpen}
+                onOpenChange={setDetailModalOpen}
+                booking={selectedBooking}
+                />
+                <ClientRescheduleModal
+                open={rescheduleModalOpen}
+                onOpenChange={setRescheduleModalOpen}
+                booking={selectedBooking}
+                />
+              </>
+            )}
+            {selectedPet && (
+              <PetDetailModal open={petDetailModalOpen} onOpenChange={setPetDetailModalOpen} pet={selectedPet} />
+            )}
         </main>
     </>
   );

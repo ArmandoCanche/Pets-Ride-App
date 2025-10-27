@@ -23,21 +23,23 @@ export default function BookingCard({
 }) {
 
     const statusColors= {
-        pending: "bg-yellow-500/10 text-yellow-700 dark:text-yellow-400 border-yellow-500/20",
-        confirmed: "bg-primary/10 text-primary border-primary/20",
-        completed: "bg-green-500/10 text-green-700 dark:text-green-400 border-green-500/20",
-        cancelled: "bg-destructive/10 text-destructive border-destructive/20",
+        pendiente: "bg-yellow-500/10 text-yellow-700 dark:text-yellow-400 border-yellow-500/20",
+        confirmado: "",
+        completado: "bg-green-500/10 text-green-700 dark:text-green-400 border-green-500/20",
+        cancelado: "bg-destructive/10 text-destructive border-destructive/20",
     };
 
   return (
-    <div className='flex flex-col h-full border-2 border-gray-200 rounded-lg px-10 py-5 gap-5 bg-white  justify-between col-span-12  xl:col-span-8 '>
-        <div className='flex flex-row justify-between items-center'>
+    <div className='flex flex-col h-full border-2 border-gray-200 rounded-lg px-10 py-7 gap-5 bg-white  justify-between col-span-12  xl:col-span-8 '>
+        <div className='flex flex-row justify-between items-start'>
         <div>
             <h1 className='text-lg font-semibold'>{serviceType}</h1>
             <p className='text-md text-gray-400 font-medium'>{providerName}</p>
         </div>
         <div className='flex px-2 py-1 border-1 border-[#005c71] rounded-2xl bg-[#e6eff1]'>
-            <p className={statusColors[status]}> {status.charAt(0).toUpperCase() + status.slice(1)} </p>
+            <p className={`${statusColors[status]} text-xs`}>
+            {status.charAt(0).toUpperCase() + status.slice(1)}
+            </p>
         </div>
         </div>
         <div className='flex flex-col gap-3'>
@@ -72,7 +74,7 @@ export default function BookingCard({
             }} className="flex xl:col-span-4 col-span-12" onClick={onViewDetails}>
             Details
             </Button>
-            {status === "pending" || status === "confirmed" ? (
+            {status === "pendiente" || status === "confirmado" ? (
             <>
                 <Button variant="outlined"  sx={{color: '#000', background:'#fff', borderColor:'#ccc', fontWeight:500, borderRadius:3,
                 '&:hover':{
