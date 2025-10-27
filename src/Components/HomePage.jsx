@@ -122,7 +122,7 @@ export default function HomePage() {
             
             {/* Mascotas Felices */}
             <div className="flex flex-col items-center">
-              <HeartIcon className="w-10 h-10 mb-4" /> {/* Puedes usar Heroicons o cualquier librería de íconos */}
+              <HeartIcon className="w-10 h-10 mb-4" />
               <h2 className="text-3xl font-bold">10,000+</h2>
               <p className="mt-2 text-lg">Mascotas Felices</p>
             </div>

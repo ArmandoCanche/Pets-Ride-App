@@ -9,6 +9,8 @@ import DashboardServices from './Pages/Client/DashboardServices'
 import DashboardBookings from './Pages/Client/DashboardBookings'
 import DashboardPets from './Pages/Client/DashboardPets'
 import DashboardMessages from './Pages/Client/DashboardMessages'
+import LoginProvider from './Pages/Provider/LoginProvider'
+import RegisterProvider from './Pages/Provider/RegisterProvider'
 
 // Importacion de páginas de proveedor
 import LayoutProvider from './Pages/Provider/LayoutProvider'
@@ -18,9 +20,10 @@ import DashboardBookingsProvider from './Pages/Provider/DashboardBookingsProvide
 import DashboardEarnings from './Pages/Provider/DashboardEarnings'
 import DashboardMessagesProvider from './Pages/Provider/DashboardMessagesProvider'
 import RegisterClient from './Pages/Client/RegisterClient'
-import RegisterProvider from './Pages/Provider/RegisterProvider'
 import LoginClient from './Pages/Client/LoginClient'
-import LoginProvider from './Pages/Provider/LoginProvider'
+
+// Importacion de páginas del footer
+import AboutUs from './Footers/AboutUs'
 
 function App() {
 
@@ -46,6 +49,12 @@ function App() {
         <Route
           path="/registro/prestador"
           element={<RegisterProvider/>}
+        />
+
+        {/* Gestión de rutas del footer */}
+        <Route
+          path="/sobre-nosotros"
+          element={<AboutUs/>}
         />
 
         {/* Gestión de rutas de cliente */}
