@@ -2,15 +2,15 @@ import React, { useState } from 'react';
 
 
 // MUI Components
-import { Button } from '@mui/material';
+import { Button, Snackbar, Alert } from '@mui/material';
 
 // Icons MUI
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import PetsIcon from '@mui/icons-material/Pets';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
-import AttachMoneyOutlinedIcon from '@mui/icons-material/AttachMoneyOutlined';
+import { Calendar } from 'lucide-react';
+
 // Routers...
 import { Link, NavLink } from 'react-router-dom';
 
@@ -18,6 +18,10 @@ import { Link, NavLink } from 'react-router-dom';
 import StatsCard from '../../Components/StatsCard';
 import BookingCard  from '../../Components/BookingCard';
 import PetCard from '../../Components/PetCard';
+import ClientBookingDetailModal from '../../Components/ClientBookingDetailModal.jsx';
+import ClientRescheduleModal from '../../Components/ClientRescheduleModal.jsx';
+import PetDetailModal from '../../Components/PetDetailModal.jsx';
+
 
 export default function DashboardHomeClient() {
 
@@ -26,6 +30,14 @@ const [rescheduleModalOpen, setRescheduleModalOpen] = useState(false)
 const [petDetailModalOpen, setPetDetailModalOpen] = useState(false)
 const [selectedBooking, setSelectedBooking] = useState(null)
 const [selectedPet, setSelectedPet] = useState(null)
+
+
+  const [snackbar, setSnackbar] = useState({
+      open: false,
+      message: '',
+      severity: 'success', // 'success', 'error', 'warning', 'info'
+  });
+
 
   const stats = {
     totalBookings: 12,
@@ -100,6 +112,25 @@ const [selectedPet, setSelectedPet] = useState(null)
     setSelectedPet(pet)
     setPetDetailModalOpen(true)
   }
+
+
+  const handleMessageSent = () => {
+    setDetailModalOpen(false); // Cierra el modal
+    setSnackbar({ // Y activa el Snackbar
+      open: true,
+      message: 'Message sent successfully. They will respond shortly.',
+      severity: 'success',
+    });
+    // La navegación a /client/messages la manejará el modal hijo
+  };
+
+  // <-- CAMBIO 3: Añadir la función para cerrar el Snackbar
+  const handleSnackbarClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setSnackbar((prev) => ({ ...prev, open: false }));
+  };
 
   return (
     <>
@@ -179,6 +210,7 @@ const [selectedPet, setSelectedPet] = useState(null)
                 open={detailModalOpen}
                 onOpenChange={setDetailModalOpen}
                 booking={selectedBooking}
+                onMessage={handleMessageSent}
                 />
                 <ClientRescheduleModal
                 open={rescheduleModalOpen}
@@ -190,6 +222,20 @@ const [selectedPet, setSelectedPet] = useState(null)
             {selectedPet && (
               <PetDetailModal open={petDetailModalOpen} onOpenChange={setPetDetailModalOpen} pet={selectedPet} />
             )}
+            <Snackbar
+              open={snackbar.open}
+              autoHideDuration={6000} // 6 segundos
+              onClose={handleSnackbarClose}
+              anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+            >
+              <Alert
+                onClose={handleSnackbarClose}
+                severity={snackbar.severity}
+                sx={{ width: '100%' }}
+              >
+                {snackbar.message}
+              </Alert>
+            </Snackbar>
         </main>
     </>
   );
