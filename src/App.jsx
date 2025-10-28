@@ -19,6 +19,8 @@ import DashboardEarnings from './Pages/Provider/DashboardEarnings'
 import DashboardMessagesProvider from './Pages/Provider/DashboardMessagesProvider'
 import RegisterClient from './Pages/Client/RegisterClient'
 import RegisterProvider from './Pages/Provider/RegisterProvider'
+import LoginClient from './Pages/Client/LoginClient'
+import LoginProvider from './Pages/Provider/LoginProvider'
 
 function App() {
 
@@ -31,18 +33,18 @@ function App() {
         />
         <Route
           path="/login/cliente"
-          element={<HomePage/>}
+          element={<LoginClient/>}
         />
         <Route
-          path="/login/proveedor"
-          element={<HomePage/>}
+          path="/login/prestador"
+          element={<LoginProvider/>}
         />
         <Route
-          path="/registro-cliente"
+          path="/registro/cliente"
           element={<RegisterClient/>}
         />
         <Route
-          path="/registro-prestador"
+          path="/registro/prestador"
           element={<RegisterProvider/>}
         />
 

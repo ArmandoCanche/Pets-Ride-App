@@ -1,9 +1,15 @@
 import React from "react";
+import { useState } from "react";
 import {useNavigate } from 'react-router-dom';
-import { Mail, Phone, MapPin, User, PawPrint, LockKeyhole } from "lucide-react";
+import { Mail, Phone, MapPin, User, PawPrint, LockKeyhole, Eye, EyeOff } from "lucide-react";
 
 export default function RegisterClient (){
   const navigate = useNavigate();
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  
+  const toggleShowPassword = () => setShowPassword(!showPassword);
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#f4fbfb] to-[#f9fcfc] flex flex-col items-center justify-center px-4 relative">
       {/* Fondo con huellitas */}
@@ -12,7 +18,7 @@ export default function RegisterClient (){
         <h1 className="text-4xl font-bold text-gray-800 mb-1">Pet’s Ride</h1>
       </div>
       {/* Contenedor principal */}
-      <div className="bg-white shadow-xl rounded-3xl max-w-2xl w-full relative z-10 p-10 border border-gray-100">
+      <div className="bg-white shadow-xl rounded-3xl max-w-2xl w-full relative z-10 p-10 border border-gray-100 mb-10">
         {/* Logo y título */}
         <div className="flex flex-col items-center mb-6 text-center">
           <div className="bg-[#fceeeb] p-3 rounded-2xl mb-3">
@@ -107,7 +113,7 @@ export default function RegisterClient (){
               <label className="text-sm font-medium text-gray-600">Ciudad *</label>
               <input
                 type="text"
-                placeholder="Cozumel de San Miguel"
+                placeholder="San Miguel de Cozumel"
                 className="w-full border border-gray-200 rounded-xl px-4 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-[#005c71] text-gray-500 placeholder-gray-400"
               />
             </div>
@@ -129,12 +135,11 @@ export default function RegisterClient (){
             Información de Mascotas
           </h2>
           <div className="mt-4">
-            <label className="text-sm font-medium text-gray-600">
+            <label className="text-sm font-medium text-gray-600 flex items-center gap-1">
               ¿Cuántas mascotas tienes? *
             </label>
-            <br/>
             <select
-              className="w-full sm:w-auto mt-1 border border-gray-200 rounded-xl px-4 py-2 text-gray-600 bg-white focus:outline-none focus:ring-2 focus:ring-[#005c71]/40 focus:border-[#005c71]/30 appearance-none"
+              className="w-full sm:w-auto mt-1 border border-gray-200 rounded-xl px-10 py-2 text-gray-600 bg-white focus:outline-none focus:ring-2 focus:ring-[#005c71]/40 focus:border-[#005c71]/30 appearance-none bg-[url('/chevron-down.svg')] bg-no-repeat bg-right bg-center"
               defaultValue="1"
             >
               <option value="1">1 mascota</option>
@@ -143,7 +148,8 @@ export default function RegisterClient (){
               <option value="4">4 mascotas</option>
               <option value="5">5 o más</option>
             </select>
-            <p className="text-sm text-gray-400 mt-1">
+
+            <p className="text-xs text-gray-400 mt-1">
               Podrás agregar perfiles de mascotas después del registro
             </p>
           </div>
@@ -154,7 +160,7 @@ export default function RegisterClient (){
                 <label className="text-sm font-medium text-gray-600">Nombre del Contacto</label>
                 <input
                   type="text"
-                  placeholder="María García"
+                  placeholder="Sofía Rodríguez"
                   className="w-full border border-gray-200 rounded-xl px-4 py-2 mt-1 text-gray-500 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#005c71]/40 focus:border-[#005c71]/30"
                 />
               </div>
@@ -177,40 +183,70 @@ export default function RegisterClient (){
             Seguridad
           </h2>
           <div>
-            <div>
-              <label className="text-sm font-medium text-gray-600">Contraseña *</label>
-              <div className="relative">
-                <svg xmlns="http://www.w3.org/2000/svg" className="absolute left-3 top-3 w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 11c0-1.105.895-2 2-2s2 .895 2 2v2h-4v-2zM5 11h14v10H5V11z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 11V7a4 4 0 118 0v4" />
+              {/* Contraseña */}
+              <div>
+                <label className="text-sm font-medium text-gray-600">Contraseña *</label>
+                <div className="relative mt-1">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 11c0-1.105.895-2 2-2s2 .895 2 2v2h-4v-2zM5 11h14v10H5V11z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 11V7a4 4 0 118 0v4" />
                 </svg>
                 <input
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   placeholder="********"
-                  className="w-full border border-gray-200 rounded-xl pl-10 pr-4 py-2 mt-1 text-gray-500 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#005c71]/40 focus:border-[#005c71]/30"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-full border border-gray-200 rounded-xl pl-10 pr-10 py-2 text-gray-500 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#005c71]/40 focus:border-[#005c71]/30"
                 />
-              </div>
-              <p className="text-xs text-gray-400 mt-1">Debe tener al menos 8 caracteres</p>
-            </div>
-
-            <div>
-              <label className="text-sm font-medium text-gray-600">Confirmar Contraseña *</label>
-              <div className="relative">
-                <svg xmlns="http://www.w3.org/2000/svg" className="absolute left-3 top-3 w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 11c0-1.105.895-2 2-2s2 .895 2 2v2h-4v-2zM5 11h14v10H5V11z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 11V7a4 4 0 118 0v4" />
-                </svg>
-                <input
-                  type="password"
-                  placeholder="********"
-                  className="w-full border border-gray-200 rounded-xl pl-10 pr-4 py-2 mt-1 text-gray-500 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#005c71]/40 focus:border-[#005c71]/30"
-                />
-              </div>
-            </div>
+                {/* Icono ojo */}
+                <button
+                  type="button"
+                  onClick={toggleShowPassword}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"
+                >
+                  {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                </button>
+                </div>
+                  <p className="text-xs text-gray-400 mt-1">Debe tener al menos 8 caracteres</p>
+                </div>
+              
+                {/* Confirmar Contraseña */}
+                  <div>
+                    <label className="text-sm font-medium text-gray-600">Confirmar Contraseña *</label>
+                    <div className="relative mt-1">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 11c0-1.105.895-2 2-2s2 .895 2 2v2h-4v-2zM5 11h14v10H5V11z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 11V7a4 4 0 118 0v4" />
+                      </svg>
+                      <input
+                        type={showPassword ? "text" : "password"}
+                        placeholder="********"
+                        className="w-full border border-gray-200 rounded-xl pl-10 pr-10 py-2 text-gray-500 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#005c71]/40 focus:border-[#005c71]/30"
+                      />
+                      <button
+                        type="button"
+                        onClick={toggleShowPassword}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"
+                      >
+                        {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                      </button>
+                    </div>
+                  </div>
           </div>
         </div>
         
-
         {/* Botón final */}
         <div className="mt-8 text-center">
           <button className="w-full border bg-[#f26644] hover:bg-[#ff8c6d] text-white px-10 py-3 rounded-xl font-semibold transition">
@@ -218,18 +254,22 @@ export default function RegisterClient (){
           </button>
           <p className="text-xs text-gray-400 mt-3">
             ¿Ya tienes una cuenta?{' '}
-            <a href="/login" className="text-[#f26644] hover:underline">
+            <span
+              onClick={() => navigate("/login/cliente")}
+              className="font-semibold text-[#f26644] hover:underline cursor-pointer"
+            >
               Iniciar sesión
-            </a>
+            </span>
           </p>
           <hr className="my-4 border-t border-gray-300" />
           <button
-            onClick={() => navigate("/registro-prestador")}
-            className="w-full border border-gray-300 text-gray-700 hover:bg-[#f26644] hover:text-white font-semibold px-10 py-3 rounded-xl transition">
+            onClick={() => navigate("/registro/prestador")}
+            className="w-full border border-gray-300 text-gray-700 hover:bg-[#005c71] hover:text-white font-semibold px-10 py-3 rounded-xl transition">
             Registrarse como Proveedor
           </button>
         </div>
       </div>
+
     </div>
   );
 };
