@@ -224,7 +224,7 @@ const [selectedPet, setSelectedPet] = useState(null)
             )}
             <Snackbar
               open={snackbar.open}
-              autoHideDuration={6000} // 6 segundos
+              autoHideDuration={6000}
               onClose={handleSnackbarClose}
               anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
             >
