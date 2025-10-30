@@ -60,38 +60,68 @@ export default function BookingCard({
             <span className='text-md font-medium text-gray-400'>{location}</span>
         </div>
         <div className='flex items-center'>
-            <AttachMoneyOutlinedIcon sx={{color:'#000000ff', fontSize:'2rem', marginRight:'0.5rem'}} />
+            <AttachMoneyOutlinedIcon sx={{color:'#000000ff', fontSize:'1.5rem', marginRight:'0.5rem'}} />
             <span className='text-xl font-medium '>{price}</span>
         </div>
         </div>
         <div className='w-full h-auto grid grid-cols-12 gap-4'>
-            <Button variant="outlined" sx={{color: '#000', background:'#fff', borderColor:'#ccc', fontWeight:500, borderRadius:3,
-                '&:hover':{
-                    backgroundColor: '#eb9902ff',
-                    color: '#fff',
-                    borderColor: '#f7ae26ff',
-                }
-            }} className="flex xl:col-span-4 col-span-12" onClick={onViewDetails}>
+            <Button 
+                variant="outlined" 
+                sx={{
+                    color: '#000', 
+                    background:'#fff', 
+                    borderColor:'#ccc', 
+                    fontWeight:500, 
+                    borderRadius:3,
+                    '&:hover':{
+                        backgroundColor: '#eb9902ff',
+                        color: '#fff',
+                        borderColor: '#f7ae26ff',
+                    },
+                    gridColumn: { xs: 'span 12', lg: 'span 4' }
+                }} 
+                onClick={onViewDetails}
+            >
             Details
             </Button>
             {status === "pendiente" || status === "confirmado" ? (
             <>
-                <Button variant="outlined"  sx={{color: '#000', background:'#fff', borderColor:'#ccc', fontWeight:500, borderRadius:3,
-                '&:hover':{
-                    backgroundColor: '#eb9902ff',
-                    color: '#fff',
-                    borderColor: '#f7ae26ff',
-                }
-            }} className="flex-1 bg-transparent lg:col-span-4 xl:col-span-4 col-span-12" onClick={onReschedule}>
+                <Button 
+                    variant="outlined" 
+                    sx={{
+                        color: '#000', 
+                        background:'#fff', 
+                        borderColor:'#ccc', 
+                        fontWeight:500, 
+                        borderRadius:3,
+                        '&:hover':{
+                            backgroundColor: '#eb9902ff',
+                            color: '#fff',
+                            borderColor: '#f7ae26ff',
+                        },
+                        flex: 1,
+                        gridColumn: { xs: 'span 12', lg: 'span 4' }
+                    }} 
+                    onClick={onReschedule}
+                >
                 Reschedule
                 </Button>
-                <Button variant="destructive" sx={{color: '#ffffffff', background:'#cf0c0cff',
-                fontWeight:500, borderRadius:3,
-                '&:hover':{
-                    backgroundColor: '#af3200ff',
-                    color: '#fff'
-                }
-            }} className="flex-1 lg:col-span-4 xl:col-span-4 col-span-12" onClick={onCancel}>
+                <Button 
+                    variant="contained" 
+                    sx={{
+                        color: '#ffffffff', 
+                        background:'#cf0c0cff',
+                        fontWeight:500, 
+                        borderRadius:3,
+                        '&:hover':{
+                            backgroundColor: '#af3200ff',
+                            color: '#fff'
+                        },
+                        flex: 1,
+                        gridColumn: { xs: 'span 12', lg: 'span 4' }
+                    }} 
+                    onClick={onCancel}
+                >
                 Cancel
                 </Button>
             </>

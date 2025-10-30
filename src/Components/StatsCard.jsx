@@ -4,7 +4,7 @@
 export default function StatsCard({ title, value, icon: Icon }) {
   return (
     <div className='flex flex-row h-full border-2 border-gray-200 rounded-lg px-10 py-15 bg-white  justify-between col-span-12 lg:col-span-6 xl:col-span-3'>
-        <div className='flex flex-col gap-3'>
+        <div className='flex flex-col gap-3 justify-between'>
             <h1 className='text-md text-gray-400 font-medium'>{title}</h1>
             <h1 className='text-5xl font-bold'>{value}</h1>
         </div>

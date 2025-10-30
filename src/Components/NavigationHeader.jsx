@@ -1,4 +1,3 @@
-"use client"
 
 import { Link , NavLink} from 'react-router-dom'
 import Button from '@mui/material/Button'
