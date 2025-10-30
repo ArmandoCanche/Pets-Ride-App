@@ -15,7 +15,7 @@ export default function RegisterClient (){
       {/* Fondo con huellitas */}
       <div className="absolute inset-0 bg-[url('/bg-r.jpg')] opacity-10 bg-repeat"></div>
       <div className="flex flex-col items-center mb-6 text-center">
-        <h1 className="text-4xl font-bold text-gray-800 mb-1">Pet’s Ride</h1>
+        <h1 className="m-10 text-4xl font-bold text-gray-800 mb-1">Pet's Ride</h1>
       </div>
       {/* Contenedor principal */}
       <div className="bg-white shadow-xl rounded-3xl max-w-2xl w-full relative z-10 p-10 border border-gray-100 mb-10">

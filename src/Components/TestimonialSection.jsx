@@ -45,7 +45,7 @@ export default function TestimonialsSection() {
           {testimonials.map((t, i) => (
             <div
               key={i}
-              className="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition text-left"
+              className="bg-white p-8 rounded-2xl border-2 border-[#d7e0de] shadow-md hover:shadow-md hover:border-[#005c71] transition text-left hover:scale-105 transition-transform duration-300 ease-in-out"
             >
               <FormatQuoteIcon sx={{ color: "#a0c4c7", fontSize: 32 }} />
               <div className="flex gap-1 my-3">
