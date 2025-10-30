@@ -40,7 +40,7 @@ export default function Footer() {
             >
               Buscar servicios
             </li>
-            <li><a href="#" className="hover:text-[#005c71]">Cómo Funciona</a></li>
+            <li><a href="/como-funciona" className="hover:text-[#005c71]">Cómo Funciona</a></li>
             <li><a href="/centro-de-ayuda#preguntas-frecuentes" className="hover:text-[#005c71]">Preguntas frecuentes</a></li>
           </ul>
         </div>

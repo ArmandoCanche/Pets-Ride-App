@@ -30,6 +30,7 @@ import PrivacyPolicy from './Footers/PrivacyP';
 import ServiceTerm from './Footers/ServiceT';
 import Cookies from './Footers/Cookies';
 import HelpCenter from './Footers/HelpCenter';
+import HowWorks from './Footers/HowWorks';
 
 
 
@@ -48,11 +49,12 @@ function App() {
         <Route path="/sobre-nosotros" element={<AboutUs />} />
         <Route path="/contacto" element={<Contact/>} />
         <Route path='/centro-de-ayuda' element={<HelpCenter/>} />
+        <Route path='como-funciona' element={<HowWorks/>} />
         <Route path='/politicas-de-privacidad' element={<PrivacyPolicy/>} />
         <Route path='/terminos-de-servicio' element={<ServiceTerm/>} />
         <Route path='/cookies' element={<Cookies/>} />
 
-        <Route path="/client" element={<LayoutClient />}>
+        <Route path="/cliente" element={<LayoutClient />}>
           <Route index element={<DashboardHomeClient />} />
           <Route path="search" element={<DashboardServices />} />
           <Route path="bookings" element={<DashboardBookings />} />
@@ -60,7 +62,7 @@ function App() {
           <Route path="messages" element={<DashboardMessages />} />
         </Route>
 
-        <Route path="/provider" element={<LayoutProvider />}>
+        <Route path="/prestador" element={<LayoutProvider />}>
           <Route index element={<DashboardHomeProvider />} />
           <Route path="services" element={<DashboardMyServices />} />
           <Route path="bookings" element={<DashboardBookingsProvider />} />

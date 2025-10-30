@@ -139,7 +139,7 @@ export default function LoginProvider() {
           {/* Botón */}
           <div className="mt-6 text-center">
             <button
-              onClick={() => navigate("/cliente")}
+              onClick={() => navigate("/prestador")}
               className="w-full bg-[#005c71] hover:bg-[#279ab2] text-white px-10 py-3 rounded-xl font-semibold transition"
             >
               Iniciar sesión
