@@ -5,34 +5,34 @@ export default function Team() {
     {
       name: "Leticia Tejero",
       role: "CEO",
-      image: "user-team.png",
+      image: "Lae-Team.png",
     },
     {
       name: "Luis Lagunez",
       role: "Project Manager",
-      image: "user-team.png",
+      image: "Luis-Team.png",
     },
     {
       name: "Jorge Canche",
       role: "DEV & Designer",
-      image: "user-team.png",
+      image: "Jorge-Team.png",
     },
     {
       name: "Bryan Cetzal",
       role: "DEV & QA",
-      image: "user-team.png",
+      image: "Bryan-Team.png",
     },
     {
       name: "Andrés Turriza",
       role: "Marketing & Análisis",
-      image: "user-team.png",
+      image: "Andres-Team.png",
     },
   ];
 
   return (
     <section className="py-16 bg-[#f4f5f6]">
       <div className="max-w-6xl mx-auto text-center px-6">
-        <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-12">
+        <h2 className="text-2xl md:text-3xl font-extrabold text-gray-900 mb-12">
           Nuestro equipo directivo
         </h2>
 
@@ -46,7 +46,7 @@ export default function Team() {
                 className="w-40 h-40 md:w-44 md:h-44 rounded-full object-cover shadow-md mb-4"
             />
             <h3 className="text-lg font-semibold text-gray-800">{person.name}</h3>
-            <p className="text-sm text-gray-500 mt-1">{person.role}</p>
+            {/**<p className="text-sm text-gray-500 mt-1">{person.role}</p>*/}
             </div>
         ))}
         </div>

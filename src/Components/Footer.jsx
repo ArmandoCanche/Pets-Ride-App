@@ -18,11 +18,11 @@ export default function Footer() {
             Conectando mascotas con los mejores proveedores de servicios desde 2024.
           </p>
           <div className="flex gap-4 mt-2">
-            <a href="#" aria-label="Facebook" className="hover:text-blue-600">
-              <Facebook size={24} />
-            </a>
-            <a href="#" aria-label="Instagram" className="hover:text-pink-500">
+            <a href="https://www.instagram.com/petsride2025" aria-label="Instagram" className="hover:text-pink-500">
               <Instagram size={24} />
+            </a>
+            <a href="https://www.facebook.com/profile.php?id=61582693965191&mibextid=wwXIfr&rdid=tPF7gprbBKO7ieNu&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F17WvjB2RWY%2F%3Fmibextid%3DwwXIfr#" aria-label="Facebook" className="hover:text-blue-600">
+              <Facebook size={24} />
             </a>
             <a href="#" aria-label="X" className="hover:text-sky-400">
               <Twitter size={24} />
@@ -34,10 +34,14 @@ export default function Footer() {
         <div className="space-y-2">
           <h4 className="text-xl font-semibold">Para Clientes</h4>
           <ul className="space-y-1 text-gray-400">
-            <li><a href="#" className="hover:text-[#005c71]">Buscar Servicios</a></li>
+            <li
+              onClick={() => navigate("/login/cliente")}
+              className="cursor-pointer hover:text-[#005c71] transition"
+            >
+              Buscar servicios
+            </li>
             <li><a href="#" className="hover:text-[#005c71]">Cómo Funciona</a></li>
-            <li><a href="#" className="hover:text-[#005c71]">Precios</a></li>
-            <li><a href="#" className="hover:text-[#005c71]">Preguntas frecuentes</a></li>
+            <li><a href="/centro-de-ayuda#preguntas-frecuentes" className="hover:text-[#005c71]">Preguntas frecuentes</a></li>
           </ul>
         </div>
 
@@ -45,10 +49,14 @@ export default function Footer() {
         <div className="space-y-2">
           <h4 className="text-xl font-semibold">Para Proveedores</h4>
           <ul className="space-y-1 text-gray-400">
-            <li><a href="#" className="hover:text-[#005c71]">Ofrecer Servicios</a></li>
+            <li
+              onClick={() => navigate("/login/prestador")}
+              className="cursor-pointer hover:text-[#005c71] transition"
+            >
+              Ofrecer servicios
+            </li>
             <li><a href="#" className="hover:text-[#005c71]">Requisitos</a></li>
             <li><a href="#" className="hover:text-[#005c71]">Comisiones</a></li>
-            <li><a href="#" className="hover:text-[#005c71]">Centro de Ayuda</a></li>
           </ul>
         </div>
 
@@ -63,8 +71,13 @@ export default function Footer() {
               Sobre Nosotros
             </li>
             <li><a href="#" className="hover:text-[#005c71]">Blog</a></li>
-            <li><a href="#" className="hover:text-[#005c71]">Carreras</a></li>
-            <li><a href="#" className="hover:text-[#005c71]">Contacto</a></li>
+            <li
+              onClick={() => navigate("/contacto")}
+              className="cursor-pointer hover:text-[#005c71] transition"
+            >
+              Contacto
+            </li>
+            <li><a href="/centro-de-ayuda" className="hover:text-[#005c71]">Centro de Ayuda</a></li>
           </ul>
         </div>
       </div>
@@ -76,9 +89,24 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-8 py-6 flex flex-col sm:flex-row items-center justify-between text-gray-400 text-sm gap-4">
         <p>&copy; 2025 Pet's Ride. Todos los derechos reservados.</p>
         <div className="flex gap-6">
-          <a href="#" className="hover:text-[#005c71]">Términos de Servicio</a>
-          <a href="#" className="hover:text-[#005c71]">Política de Privacidad</a>
-          <a href="#" className="hover:text-[#005c71]">Cookies</a>
+          <button
+            onClick={() => navigate("/terminos-de-servicio")}
+            className="hover:text-[#005c71] font-small"
+          >
+            Términos de servicio
+          </button>
+          <button
+            onClick={() => navigate("/politicas-de-privacidad")}
+            className="hover:text-[#005c71] font-small"
+          >
+            Política de Privacidad
+          </button>
+          <button
+            onClick={() => navigate("/cookies")}
+            className="hover:text-[#005c71] font-small"
+          >
+            Cookies
+          </button>
         </div>
       </div>
     </footer>

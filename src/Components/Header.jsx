@@ -8,13 +8,13 @@ export default function Header() {
 
   return (
     <header className="w-full bg-white shadow-sm">
-      <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-6 py-2 flex items-center justify-between">
         {/* Logo */}
         <div
           className="text-2xl font-bold text-[#f26644] cursor-pointer"
           onClick={() => navigate("/")}
         >
-          Pet's Ride
+          <img src="/logo-h.png" alt="Pet's Ride Logo" style={{height: '4rem' }} />
         </div>
 
         {/* Menú principal - visible en pantallas medianas en adelante */}
@@ -47,7 +47,7 @@ export default function Header() {
             {/* Ayuda - lado derecho */}
             <div className="hidden md:block">
             <button
-                onClick={() => navigate("/ayuda")}
+                onClick={() => navigate("/centro-de-ayuda")}
                 className="flex items-center gap-2 text-gray-700 hover:text-[#f26644] font-medium transition"
             >
                 <BadgeQuestionMark className="w-5 h-5" />
