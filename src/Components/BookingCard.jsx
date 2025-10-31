@@ -22,11 +22,11 @@ export default function BookingCard({
     onViewDetails,
 }) {
 
-    const statusColors= {
-        pendiente: "bg-yellow-500/10 text-yellow-700 dark:text-yellow-400 border-yellow-500/20",
-        confirmado: "",
-        completado: "bg-green-500/10 text-green-700 dark:text-green-400 border-green-500/20",
-        cancelado: "bg-destructive/10 text-destructive border-destructive/20",
+    const statusColors = {
+    pendiente:  "bg-yellow-500/10 text-yellow-800 dark:text-yellow-400 border border-yellow-500/20",
+    confirmado: "bg-blue-500/10   text-blue-800   dark:text-blue-400   border border-blue-500/20",
+    completado: "bg-green-500/10  text-green-800  dark:text-green-400  border border-green-500/20",
+    cancelado:  "bg-red-500/10    text-red-800    dark:text-red-400    border border-red-500/20",
     };
 
   return (
@@ -36,9 +36,9 @@ export default function BookingCard({
             <h1 className='text-lg font-semibold'>{serviceType}</h1>
             <p className='text-md text-gray-400 font-medium'>{providerName}</p>
         </div>
-        <div className='flex px-2 py-1 border-1 border-[#005c71] rounded-2xl bg-[#e6eff1]'>
-            <p className={`${statusColors[status]} text-xs`}>
-            {status.charAt(0).toUpperCase() + status.slice(1)}
+        <div className={`flex px-2 py-1 rounded-2xl ${statusColors[status]}`}>
+            <p className="text-xs">
+                {status.charAt(0).toUpperCase() + status.slice(1)}
             </p>
         </div>
         </div>
@@ -68,6 +68,7 @@ export default function BookingCard({
             <Button 
                 variant="outlined" 
                 sx={{
+                    textTransform: 'none' ,
                     color: '#000', 
                     background:'#fff', 
                     borderColor:'#ccc', 
@@ -89,6 +90,7 @@ export default function BookingCard({
                 <Button 
                     variant="outlined" 
                     sx={{
+                        textTransform: 'none' ,
                         color: '#000', 
                         background:'#fff', 
                         borderColor:'#ccc', 
@@ -109,6 +111,7 @@ export default function BookingCard({
                 <Button 
                     variant="contained" 
                     sx={{
+                        textTransform: 'none' ,
                         color: '#ffffffff', 
                         background:'#cf0c0cff',
                         fontWeight:500, 

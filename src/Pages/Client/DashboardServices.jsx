@@ -160,7 +160,7 @@ export default function SearchServicesPage() {
                   size="medium" 
                   onClick={() => setShowFilters(!showFilters)}
                   startIcon={<SlidersHorizontal size="1rem" />}
-                  sx={{ height: 40, borderRadius: 3, bgcolor:'#fff',color: '#000000ff', borderColor:'#ccc','&:hover': { bgcolor: '#f37556',
+                  sx={{ textTransform: 'none' , height: 40, borderRadius: 3, bgcolor:'#fff',color: '#000000ff', borderColor:'#ccc','&:hover': { bgcolor: '#f37556',
                     color: '#fff',
                     borderColor: '#f37556',
                    } }} 
@@ -171,7 +171,7 @@ export default function SearchServicesPage() {
                   variant="contained"
                   size="medium"
                   startIcon={<Search size="1rem" />}
-                  sx={{ height: 40 , borderRadius:3, color:'#fff', bgcolor:'#f37556', '&:hover': { bgcolor: '#f37556' } }}
+                  sx={{textTransform: 'none' , height: 40 , borderRadius:3, color:'#fff', bgcolor:'#f37556', '&:hover': { bgcolor: '#f37556' } }}
                 >
                   Buscar
                 </Button>
@@ -239,10 +239,10 @@ export default function SearchServicesPage() {
                     <MenuItem value="price-high">Precio: Mayor a Menor</MenuItem>
                   </Select>
                 </FormControl>
-                     <Button variant="outlined" size="small" sx={{ height: 40, borderRadius: 3, bgcolor:'#fff',color: '#000000ff', borderColor:'#ccc','&:hover': { bgcolor: '#f37556',
+                     <Button variant="outlined" size="small" sx={{textTransform: 'none' , height: 40, borderRadius: 3, bgcolor:'#fff',color: '#000000ff', borderColor:'#ccc','&:hover': { bgcolor: '#f37556',
                     color: '#fff',
                     borderColor: '#f37556',}}}>
-                        Solo Verificados
+                        Solo verificados
                     </Button>
               </Box>
             )}

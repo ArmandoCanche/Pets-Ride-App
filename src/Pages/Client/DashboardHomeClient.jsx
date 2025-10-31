@@ -167,7 +167,7 @@ const [selectedPet, setSelectedPet] = useState(null)
                     <Calendar className="h-12 w-12 text-muted-foreground mx-auto mb-3" />
                     <p className="text-muted-foreground mb-4">No hay reservas próximas</p>
                     <Link href="/client/search">
-                      <Button className="bg-accent hover:bg-accent/90 text-accent-foreground">Buscar Servicios</Button>
+                      <Button variant="outlined" size="small" sx={{textTransform: 'none' , height: 40, borderRadius: 3, bgcolor:'#fff',color: '#000000ff', borderColor:'#ccc','&:hover': { bgcolor: '#f37556' } }}>Buscar Servicios</Button>
                     </Link>
                   </div>
                 )}
@@ -188,6 +188,7 @@ const [selectedPet, setSelectedPet] = useState(null)
                     ))}
                     <NavLink to={"/pets/new"}><Button
                     sx={{
+                      textTransform: 'none' ,
                       background: '',
                       borderColor: '#ccc',
                       fontWeight:500,

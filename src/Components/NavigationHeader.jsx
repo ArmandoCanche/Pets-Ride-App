@@ -35,7 +35,7 @@ export default function NavigationHeader({ userType }) {
               <img src="/logo.png" alt="Pet's Ride Logo" style={{ width: '5rem', height: '5rem' }} />
           </NavLink>
 
-          <nav className="hidden md:flex  items-center justify-text-center md:text-xs md:gap-2  lg:text-sm lg:gap-6 xl:text-base xl:gap-12">
+          <nav className="hidden md:flex  items-center justify-text-center md:text-sm md:gap-2  lg:text-sm lg:gap-6 xl:text-sm xl:gap-12">
             {!userType && (
               <div className="xs:font-size-sm ">
                 <NavLink to="/services" className={({isActive}) => isActive ? "text-md font-medium text-purple-600 border-2 py-2 px-4 rounded-full" : "text-md font-medium py-2 px-4 rounded-full"}>
