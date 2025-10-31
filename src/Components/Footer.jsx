@@ -55,8 +55,8 @@ export default function Footer() {
             >
               Ofrecer servicios
             </li>
-            <li><a href="#" className="hover:text-[#005c71]">Requisitos</a></li>
-            <li><a href="#" className="hover:text-[#005c71]">Comisiones</a></li>
+            <li><a href="/requisitos-prestador" className="hover:text-[#005c71]">Requisitos</a></li>
+            <li><a href="/comisiones" className="hover:text-[#005c71]">Comisiones</a></li>
           </ul>
         </div>
 
@@ -70,7 +70,7 @@ export default function Footer() {
             >
               Sobre Nosotros
             </li>
-            <li><a href="#" className="hover:text-[#005c71]">Blog</a></li>
+            <li><a href="/blog" className="hover:text-[#005c71]">Blog</a></li>
             <li
               onClick={() => navigate("/contacto")}
               className="cursor-pointer hover:text-[#005c71] transition"

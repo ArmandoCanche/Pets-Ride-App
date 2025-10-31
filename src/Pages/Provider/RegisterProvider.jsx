@@ -44,7 +44,7 @@ export default function RegisterClient (){
               <input
                 type="text"
                 placeholder="Cuidado de Mascotas Felices"
-                className="w-full border border-gray-200 rounded-xl pl-6 pr-2 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-[#005c71] text-gray-500 placeholder-gray-400"
+                className="w-full border border-gray-200 rounded-xl pl-6 pr-2 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-[#005c71]/60 text-gray-500 placeholder-gray-400"
               />
             </div>
           </div>
@@ -88,7 +88,7 @@ export default function RegisterClient (){
             </label>
             <textarea
               placeholder="Cuéntales a los clientes sobre tu experiencia, especialidades y pasión por el cuidado de mascotas..."
-              className="w-full border border-gray-200 rounded-xl px-5 py-3 mt-1 focus:outline-none focus:ring-2 focus:ring-[#005c71] text-gray-500 placeholder-gray-400 resize-none"
+              className="w-full border border-gray-200 rounded-xl px-5 py-3 mt-1 focus:outline-none focus:ring-2 focus:ring-[#005c71]/60 text-gray-500 placeholder-gray-400 resize-none"
             />
             <p className="text-xs text-gray-400 mt-0">
               Esto será visible para los clientes potenciales
@@ -109,7 +109,7 @@ export default function RegisterClient (){
               <input
                 type="text"
                 placeholder="Juan"
-                className="w-full border border-gray-200 rounded-xl px-4 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-[#005c71] text-gray-500 placeholder-gray-400"
+                className="w-full border border-gray-200 rounded-xl px-4 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-[#005c71]/60 text-gray-500 placeholder-gray-400"
               />
             </div>
             <div>
@@ -117,7 +117,7 @@ export default function RegisterClient (){
               <input
                 type="text"
                 placeholder="Pérez"
-                className="w-full border border-gray-200 rounded-xl px-4 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-[#005c71] text-gray-500 placeholder-gray-400"
+                className="w-full border border-gray-200 rounded-xl px-4 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-[#005c71]/60 text-gray-500 placeholder-gray-400"
               />
             </div>
           </div>
@@ -129,7 +129,7 @@ export default function RegisterClient (){
               <input
                 type="email"
                 placeholder="prestador@ejemplo.com"
-                className="w-full border border-gray-200 rounded-xl pl-10 pr-4 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-[#005c71] text-gray-500 placeholder-gray-400"
+                className="w-full border border-gray-200 rounded-xl pl-10 pr-4 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-[#005c71]/60 text-gray-500 placeholder-gray-400"
               />
             </div>
           </div>
@@ -141,7 +141,7 @@ export default function RegisterClient (){
               <input
                 type="tel"
                 placeholder="+52 (555) 123-4567"
-                className="w-full border border-gray-200 rounded-xl pl-10 pr-4 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-[#005c71] text-gray-500 placeholder-gray-400"
+                className="w-full border border-gray-200 rounded-xl pl-10 pr-4 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-[#005c71]/60 text-gray-500 placeholder-gray-400"
               />
             </div>
           </div>
@@ -158,7 +158,7 @@ export default function RegisterClient (){
             <input
               type="text"
               placeholder="Calle Principal 123"
-              className="w-full border border-gray-200 rounded-xl px-4 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-[#005c71] text-gray-500 placeholder-gray-400"
+              className="w-full border border-gray-200 rounded-xl px-4 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-[#005c71]/60 text-gray-500 placeholder-gray-400"
             />
           </div>
 
@@ -168,7 +168,7 @@ export default function RegisterClient (){
               <input
                 type="text"
                 placeholder="Cozumel de San Miguel"
-                className="w-full border border-gray-200 rounded-xl px-4 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-[#005c71] text-gray-500 placeholder-gray-400"
+                className="w-full border border-gray-200 rounded-xl px-4 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-[#005c71]/60 text-gray-500 placeholder-gray-400"
               />
             </div>
             <div>
@@ -176,7 +176,7 @@ export default function RegisterClient (){
               <input
                 type="text"
                 placeholder="77602"
-                className="w-full border border-gray-200 rounded-xl px-4 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-[#005c71] text-gray-500 placeholder-gray-400"
+                className="w-full border border-gray-200 rounded-xl px-4 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-[#005c71]/60 text-gray-500 placeholder-gray-400"
               />
             </div>
           </div>
@@ -194,7 +194,7 @@ export default function RegisterClient (){
               <div>
                 <textarea
                   placeholder="Lista cualquier certificado, licencia o capacitación relevante (ej: Primeros auxilios para Mascotas, Licencia Veterinaria, etc.)"
-                  className="w-full border border-gray-200 rounded-xl px-4 py-4 mt-1 focus:outline-none focus:ring-2 focus:ring-[#005c71] text-gray-500 placeholder-gray-400 resize-none"
+                  className="w-full border border-gray-200 rounded-xl px-4 py-4 mt-1 focus:outline-none focus:ring-2 focus:ring-[#005c71]/60 text-gray-500 placeholder-gray-400 resize-none"
                 />
               </div>
             </div>
@@ -261,7 +261,7 @@ export default function RegisterClient (){
                     placeholder="********"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="w-full border border-gray-200 rounded-xl pl-10 pr-10 py-2 text-gray-500 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#005c71]/40 focus:border-[#005c71]/30"
+                    className="w-full border border-gray-200 rounded-xl pl-10 pr-10 py-2 text-gray-500 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#005c71]/60 focus:border-[#005c71]/40"
                   />
                   {/* Icono ojo */}
                   <button
@@ -292,7 +292,7 @@ export default function RegisterClient (){
                   <input
                     type={showPassword ? "text" : "password"}
                     placeholder="********"
-                    className="w-full border border-gray-200 rounded-xl pl-10 pr-10 py-2 text-gray-500 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#005c71]/40 focus:border-[#005c71]/30"
+                    className="w-full border border-gray-200 rounded-xl pl-10 pr-10 py-2 text-gray-500 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#005c71]/60 focus:border-[#005c71]/40"
                   />
                   <button
                     type="button"

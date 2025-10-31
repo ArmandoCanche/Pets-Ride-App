@@ -32,6 +32,10 @@ import Cookies from './Footers/Cookies';
 import HelpCenter from './Footers/HelpCenter';
 import HowWorks from './Footers/HowWorks';
 
+// Errores
+import Error404 from './Pages/Error404';
+import ForgotPassword from './Pages/ForgotPassword';
+
 
 
 function App() {
@@ -70,7 +74,8 @@ function App() {
           <Route path="messages" element={<DashboardMessagesProvider />} />
         </Route>
 
-        <Route path="*" element={<div className="text-center p-10">Página no encontrada</div>} />
+        <Route path="*" element={<Error404/>} />
+        <Route path='/recuperar-contraseña' element={<ForgotPassword/>} />
       </Routes>
     </>
   );

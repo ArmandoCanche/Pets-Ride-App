@@ -34,8 +34,8 @@ export default function LoginClient() {
                 <Shield className="w-5 h-5 text-[#f26644]" />
               </div>
               <div>
-                <h1 className="text-sm font-semibold text-gray-800">Prestadores Verificados</h1>
-                <p className="text-xs text-gray-500">
+                <h1 className="text-md font-semibold text-gray-800">Prestadores Verificados</h1>
+                <p className="text-sm text-gray-500">
                   Todos nuestros proveedores pasan por verificación de antecedentes.
                 </p>
               </div>
@@ -46,8 +46,8 @@ export default function LoginClient() {
                 <Heart className="w-5 h-5 text-[#005c71]" />
               </div>
               <div>
-                <h1 className="text-sm font-semibold text-gray-800">Cuidado con Amor</h1>
-                <p className="text-xs text-gray-500">
+                <h1 className="text-md font-semibold text-gray-800">Cuidado con Amor</h1>
+                <p className="text-sm text-gray-500">
                   Profesionales apasionados por el bienestar de tus mascotas.
                 </p>
               </div>
@@ -58,8 +58,8 @@ export default function LoginClient() {
                 <Star className="w-5 h-5 text-[#f26644]" />
               </div>
               <div>
-                <h1 className="text-sm font-semibold text-gray-800">Calificaciones Reales</h1>
-                <p className="text-xs text-gray-500">
+                <h1 className="text-md font-semibold text-gray-800">Calificaciones Reales</h1>
+                <p className="text-sm text-gray-500">
                   Lee reseñas de otros dueños de mascotas.
                 </p>
               </div>
@@ -89,7 +89,7 @@ export default function LoginClient() {
                 <input
                   type="email"
                   placeholder="tu@ejemplo.com"
-                  className="w-full border border-gray-200 rounded-xl pl-10 pr-4 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-[#005c71] text-gray-500 placeholder-gray-400"
+                  className="w-full border border-gray-200 rounded-xl pl-10 pr-4 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-[#f26644]/60 text-gray-500 placeholder-gray-400"
                 />
               </div>
             </div>
@@ -112,7 +112,7 @@ export default function LoginClient() {
                   placeholder="********"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full border border-gray-200 rounded-xl pl-10 pr-10 py-2 text-gray-500 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#005c71]/40 focus:border-[#005c71]/30"
+                  className="w-full border border-gray-200 rounded-xl pl-10 pr-10 py-2 text-gray-500 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#f26644]/60 focus:border-[#f26644]/30"
                 />
                 {/* Icono ojo */}
                 <button
@@ -127,7 +127,7 @@ export default function LoginClient() {
               {/* Enlace de recuperación */}
               <div className="text-right mt-2">
                 <a
-                  href="/recuperar-contraseña"
+                  onClick={() => navigate("/recuperar-contraseña", { state: { from: "cliente" } })}
                   className="text-xs text-[#f26644] hover:underline font-medium"
                 >
                   ¿Olvidaste tu contraseña?

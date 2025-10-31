@@ -46,7 +46,7 @@ export default function RegisterClient (){
         {/* Sección de información personal */}
         <div className="mb-6">
           <h2 className="flex items-center gap-2 font-semibold text-gray-800 mb-3 text-lg border-b border-gray-400 pb-2">
-            <User className="w-5 h-5 text-[#005c71]" />
+            <User className="w-5 h-5 text-[#f26644]" />
             Información Personal
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -55,7 +55,7 @@ export default function RegisterClient (){
               <input
                 type="text"
                 placeholder="Anna"
-                className="w-full border border-gray-200 rounded-xl px-4 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-[#005c71] text-gray-500 placeholder-gray-400"
+                className="w-full border border-gray-200 rounded-xl px-4 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-[#f26644]/60 text-gray-500 placeholder-gray-400"
               />
             </div>
             <div>
@@ -63,7 +63,7 @@ export default function RegisterClient (){
               <input
                 type="text"
                 placeholder="Pérez"
-                className="w-full border border-gray-200 rounded-xl px-4 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-[#005c71] text-gray-500 placeholder-gray-400"
+                className="w-full border border-gray-200 rounded-xl px-4 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-[#f26644]/60 text-gray-500 placeholder-gray-400"
               />
             </div>
           </div>
@@ -75,7 +75,7 @@ export default function RegisterClient (){
               <input
                 type="email"
                 placeholder="tu@ejemplo.com"
-                className="w-full border border-gray-200 rounded-xl pl-10 pr-4 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-[#005c71] text-gray-500 placeholder-gray-400"
+                className="w-full border border-gray-200 rounded-xl pl-10 pr-4 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-[#f26644]/60 text-gray-500 placeholder-gray-400"
               />
             </div>
           </div>
@@ -87,7 +87,7 @@ export default function RegisterClient (){
               <input
                 type="tel"
                 placeholder="+52 (555) 123-4567"
-                className="w-full border border-gray-200 rounded-xl pl-10 pr-4 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-[#005c71] text-gray-500 placeholder-gray-400"
+                className="w-full border border-gray-200 rounded-xl pl-10 pr-4 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-[#f26644]/60 text-gray-500 placeholder-gray-400"
               />
             </div>
           </div>
@@ -96,7 +96,7 @@ export default function RegisterClient (){
         {/* Sección de ubicación */}
         <div className="mb-6">
           <h2 className="flex items-center gap-2 font-semibold text-gray-800 mb-3 text-lg border-b border-gray-400 pb-2">
-            <MapPin className="w-5 h-5 text-[#005c71]" />
+            <MapPin className="w-5 h-5 text-[#f26644]" />
             Ubicación
           </h2>
           <div>
@@ -104,7 +104,7 @@ export default function RegisterClient (){
             <input
               type="text"
               placeholder="Calle Principal 123"
-              className="w-full border border-gray-200 rounded-xl px-4 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-[#005c71] text-gray-500 placeholder-gray-400"
+              className="w-full border border-gray-200 rounded-xl px-4 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-[#f26644]/60 text-gray-500 placeholder-gray-400"
             />
           </div>
 
@@ -113,8 +113,8 @@ export default function RegisterClient (){
               <label className="text-sm font-medium text-gray-600">Ciudad *</label>
               <input
                 type="text"
-                placeholder="San Miguel de Cozumel"
-                className="w-full border border-gray-200 rounded-xl px-4 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-[#005c71] text-gray-500 placeholder-gray-400"
+                placeholder="Cozumel de San Miguel"
+                className="w-full border border-gray-200 rounded-xl px-4 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-[#f26644]/60 text-gray-500 placeholder-gray-400"
               />
             </div>
             <div>
@@ -122,7 +122,7 @@ export default function RegisterClient (){
               <input
                 type="text"
                 placeholder="77602"
-                className="w-full border border-gray-200 rounded-xl px-4 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-[#005c71] text-gray-500 placeholder-gray-400"
+                className="w-full border border-gray-200 rounded-xl px-4 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-[#f26644]/60 text-gray-500 placeholder-gray-400"
               />
             </div>
           </div>
@@ -131,7 +131,7 @@ export default function RegisterClient (){
         {/* Sección de mascotas */}
         <div className="mb-6">
           <h2 className="flex items-center gap-2 font-semibold text-gray-800 mb-3 text-lg border-b border-gray-400 pb-2">
-            <PawPrint className="w-5 h-5 text-[#005c71]" />
+            <PawPrint className="w-5 h-5 text-[#f26644]" />
             Información de Mascotas
           </h2>
           <div className="mt-4">
@@ -139,7 +139,7 @@ export default function RegisterClient (){
               ¿Cuántas mascotas tienes? *
             </label>
             <select
-              className="w-full sm:w-auto mt-1 border border-gray-200 rounded-xl px-10 py-2 text-gray-600 bg-white focus:outline-none focus:ring-2 focus:ring-[#005c71]/40 focus:border-[#005c71]/30 appearance-none bg-[url('/chevron-down.svg')] bg-no-repeat bg-right bg-center"
+              className="w-full sm:w-auto mt-1 border border-gray-200 rounded-xl px-10 py-2 text-gray-600 bg-white focus:outline-none focus:ring-2 focus:ring-[#f26644]/60 focus:border-[#f26644]/40 appearance-none bg-[url('/chevron-down.svg')] bg-no-repeat bg-right bg-center"
               defaultValue="1"
             >
               <option value="1">1 mascota</option>
@@ -161,7 +161,7 @@ export default function RegisterClient (){
                 <input
                   type="text"
                   placeholder="Sofía Rodríguez"
-                  className="w-full border border-gray-200 rounded-xl px-4 py-2 mt-1 text-gray-500 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#005c71]/40 focus:border-[#005c71]/30"
+                  className="w-full border border-gray-200 rounded-xl px-4 py-2 mt-1 text-gray-500 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#f26644]/60 focus:border-[#f26644]/40"
                 />
               </div>
               <div>
@@ -169,7 +169,7 @@ export default function RegisterClient (){
                 <input
                   type="tel"
                   placeholder="+52 (555) 987-6543"
-                  className="w-full border border-gray-200 rounded-xl px-4 py-2 mt-1 text-gray-500 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#005c71]/40 focus:border-[#005c71]/30"
+                  className="w-full border border-gray-200 rounded-xl px-4 py-2 mt-1 text-gray-500 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#f26644]/60 focus:border-[#f26644]/40"
                 />
               </div>
             </div>
@@ -179,7 +179,7 @@ export default function RegisterClient (){
         {/* Seccion de Seguridad */}
         <div className="mb-6">
           <h2 className="flex items-center gap-2 font-semibold text-gray-800 mb-3 text-lg border-b border-gray-400 pb-2">
-            <LockKeyhole className="w-5 h-5 text-[#005c71]" />
+            <LockKeyhole className="w-5 h-5 text-[#f26644]" />
             Seguridad
           </h2>
           <div>
@@ -202,7 +202,7 @@ export default function RegisterClient (){
                   placeholder="********"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full border border-gray-200 rounded-xl pl-10 pr-10 py-2 text-gray-500 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#005c71]/40 focus:border-[#005c71]/30"
+                  className="w-full border border-gray-200 rounded-xl pl-10 pr-10 py-2 text-gray-500 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#f26644]/60 focus:border-[#f26644]/40"
                 />
                 {/* Icono ojo */}
                 <button
@@ -233,7 +233,7 @@ export default function RegisterClient (){
                       <input
                         type={showPassword ? "text" : "password"}
                         placeholder="********"
-                        className="w-full border border-gray-200 rounded-xl pl-10 pr-10 py-2 text-gray-500 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#005c71]/40 focus:border-[#005c71]/30"
+                        className="w-full border border-gray-200 rounded-xl pl-10 pr-10 py-2 text-gray-500 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#f26644]/60 focus:border-[#f26644]/40"
                       />
                       <button
                         type="button"

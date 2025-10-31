@@ -89,7 +89,7 @@ export default function LoginProvider() {
                 <input
                   type="email"
                   placeholder="tu@ejemplo.com"
-                  className="w-full border border-gray-200 rounded-xl pl-10 pr-4 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-[#005c71] text-gray-500 placeholder-gray-400"
+                  className="w-full border border-gray-200 rounded-xl pl-10 pr-4 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-[#005c71]/60 text-gray-500 placeholder-gray-400"
                 />
               </div>
             </div>
@@ -112,7 +112,7 @@ export default function LoginProvider() {
                   placeholder="********"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full border border-gray-200 rounded-xl pl-10 pr-10 py-2 text-gray-500 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#005c71]/40 focus:border-[#005c71]/30"
+                  className="w-full border border-gray-200 rounded-xl pl-10 pr-10 py-2 text-gray-500 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#005c71]/60 focus:border-[#005c71]/30"
                 />
                 {/* Icono ojo */}
                 <button
@@ -127,7 +127,7 @@ export default function LoginProvider() {
               {/* Enlace de recuperación */}
               <div className="text-right mt-2">
                 <a
-                  href="/recuperar-contraseña"
+                  onClick={() => navigate("/recuperar-contraseña", { state: { from: "prestador" } })}
                   className="text-xs text-[#005c71] hover:underline font-medium"
                 >
                   ¿Olvidaste tu contraseña?
