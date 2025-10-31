@@ -20,6 +20,7 @@ import {
 
 // Icon Imports (Keeping lucide-react as used)
 import { Search, SlidersHorizontal, MapPin, Sparkles } from "lucide-react";
+import SearchCard from '../../Components/SearchCard';
 // Can also use MUI Icons if preferred:
 // import SearchIcon from '@mui/icons-material/Search';
 // import FilterListIcon from '@mui/icons-material/FilterList';
@@ -128,67 +129,55 @@ export default function SearchServicesPage() {
   };
 
   return (
-    // These background divs use Tailwind, which is fine
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-orange-50 relative overflow-hidden">
-      <div className="absolute inset-0 bg-[url('/paw-prints-pattern.jpg')] opacity-[0.02]" />
-      <div className="absolute top-20 left-10 w-64 h-64 bg-purple-100/50 rounded-full blur-3xl" />
-      <div className="absolute bottom-20 right-10 w-64 h-64 bg-orange-100/50 rounded-full blur-3xl" />
-
-      {/* <NavigationHeader userType="client" /> Assuming this is a custom component */}
-      <main className="container mx-auto px-4 py-8 relative z-10">
-        {/* This div uses Tailwind for gradient/padding/border, OK */}
+      <main className="flex  py-6 px-10 md:px-5 lg:px-10 xl:px-25 bg-gray-100 min-h-screen flex-col gap-6">
 
 
-        {/* --- CONVERTED Card --- */}
-        <Card sx={{ mb: 4, border: 2, borderColor: 'divider', boxShadow: 6, bgcolor: 'rgba(255, 255, 255, 0.8)', backdropFilter: 'blur(5px)' }}>
-          <CardContent sx={{ p: 3, spaceY: 2 }}> {/* Using spaceY via sx doesn't work directly, use gap on parent or margins */}
-            {/* Main Search - using Box for flex layout with sx */}
+        <Card sx={{ border:1, borderColor:'#e1e1e1ff', borderRadius: 3 }}>
+          <CardContent sx={{ p: 3, spaceY: 2 }}>
             <Box sx={{ display: 'flex', flexDirection: { xs: 'column', lg: 'row' }, gap: 2 }}>
-              
-              {/* --- CONVERTED Input to TextField --- */}
               <TextField
-                placeholder="Buscar por servicio o nombre de proveedor..."
+                placeholder="Buscar..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 variant="outlined"
-                size="small" // Makes height closer to buttons
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <Search size="1rem" className="text-gray-500" />
-                    </InputAdornment>
+                size="small"
+                slotProps={{
+                  input: {
+                      startAdornment: (
+                      <InputAdornment position="start">
+                        <Search size="1rem" className="text-gray-500" />
+                      </InputAdornment>
                   ),
+                  }
+
                 }}
-                sx={{ flex: 1, '& .MuiOutlinedInput-root': { pl: 1 } }} // Adjust padding for icon
+                sx={{ flex: 1, '& .MuiOutlinedInput-root': { pl: 2, borderRadius: 3, gap:2 } }} 
               />
-              
+
               <Box sx={{ display: 'flex', gap: 1 }}>
-                {/* --- CONVERTED Button --- */}
                 <Button
                   variant="outlined"
-                  size="medium" // Default, matches TextField small height better
+                  size="medium" 
                   onClick={() => setShowFilters(!showFilters)}
                   startIcon={<SlidersHorizontal size="1rem" />}
-                  sx={{ height: 40 }} // Match TextField height
+                  sx={{ textTransform: 'none' , height: 40, borderRadius: 3, bgcolor:'#fff',color: '#000000ff', borderColor:'#ccc','&:hover': { bgcolor: '#f37556',
+                    color: '#fff',
+                    borderColor: '#f37556',
+                   } }} 
                 >
                   Filtros
                 </Button>
-                {/* --- CONVERTED Button --- */}
                 <Button
-                  variant="contained" // Assuming primary action
-                  color="primary" // Or your accent color theme
+                  variant="contained"
                   size="medium"
                   startIcon={<Search size="1rem" />}
-                  sx={{ height: 40 }} // Match TextField height
+                  sx={{textTransform: 'none' , height: 40 , borderRadius:3, color:'#fff', bgcolor:'#f37556', '&:hover': { bgcolor: '#f37556' } }}
                 >
                   Buscar
                 </Button>
               </Box>
             </Box>
-
-            {/* Advanced Filters */}
             {showFilters && (
-              // Using Box for grid layout with sx
               <Box sx={{
                 display: 'grid',
                 gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', lg: 'repeat(4, 1fr)' },
@@ -196,9 +185,8 @@ export default function SearchServicesPage() {
                 pt: 2,
                 mt: 2,
                 borderTop: 1,
-                borderColor: 'divider'
+                borderColor: 'divider',
               }}>
-                {/* --- CONVERTED Select --- */}
                 <FormControl size="small">
                   <InputLabel id="service-type-label">Tipo de Servicio</InputLabel>
                   <Select
@@ -207,6 +195,7 @@ export default function SearchServicesPage() {
                     value={serviceType}
                     label="Tipo de Servicio"
                     onChange={(e) => setServiceType(e.target.value)}
+                    sx={{borderRadius:3}}
                   >
                     <MenuItem value="all">Todos los Servicios</MenuItem>
                     <MenuItem value="walking">Paseo de Perros</MenuItem>
@@ -217,8 +206,6 @@ export default function SearchServicesPage() {
                     <MenuItem value="training">Entrenamiento</MenuItem>
                   </Select>
                 </FormControl>
-
-                {/* --- CONVERTED Location Input --- */}
                  <TextField
                     id="location"
                     label="Ubicación"
@@ -234,10 +221,8 @@ export default function SearchServicesPage() {
                         </InputAdornment>
                     ),
                     }}
-                    sx={{ '& .MuiOutlinedInput-root': { pl: 1 } }}
+                    sx={{ '& .MuiOutlinedInput-root': { pl: 1, borderRadius: 3 } }}
                 />
-
-                {/* --- CONVERTED SortBy Select --- */}
                 <FormControl size="small">
                   <InputLabel id="sort-by-label">Ordenar Por</InputLabel>
                   <Select
@@ -246,6 +231,7 @@ export default function SearchServicesPage() {
                     value={sortBy}
                     label="Ordenar Por"
                     onChange={(e) => setSortBy(e.target.value)}
+                    sx={{borderRadius: 3}}
                   >
                     <MenuItem value="rating">Mejor Calificados</MenuItem>
                     <MenuItem value="reviews">Más Reseñas</MenuItem>
@@ -253,56 +239,38 @@ export default function SearchServicesPage() {
                     <MenuItem value="price-high">Precio: Mayor a Menor</MenuItem>
                   </Select>
                 </FormControl>
-
-                {/* --- CONVERTED Quick Filters Button --- */}
-                <Box sx={{display: 'flex', flexDirection:'column', gap: 1}}>
-                     <InputLabel sx={{fontSize: '0.875rem', mb: 0.5}}>Filtros Rápidos</InputLabel> {/* Approximate Label */}
-                     <Button variant="outlined" size="small" sx={{height: 40}}>
-                        Solo Verificados
+                     <Button variant="outlined" size="small" sx={{textTransform: 'none' , height: 40, borderRadius: 3, bgcolor:'#fff',color: '#000000ff', borderColor:'#ccc','&:hover': { bgcolor: '#f37556',
+                    color: '#fff',
+                    borderColor: '#f37556',}}}>
+                        Solo verificados
                     </Button>
-                </Box>
               </Box>
             )}
           </CardContent>
         </Card>
 
-        {/* Results Info - using Tailwind, OK */}
-        <div className="mb-6 flex items-center justify-between">
+        <div className="my-4 flex items-center justify-between">
           <p className="text-sm text-gray-600 font-medium">
             Se encontraron {sortedServices.length} {sortedServices.length === 1 ? "servicio" : "servicios"}
           </p>
         </div>
 
         {sortedServices.length > 0 ? (
-          // Grid layout using Tailwind, OK
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {/* Assuming ServiceCard is a custom component */}
+          <div className="grid grid-cols-12 gap-6">
             {sortedServices.map((service, index) => (
-              <Box key={index} onClick={() => handleViewDetails(service)}> {/* Added Box wrapper for onClick */}
-                 {/* <ServiceCard {...service} /> */}
-                 {/* Placeholder for ServiceCard content if it needs conversion */}
-                 <Card sx={{cursor: 'pointer'}}>
-                     <CardContent>
-                         <Typography variant="h6">{service.providerName}</Typography>
-                         <Typography variant="body2">{service.serviceType}</Typography>
-                         {/* ... add more details ... */}
-                     </CardContent>
-                 </Card>
-              </Box>
+              <SearchCard key={index} {...service} onClick={() => handleViewDetails(service)}/>
             ))}
           </div>
         ) : (
-          // No results message - using Tailwind, OK
           <div className="text-center py-16 bg-gray-100/50 rounded-2xl border-2 border-dashed border-gray-300">
             <Search className="h-16 w-16 text-gray-400 mx-auto mb-4" />
             <p className="text-lg font-medium text-gray-500 mb-2">No se encontraron servicios</p>
             <p className="text-sm text-gray-500">Intenta ajustar tu búsqueda o filtros</p>
           </div>
         )}
-      </main>
       {selectedService && (
         <ServiceDetailModal open={isModalOpen} onOpenChange={setIsModalOpen} service={selectedService} />
       )}
-    </div>
+      </main>
   );
 }
