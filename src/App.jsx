@@ -58,7 +58,7 @@ function App() {
         <Route path='/terminos-de-servicio' element={<ServiceTerm/>} />
         <Route path='/cookies' element={<Cookies/>} />
 
-        <Route path="/cliente" element={<LayoutClient />}>
+        <Route path="/client" element={<LayoutClient />}>
           <Route index element={<DashboardHomeClient />} />
           <Route path="search" element={<DashboardServices />} />
           <Route path="bookings" element={<DashboardBookings />} />

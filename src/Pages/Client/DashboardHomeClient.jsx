@@ -189,7 +189,6 @@ const [selectedPet, setSelectedPet] = useState(null)
                     <NavLink to={"/pets/new"}><Button
                     sx={{
                       textTransform: 'none' ,
-                      background: '',
                       borderColor: '#ccc',
                       fontWeight:500,
                       color: '#000',
