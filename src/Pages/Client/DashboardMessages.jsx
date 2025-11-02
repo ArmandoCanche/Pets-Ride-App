@@ -1,27 +1,17 @@
+import { Chat } from "@mui/icons-material";
 
 
 
 export default function DashboardMessages(){
     return (
     <>
-        <main className='flex  py-6 px-10 md:px-5 lg:px-10 xl:px-25 bg-gray-100 min-h-screen flex-col gap-6'>
-            <div className='w-full h-auto grid grid-cols-12 gap-4'>
-              <div className='flex flex-col h-full border-2 border-gray-200 rounded-lg p-10 bg-white align-items-center justify-center col-span-12 lg:col-span-6 xl:col-span-3'>
-                  <h1 className=''>Hola</h1>
-              </div>
-              <div className='flex flex-col h-full border-2 border-gray-200 rounded-lg p-10 bg-white align-items-center justify-center col-span-12 lg:col-span-6 xl:col-span-3'>
-                  <h1 className=''>Hola</h1>
-              </div>
-              <div className='flex flex-col h-full border-2 border-gray-200 rounded-lg p-10 bg-white align-items-center justify-center col-span-12 lg:col-span-6 xl:col-span-3'>
-                  <h1 className=''>Hola</h1>
-              </div>
-              <div className='flex flex-col h-full border-2 border-gray-200 rounded-lg p-10 bg-white align-items-center justify-center col-span-12 lg:col-span-6 xl:col-span-3'>
-                  <h1 className=''>Hola</h1>
-              </div>
-            </div>
-
-            <div>
-
+        <main className='flex  py-10 px-10 md:px-5 lg:px-10 xl:px-25 bg-gray-100 min-h-screen flex-col gap-6'>
+            <div className='flex flex-col gap-6'>
+                  <h1 className='text-4xl font-bold'>Mis mensajes</h1>
+                  <div className="flex flex-col border-1 border-gray-400 bg-white h-64 w-full rounded-lg justify-center items-center gap-10">
+                    <h1 className="text-3xl font-bold text-gray-400">Próximamente</h1>
+                    <Chat sx={{height:32, width:32, color:'grey'}}/>
+                  </div>
             </div>
         </main>
     </>

@@ -19,7 +19,7 @@ export default function BookingCard({
     status,
     onCancel,
     onReschedule,
-    onViewDetalles,
+    onViewDetails,
 }) {
 
     const statusColors = {
@@ -68,7 +68,7 @@ export default function BookingCard({
             <Button 
                 variant="outlined" 
                 sx={{
-                    textTransform: 'none' ,
+                    textTransform: 'none' ,fontFamily:'Poppins, sans-serif',
                     color: '#000', 
                     background:'#fff', 
                     borderColor:'#ccc', 
@@ -81,7 +81,7 @@ export default function BookingCard({
                     },
                     gridColumn: { xs: 'span 12', lg: 'span 4' }
                 }} 
-                onClick={onViewDetalles}
+                onClick={onViewDetails}
             >
             Detalles
             </Button>
@@ -90,7 +90,7 @@ export default function BookingCard({
                 <Button 
                     variant="outlined" 
                     sx={{
-                        textTransform: 'none' ,
+                        textTransform: 'none' ,fontFamily:'Poppins, sans-serif',
                         color: '#000', 
                         background:'#fff', 
                         borderColor:'#ccc', 
@@ -111,7 +111,7 @@ export default function BookingCard({
                 <Button 
                     variant="contained" 
                     sx={{
-                        textTransform: 'none' ,
+                        textTransform: 'none' ,fontFamily:'Poppins, sans-serif',
                         color: '#ffffffff', 
                         background:'#cf0c0cff',
                         fontWeight:500, 

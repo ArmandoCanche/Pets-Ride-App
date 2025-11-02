@@ -211,6 +211,7 @@ export default function ClientBookingDetailModal({
             <Button
               variant="outlined"
               sx={{ 
+                fontFamily:'Poppins, sans-serif',
                 flex : {xs: 'auto', sm:'1'},
                 width: {xs : '100%', sm: 'auto'},
                 alignSelf: { xs: 'stretch', sm: 'center' },
@@ -229,6 +230,7 @@ export default function ClientBookingDetailModal({
             <Button
               variant="contained"
               sx={{ 
+                fontFamily:'Poppins, sans-serif',
                 flex : {xs: 'auto', sm:'1'},
                 width: {xs : '100%', sm: 'auto'},
                 alignSelf : { xs: 'stretch', sm: 'center' },

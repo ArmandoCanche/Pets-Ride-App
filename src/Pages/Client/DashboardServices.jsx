@@ -160,7 +160,7 @@ const services = [
                   size="medium" 
                   onClick={() => setShowFilters(!showFilters)}
                   startIcon={<SlidersHorizontal size="1rem" />}
-                  sx={{ textTransform: 'none' , height: 40, borderRadius: 3, bgcolor:'#fff',color: '#000000ff', borderColor:'#ccc','&:hover': { bgcolor: '#f37556',
+                  sx={{ textTransform: 'none' , height: 40, fontFamily:'Poppins, sans-serif', borderRadius: 3, bgcolor:'#fff',color: '#000000ff', borderColor:'#ccc','&:hover': { bgcolor: '#f37556',
                     color: '#fff',
                     borderColor: '#f37556',
                    } }} 
@@ -171,7 +171,7 @@ const services = [
                   variant="contained"
                   size="medium"
                   startIcon={<Search size="1rem" />}
-                  sx={{textTransform: 'none' , height: 40 , borderRadius:3, color:'#fff', bgcolor:'#f37556', '&:hover': { bgcolor: '#f37556' } }}
+                  sx={{textTransform: 'none' , height: 40 , fontFamily:'Poppins, sans-serif',borderRadius:3, color:'#fff', bgcolor:'#f37556', '&:hover': { bgcolor: '#f37556' } }}
                 >
                   Buscar
                 </Button>
