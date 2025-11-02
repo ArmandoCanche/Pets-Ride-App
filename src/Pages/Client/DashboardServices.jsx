@@ -37,71 +37,71 @@ export default function SearchServicesPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Mock data - in real app, this would come from API/database
-  const services = [
+const services = [
     {
       providerName: "Sarah Johnson",
-      serviceType: "Dog Walking",
+      serviceType: "Paseo de perros",
       rating: 4.9,
       reviewCount: 127,
       price: 25,
-      priceUnit: "hour",
-      location: "Central Park Area",
-      availability: "Available Today",
+      priceUnit: "hora",
+      location: "Área de Central Park",
+      availability: "Disponible hoy",
       verified: true,
     },
     {
       providerName: "Dr. Michael Chen",
-      serviceType: "Veterinary Care",
+      serviceType: "Atención veterinaria",
       rating: 4.8,
       reviewCount: 89,
       price: 75,
-      priceUnit: "visit",
-      location: "Downtown",
-      availability: "Next available: Tomorrow",
+      priceUnit: "visita",
+      location: "Centro",
+      availability: "Próxima disponibilidad: Mañana",
       verified: true,
     },
     {
       providerName: "Happy Paws Resort",
-      serviceType: "Pet Hotel",
+      serviceType: "Hotel para mascotas",
       rating: 4.7,
       reviewCount: 156,
       price: 50,
-      priceUnit: "night",
-      location: "Suburban Area",
-      availability: "Available This Week",
+      priceUnit: "noche",
+      location: "Área suburbana",
+      availability: "Disponible esta semana",
       verified: true,
     },
     {
       providerName: "Emma Wilson",
-      serviceType: "Pet Grooming",
+      serviceType: "Peluquería de mascotas",
       rating: 4.9,
       reviewCount: 203,
       price: 45,
-      priceUnit: "session",
-      location: "West Side",
-      availability: "Available Today",
+      priceUnit: "sesión",
+      location: "Lado oeste",
+      availability: "Disponible hoy",
       verified: true,
     },
     {
       providerName: "Quick Ride Pets",
-      serviceType: "Pet Transport",
+      serviceType: "Transporte de mascotas",
       rating: 4.6,
       reviewCount: 78,
       price: 30,
-      priceUnit: "trip",
-      location: "City Wide",
-      availability: "24/7 Available",
+      priceUnit: "viaje",
+      location: "Toda la ciudad",
+      availability: "Disponible 24/7",
       verified: false,
     },
     {
       providerName: "Pawsitive Training",
-      serviceType: "Pet Training",
+      serviceType: "Entrenamiento de mascotas",
       rating: 4.8,
       reviewCount: 92,
       price: 60,
-      priceUnit: "session",
-      location: "North District",
-      availability: "Weekends Available",
+      priceUnit: "sesión",
+      location: "Distrito norte",
+      availability: "Disponible los fines de semana",
       verified: false,
     },
   ];
@@ -160,7 +160,7 @@ export default function SearchServicesPage() {
                   size="medium" 
                   onClick={() => setShowFilters(!showFilters)}
                   startIcon={<SlidersHorizontal size="1rem" />}
-                  sx={{ textTransform: 'none' , height: 40, borderRadius: 3, bgcolor:'#fff',color: '#000000ff', borderColor:'#ccc','&:hover': { bgcolor: '#f37556',
+                  sx={{ textTransform: 'none' , height: 40, fontFamily:'Poppins, sans-serif', borderRadius: 3, bgcolor:'#fff',color: '#000000ff', borderColor:'#ccc','&:hover': { bgcolor: '#f37556',
                     color: '#fff',
                     borderColor: '#f37556',
                    } }} 
@@ -171,7 +171,7 @@ export default function SearchServicesPage() {
                   variant="contained"
                   size="medium"
                   startIcon={<Search size="1rem" />}
-                  sx={{textTransform: 'none' , height: 40 , borderRadius:3, color:'#fff', bgcolor:'#f37556', '&:hover': { bgcolor: '#f37556' } }}
+                  sx={{textTransform: 'none' , height: 40 , fontFamily:'Poppins, sans-serif',borderRadius:3, color:'#fff', bgcolor:'#f37556', '&:hover': { bgcolor: '#f37556' } }}
                 >
                   Buscar
                 </Button>

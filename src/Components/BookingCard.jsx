@@ -23,10 +23,10 @@ export default function BookingCard({
 }) {
 
     const statusColors = {
-    pendiente:  "bg-yellow-500/10 text-yellow-800 dark:text-yellow-400 border border-yellow-500/20",
-    confirmado: "bg-blue-500/10   text-blue-800   dark:text-blue-400   border border-blue-500/20",
-    completado: "bg-green-500/10  text-green-800  dark:text-green-400  border border-green-500/20",
-    cancelado:  "bg-red-500/10    text-red-800    dark:text-red-400    border border-red-500/20",
+    pendiente:  "bg-yellow-500/10 text-yellow-600 dark:text-yellow-600 border border-yellow-500/20",
+    confirmado: "bg-blue-500/10   text-blue-800   dark:text-blue-600   border border-blue-500/20",
+    completado: "bg-green-500/10  text-green-800  dark:text-green-600  border border-green-500/20",
+    cancelado:  "bg-red-500/10    text-red-800    dark:text-red-600    border border-red-500/20",
     };
 
   return (
@@ -68,7 +68,7 @@ export default function BookingCard({
             <Button 
                 variant="outlined" 
                 sx={{
-                    textTransform: 'none' ,
+                    textTransform: 'none' ,fontFamily:'Poppins, sans-serif',
                     color: '#000', 
                     background:'#fff', 
                     borderColor:'#ccc', 
@@ -83,14 +83,14 @@ export default function BookingCard({
                 }} 
                 onClick={onViewDetails}
             >
-            Details
+            Detalles
             </Button>
             {status === "pendiente" || status === "confirmado" ? (
             <>
                 <Button 
                     variant="outlined" 
                     sx={{
-                        textTransform: 'none' ,
+                        textTransform: 'none' ,fontFamily:'Poppins, sans-serif',
                         color: '#000', 
                         background:'#fff', 
                         borderColor:'#ccc', 
@@ -106,12 +106,12 @@ export default function BookingCard({
                     }} 
                     onClick={onReschedule}
                 >
-                Reschedule
+                Reprogramar
                 </Button>
                 <Button 
                     variant="contained" 
                     sx={{
-                        textTransform: 'none' ,
+                        textTransform: 'none' ,fontFamily:'Poppins, sans-serif',
                         color: '#ffffffff', 
                         background:'#cf0c0cff',
                         fontWeight:500, 
@@ -125,7 +125,7 @@ export default function BookingCard({
                     }} 
                     onClick={onCancel}
                 >
-                Cancel
+                Cancelar
                 </Button>
             </>
             ) : null}

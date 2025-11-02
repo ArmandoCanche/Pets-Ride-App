@@ -66,7 +66,7 @@ function App() {
           <Route path="messages" element={<DashboardMessages />} />
         </Route>
 
-        <Route path="/prestador" element={<LayoutProvider />}>
+        <Route path="/provider" element={<LayoutProvider />}>
           <Route index element={<DashboardHomeProvider />} />
           <Route path="services" element={<DashboardMyServices />} />
           <Route path="bookings" element={<DashboardBookingsProvider />} />

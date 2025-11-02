@@ -87,19 +87,19 @@ export default function SearchCard({
         {/* Sección de botones */}
 
         <div className="p-6 pt-0 flex gap-2 justify-between">
-            <Button variant="outlined" onClick={onViewDetails} sx={{textTransform: 'none' , height: 40, borderRadius: 3, bgcolor:'#fff',color: '#000000ff', borderColor:'#ccc','&:hover': { bgcolor: '#f37556',
-                    color: '#fff',
+            <Button variant="outlined" onClick={onViewDetails} sx={{textTransform: 'none' , height: 40, borderRadius: 3, bgcolor:'#fff',color: '#000000ff', fontFamily:'Poppins, sans-serif', borderColor:'#ccc','&:hover': { bgcolor: '#f37556',
+                    color: '#fff', 
                     borderColor: '#f37556', textTransform: 'none' } }}>
                 Ver detalles
             </Button>
 
             {onBook ? (
-                <Button onClick={onBook} sx={{textTransform: 'none' , height: 40 , borderRadius:3, color:'#fff', bgcolor:'#f37556', '&:hover': { bgcolor: '#f37556' } }}>
+                <Button onClick={onBook} sx={{textTransform: 'none' , height: 40 , borderRadius:3, fontFamily:'Poppins, sans-serif', color:'#fff', bgcolor:'#f37556', '&:hover': { bgcolor: '#f37556' } }}>
                     Reservar ahora
                 </Button>
             ) : (
                 <Link to="/book">
-                    <Button sx={{  textTransform: 'none' , height: 40 , borderRadius:3, color:'#fff', bgcolor:'#f37556', '&:hover': { bgcolor: '#f37556' } }}>
+                    <Button sx={{  textTransform: 'none' , height: 40 , borderRadius:3, fontFamily:'Poppins, sans-serif', color:'#fff', bgcolor:'#f37556', '&:hover': { bgcolor: '#f37556' } }}>
                         Reserva ahora
                     </Button>
                 </Link>

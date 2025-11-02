@@ -7,105 +7,105 @@ import { useState } from "react";
 
 export default function DashboardBookings(){
 
-    const upcomingBookings = [
-        {
-            id: "1",
-            serviceType: "Dog Walking",
-            providerName: "Sarah Johnson",
-            providerImage: "/diverse-woman-portrait.png",
-            providerRating: 4.9,
-            providerPhone: "+1 (555) 123-4567",
-            providerEmail: "sarah.j@example.com",
-            petName: "Max",
-            date: "March 15, 2025",
-            time: "10:00 AM - 11:00 AM",
-            location: "Central Park Area",
-            price: 25,
-            status: "confirmado",
-            bookingId: "BK-2025-001",
-            notes: "Please use the north entrance of the park.",
-        },
-        {
-            id: "2",
-            serviceType: "Veterinary Checkup",
-            providerName: "Dr. Michael Chen",
-            providerImage: "/man.jpg",
-            providerRating: 5.0,
-            providerPhone: "+1 (555) 987-6543",
-            providerEmail: "m.chen@petcare.com",
-            petName: "Luna",
-            date: "March 18, 2025",
-            time: "2:00 PM - 3:00 PM",
-            location: "Pet Care Clinic",
-            price: 75,
-            status: "confirmado",
-            bookingId: "BK-2025-002",
-        },
-        {
-            id: "3",
-            serviceType: "Pet Grooming",
-            providerName: "Emma Wilson",
-            providerImage: "/woman-2.jpg",
-            providerRating: 4.8,
-            providerPhone: "+1 (555) 456-7890",
-            providerEmail: "emma@pawsclaws.com",
-            petName: "Charlie",
-            date: "March 20, 2025",
-            time: "11:00 AM - 12:30 PM",
-            location: "Paws & Claws Salon",
-            price: 50,
-            status: "pendiente",
-            bookingId: "BK-2025-003",
-        },
-    ]
+const upcomingBookings = [
+    {
+      id: "1",
+      serviceType: "Paseo de perros",
+      providerName: "Sarah Johnson",
+      providerImage: "/diverse-woman-portrait.png",
+      providerRating: 4.9,
+      providerPhone: "+1 (555) 123-4567",
+      providerEmail: "sarah.j@example.com",
+      petName: "Max",
+      date: "Marzo 15, 2025",
+      time: "10:00 AM - 11:00 AM",
+      location: "Área de Central Park",
+      price: 25,
+      status: "confirmado",
+      bookingId: "BK-2025-001",
+      notes: "Por favor, use la entrada norte del parque.",
+    },
+    {
+      id: "2",
+      serviceType: "Chequeo veterinario",
+      providerName: "Dr. Michael Chen",
+      providerImage: "/man.jpg",
+      providerRating: 5.0,
+      providerPhone: "+1 (555) 987-6543",
+      providerEmail: "m.chen@petcare.com",
+      petName: "Luna",
+      date: "Marzo 18, 2025",
+      time: "2:00 PM - 3:00 PM",
+      location: "Pet Care Clinic", // Se mantiene como nombre propio
+      price: 75,
+      status: "confirmado",
+      bookingId: "BK-2025-002",
+    },
+    {
+      id: "3",
+      serviceType: "Peluquería de mascotas",
+      providerName: "Emma Wilson",
+      providerImage: "/woman-2.jpg",
+      providerRating: 4.8,
+      providerPhone: "+1 (555) 456-7890",
+      providerEmail: "emma@pawsclaws.com",
+      petName: "Charlie",
+      date: "Marzo 20, 2025",
+      time: "11:00 AM - 12:30 PM",
+      location: "Paws & Claws Salon", // Se mantiene como nombre propio
+      price: 50,
+      status: "pendiente",
+      bookingId: "BK-2025-003",
+    },
+  ]
 
-    const pastBookings = [
-        {
-            id: "4",
-            serviceType: "Dog Walking",
-            providerName: "Sarah Johnson",
-            providerImage: "/diverse-woman-portrait.png",
-            providerRating: 4.9,
-            petName: "Max",
-            date: "March 8, 2025",
-            time: "10:00 AM - 11:00 AM",
-            location: "Central Park Area",
-            price: 25,
-            status: "completado",
-            bookingId: "BK-2025-004",
-        },
-        {
-            id: "5",
-            serviceType: "Pet Hotel",
-            providerName: "Happy Paws Resort",
-            providerImage: "/placeholder.svg?height=100&width=100",
-            providerRating: 4.7,
-            petName: "Luna",
-            date: "February 20-25, 2025",
-            time: "5 days",
-            location: "Downtown Pet Resort",
-            price: 250,
-            status: "completado",
-            bookingId: "BK-2025-005",
-        },
-    ]
+  const pastBookings = [
+    {
+      id: "4",
+      serviceType: "Paseo de perros",
+      providerName: "Sarah Johnson",
+      providerImage: "/diverse-woman-portrait.png",
+      providerRating: 4.9,
+      petName: "Max",
+      date: "Marzo 8, 2025",
+      time: "10:00 AM - 11:00 AM",
+      location: "Área de Central Park",
+      price: 25,
+      status: "completado",
+      bookingId: "BK-2025-004",
+    },
+    {
+      id: "5",
+      serviceType: "Hotel para mascotas",
+      providerName: "Happy Paws Resort",
+      providerImage: "/placeholder.svg?height=100&width=100",
+      providerRating: 4.7,
+      petName: "Luna",
+      date: "Febrero 20-25, 2025",
+      time: "5 días",
+      location: "Downtown Pet Resort", // Se mantiene como nombre propio
+      price: 250,
+      status: "completado",
+      bookingId: "BK-2025-005",
+    },
+  ]
 
-    const cancelledBookings = [
-        {
-            id: "6",
-            serviceType: "Pet Transport",
-            providerName: "Quick Ride Pets",
-            providerImage: "/placeholder.svg?height=100&width=100",
-            providerRating: 4.5,
-            petName: "Max",
-            date: "March 5, 2025",
-            time: "3:00 PM - 4:00 PM",
-            location: "Airport Transfer",
-            price: 40,
-            status: "cancelado",
-            bookingId: "BK-2025-006",
-        },
-    ]
+  const cancelledBookings = [
+    {
+      id: "6",
+      serviceType: "Transporte de mascotas",
+      providerName: "Quick Ride Pets",
+      providerImage: "/placeholder.svg?height=100&width=100",
+      providerRating: 4.5,
+      petName: "Max",
+      date: "Marzo 5, 2025",
+      time: "3:00 PM - 4:00 PM",
+      location: "Traslado al aeropuerto",
+      price: 40,
+      status: "cancelado",
+      bookingId: "BK-2025-006",
+    },
+  ]
 
     const [detailModalOpen, setDetailModalOpen] = useState(false)
     const [rescheduleModalOpen, setRescheduleModalOpen] = useState(false)
@@ -161,7 +161,7 @@ export default function DashboardBookings(){
                                 }}
                             >
                                 <Tab 
-                                    label={`Upcoming (${upcomingBookings.length})`}
+                                    label={`Próxima (${upcomingBookings.length})`}
                                     value={"upcoming"}
                                     sx={{ 
                                         fontFamily: 'Poppins, sans-serif',
@@ -181,7 +181,7 @@ export default function DashboardBookings(){
                                     }} 
                                 />
                                 <Tab 
-                                    label={`Past (${pastBookings.length})`} 
+                                    label={`Pasada (${pastBookings.length})`} 
                                     value={"past"} 
                                     sx={{ 
                                         fontFamily: 'Poppins, sans-serif',
@@ -202,7 +202,7 @@ export default function DashboardBookings(){
                                     }} 
                                 />
                                 <Tab 
-                                    label={`Cancelled (${cancelledBookings.length})`} 
+                                    label={`Cancelada (${cancelledBookings.length})`} 
                                     value={"cancelled"} 
                                     sx={{ 
                                         fontFamily: 'Poppins, sans-serif',
