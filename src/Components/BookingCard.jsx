@@ -19,7 +19,7 @@ export default function BookingCard({
     status,
     onCancel,
     onReschedule,
-    onViewDetails,
+    onViewDetalles,
 }) {
 
     const statusColors = {
@@ -81,9 +81,9 @@ export default function BookingCard({
                     },
                     gridColumn: { xs: 'span 12', lg: 'span 4' }
                 }} 
-                onClick={onViewDetails}
+                onClick={onViewDetalles}
             >
-            Details
+            Detalles
             </Button>
             {status === "pendiente" || status === "confirmado" ? (
             <>
@@ -106,7 +106,7 @@ export default function BookingCard({
                     }} 
                     onClick={onReschedule}
                 >
-                Reschedule
+                Reprogramar
                 </Button>
                 <Button 
                     variant="contained" 
@@ -125,7 +125,7 @@ export default function BookingCard({
                     }} 
                     onClick={onCancel}
                 >
-                Cancel
+                Cancelar
                 </Button>
             </>
             ) : null}

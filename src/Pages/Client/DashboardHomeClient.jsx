@@ -71,19 +71,19 @@ const [selectedPet, setSelectedPet] = useState(null)
     },
   ]
 
-  const myPets = [
+const myPets = [
     {
       name: "Max",
-      species: "dog",
-      breed: "Golden Retriever",
+      species: "perro",
+      breed: "Golden Retriever", // Los nombres de razas como esta suelen mantenerse
       age: 3,
       weight: 30,
-      specialNeeds: ["Allergies", "Medication"],
+      specialNeeds: ["Alergias", "Medicación"],
     },
     {
       name: "Luna",
-      species: "cat",
-      breed: "Persian",
+      species: "gato",
+      breed: "Persa",
       age: 2,
       weight: 4,
     },
