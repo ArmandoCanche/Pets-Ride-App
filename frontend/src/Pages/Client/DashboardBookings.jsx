@@ -52,7 +52,7 @@ const upcomingBookings = [
       petName: "Charlie",
       date: "Marzo 20, 2025",
       time: "11:00 AM - 12:30 PM",
-      location: "Paws & Claws Salon", // Se mantiene como nombre propio
+      location: "Paws & Claws Salon",
       price: 50,
       status: "pendiente",
       bookingId: "BK-2025-003",
@@ -239,7 +239,6 @@ const upcomingBookings = [
                                     ))}
                                 </div>
                             ) : (
-                                // (Ajuste de estilo en Empty State)
                                 <div className="text-center py-12 bg-white rounded-lg border-2 border-dashed border-gray-300">
                                     <CalendarToday
                                     sx={{fontSize: 40, marginX:'auto', marginBottom:2, color:'text.disabled'}}
@@ -302,29 +301,29 @@ const upcomingBookings = [
             </div>
             {selectedBooking && (
                 <>
-                <ClientBookingDetailModal
-                    open={detailModalOpen}
-                    onOpenChange={setDetailModalOpen}
-                    booking={selectedBooking}
-                    onMessage={handleMessage}
-                />
-                <ClientRescheduleModal
-                    open={rescheduleModalOpen}
-                    onOpenChange={setRescheduleModalOpen}
-                    booking={selectedBooking}
-                />
-                <ClientMessageModal
-                    open={messageModalOpen}
-                    onOpenChange={setMessageModalOpen}
-                    provider={{
-                    name: selectedBooking.providerName,
-                    image: selectedBooking.providerImage,
-                    }}
-                    booking={{
-                    serviceType: selectedBooking.serviceType,
-                    petName: selectedBooking.petName,
-                    }}
-                />
+                    <ClientBookingDetailModal
+                        open={detailModalOpen}
+                        onOpenChange={setDetailModalOpen}
+                        booking={selectedBooking}
+                        onMessage={handleMessage}
+                    />
+                    <ClientRescheduleModal
+                        open={rescheduleModalOpen}
+                        onOpenChange={setRescheduleModalOpen}
+                        booking={selectedBooking}
+                    />
+                    <ClientMessageModal
+                        open={messageModalOpen}
+                        onOpenChange={setMessageModalOpen}
+                        provider={{
+                        name: selectedBooking.providerName,
+                        image: selectedBooking.providerImage,
+                        }}
+                        booking={{
+                        serviceType: selectedBooking.serviceType,
+                        petName: selectedBooking.petName,
+                        }}
+                    />
                 </>
             )}
         </main>

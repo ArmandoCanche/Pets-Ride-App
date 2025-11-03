@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-
+import { useState } from 'react';
 
 // MUI Components
 import { Button, Snackbar, Alert } from '@mui/material';
@@ -10,26 +9,27 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import PetsIcon from '@mui/icons-material/Pets';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { Calendar } from 'lucide-react';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 
 // Routers...
 import { Link, NavLink } from 'react-router-dom';
 
 // Componentes
-import StatsCard from '../../Components/StatsCard';
-import BookingCard  from '../../Components/BookingCard';
-import PetCard from '../../Components/PetCard';
+import StatsCard from '../../Components/StatsCard.jsx';
+import BookingCard  from '../../Components/BookingCard.jsx';
+import PetCard from '../../Components/PetCard.jsx';
 import ClientBookingDetailModal from '../../Components/ClientBookingDetailModal.jsx';
 import ClientRescheduleModal from '../../Components/ClientRescheduleModal.jsx';
 import PetDetailModal from '../../Components/PetDetailModal.jsx';
+import StarBorderIcon from '@mui/icons-material/StarBorder';
+import MovingIcon from '@mui/icons-material/Moving';
+import ReviewCard from '../../Components/ReviewCard.jsx';
 
 
-export default function DashboardHomeClient() {
-
+export default function DashboardHomeProvider() {
 const [detailModalOpen, setDetailModalOpen] = useState(false)
 const [rescheduleModalOpen, setRescheduleModalOpen] = useState(false)
-const [petDetailModalOpen, setPetDetailModalOpen] = useState(false)
 const [selectedBooking, setSelectedBooking] = useState(null)
-const [selectedPet, setSelectedPet] = useState(null)
 
 
   const [snackbar, setSnackbar] = useState({
@@ -40,18 +40,18 @@ const [selectedPet, setSelectedPet] = useState(null)
 
 
   const stats = {
-    totalBookings: 12,
-    upcomingBookings: 3,
-    activePets: 2,
-    favoriteProviders: 5,
+    totalEarnings: 2450,
+    pendingBookings: 5,
+    rating: 4.9,
+    completedServices: 127,
   }
 
   const upcomingBookings = [
     {
       id: "1",
       serviceType: "Dog Walking",
-      providerName: "Sarah Johnson",
-      petName: "Max",
+      providerName: "You",
+      petName: "Max (Golden Retriever)",
       date: "March 15, 2025",
       time: "10:00 AM - 11:00 AM",
       location: "Central Park Area",
@@ -60,34 +60,52 @@ const [selectedPet, setSelectedPet] = useState(null)
     },
     {
       id: "2",
-      serviceType: "Veterinary Checkup",
-      providerName: "Dr. Michael Chen",
-      petName: "Luna",
-      date: "March 18, 2025",
+      serviceType: "Dog Walking",
+      providerName: "You",
+      petName: "Buddy (Labrador)",
+      date: "March 15, 2025",
       time: "2:00 PM - 3:00 PM",
-      location: "Pet Care Clinic",
-      price: 75,
-      status: "confirmado",
+      location: "Riverside Park",
+      price: 25,
+      status: "confirmado" ,
+    },
+    {
+      id: "3",
+      serviceType: "Dog Walking",
+      providerName: "You",
+      petName: "Charlie (Beagle)",
+      date: "March 16, 2025",
+      time: "9:00 AM - 10:00 AM",
+      location: "Downtown Area",
+      price: 25,
+      status: "pendiente",
     },
   ]
 
-const myPets = [
-    {
-      name: "Max",
-      species: "perro",
-      breed: "Golden Retriever", // Los nombres de razas como esta suelen mantenerse
-      age: 3,
-      weight: 30,
-      specialNeeds: ["Alergias", "Medicación"],
-    },
-    {
-      name: "Luna",
-      species: "gato",
-      breed: "Persa",
-      age: 2,
-      weight: 4,
-    },
-  ]
+
+const recentReviews = [
+  {
+    id: 1,
+    client: "John Smith",
+    rating: 5,
+    comment: "Sarah was amazing with Max! Very professional and my dog loved the walk.",
+    date: "2 days ago",
+  },
+  {
+    id: 2,
+    client: "Emily Davis",
+    rating: 5,
+    comment: "Great service, very punctual and caring. Highly recommend!",
+    date: "5 days ago",
+  },
+  {
+    id: 3,
+    client: "Michael Brown",
+    rating: 4,
+    comment: "Good experience overall. Would book again.",
+    date: "1 week ago",
+  },
+];
 
   const handleViewDetails = (booking) => {
     const detailedBooking = {
@@ -108,10 +126,6 @@ const myPets = [
     setRescheduleModalOpen(true)
   }
 
-  const handlePetClick = (pet) => {
-    setSelectedPet(pet)
-    setPetDetailModalOpen(true)
-  }
 
 
   const handleMessageSent = () => {
@@ -132,14 +146,15 @@ const myPets = [
     setSnackbar((prev) => ({ ...prev, open: false }));
   };
 
+
+  
   return (
-    <>
         <main className='flex  py-6 px-10 md:px-5 lg:px-10 xl:px-25 bg-gray-100 min-h-screen flex-col gap-6'>
             <div className='w-full h-auto grid grid-cols-12 gap-6'>
-              <StatsCard title="Reservas totales" value={stats.totalBookings} icon={CalendarTodayIcon} />
-              <StatsCard title="Próximas" value={stats.upcomingBookings} icon={AccessTimeIcon} />
-              <StatsCard title="Mis mascotas" value={stats.activePets} icon={PetsIcon} />
-              <StatsCard title="Favoritos" value={stats.favoriteProviders} icon={FavoriteBorderIcon} />
+              <StatsCard title="Ganancias totales" value={`$ ${stats.totalEarnings}`} icon={AttachMoneyIcon} />
+              <StatsCard title="Reservas pendientes" value={stats.pendingBookings} icon={CalendarTodayIcon} />
+              <StatsCard title="Calificación" value={stats.rating} icon={StarBorderIcon} />
+              <StatsCard title="Completados" value={stats.completedServices} icon={MovingIcon} />
             </div>
 
 
@@ -150,7 +165,7 @@ const myPets = [
               <div className='flex flex-col h-full border-2 gap-6 border-gray-200 rounded-lg p-10 bg-white  justify-between col-span-12  xl:col-span-8'>
                 <div className='flex flex-row justify-between items-center w-full'>
                   <h1 className='text-2xl font-semibold'>PRÓXIMAS RESERVAS</h1>
-                  <NavLink to='/client/bookings' className='text-[#005c71] font-medium hover:underline text-mxs'>Ver todas</NavLink>
+                  <NavLink to='' className='text-[#005c71] font-medium hover:underline text-mxs'>Ver todas</NavLink>
                 </div>
                 {/* CARDS */}
                 {upcomingBookings.length > 0 ? (
@@ -177,29 +192,14 @@ const myPets = [
               <div className='flex flex-col h-full border-2 gap-6 border-gray-200 p-10 rounded-lg bg-white col-span-12  xl:col-span-4'>
 
                   <div className='flex flex-row justify-between items-center w-full'>
-                    <h1 className='text-2xl font-semibold'>MIS MASCOTAS</h1>
-                    <Link to='/client/pets' className='text-[#005c71] font-medium hover:underline text-mxs'>Ver todas</Link>
+                    <h1 className='text-2xl font-semibold'> RESEÑAS RECIENTES</h1>
                   </div>
                   <div className='space-y-4'>
-                    {myPets.map((pet) => (
-                      <div key={pet.name} onClick={() => handlePetClick(pet)} className='w-full bg-transparent hover:bg-accent/10'>
-                        <PetCard {...pet} />
+                    {recentReviews.map((review) => (
+                      <div key={review.id} className='border-1 border-gray-200 rounded-3xl shadow-sm'>
+                        <ReviewCard {...review} />
                       </div>
                     ))}
-                    <NavLink to={"/pets/new"}><Button
-                    sx={{
-                      textTransform: 'none' ,
-                      borderColor: '#ccc',
-                      fontWeight:500,
-                      color: '#000',
-                      borderRadius:3,fontFamily:'Poppins, sans-serif',
-                      '&:hover':{
-                        backgroundColor: '#eb9902ff',
-                        color: '#fff',
-                        borderColor: '#f7ae26ff',
-                      }
-                    }} variant='outlined' className='w-full bg-transparent'>
-                      Agregar nueva mascota</Button></NavLink>
                   </div>
               </div>
             </div>
@@ -219,9 +219,6 @@ const myPets = [
                 />
               </>
             )}
-            {selectedPet && (
-              <PetDetailModal open={petDetailModalOpen} onOpenChange={setPetDetailModalOpen} pet={selectedPet} />
-            )}
             <Snackbar
               open={snackbar.open}
               autoHideDuration={6000}
@@ -237,6 +234,5 @@ const myPets = [
               </Alert>
             </Snackbar>
         </main>
-    </>
   );
 }
