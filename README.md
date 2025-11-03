@@ -19,5 +19,5 @@ If you are developing a production application, we recommend using TypeScript wi
 # Instalación de dependencias
 Este proyecto usa **pnpm**. Para instalar dependencias, ejecuta:
 
-pnpm install
+npm install
 
