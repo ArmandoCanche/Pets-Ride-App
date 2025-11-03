@@ -6,6 +6,7 @@ import MovingIcon from '@mui/icons-material/Moving';
 import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined';
 import AttachMoneyOutlinedIcon from '@mui/icons-material/AttachMoneyOutlined';
 import AddIcon from '@mui/icons-material/Add';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 
 // Componentes
 import StatsCard from '../../Components/StatsCard';
@@ -121,6 +122,31 @@ export default function DashboardMyServices() {
               ))}
             </div>
           ) : (
+            <div className='flex flex-col gap-6 text-center py-18 rounded-2xl border-1 border-gray-300 shadow-sm '>
+              <div ><HelpOutlineIcon sx={{height:64, width:64, color:'#b6b6b6ff'}}/></div>
+              <p className='text-lg font-medium text-gray-400'>Aún no has agregado servicios</p>
+              <Link to={''}>
+                <Button
+                  sx={{
+                    textTransform: 'none' ,fontFamily:'Poppins, sans-serif',
+                    color: '#ffffffff',
+                    background:'#bebebeff',
+                    borderColor:'none',
+                    fontWeight:500,
+                    borderRadius:3,
+                    '&:hover':{
+                        backgroundColor: '#186c7e',
+                    },
+                    height:60,
+                    width:40
+                  }}
+                >
+                  <AddIcon />
+                </Button>
+              </Link>
+            </div>
+          )}
+          {selectedService && (
             <div></div>
           )}
         </main>
