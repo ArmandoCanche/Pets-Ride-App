@@ -1,11 +1,128 @@
-import React from 'react';
+import { desc } from 'framer-motion/client';
+import React, { useState } from 'react';
+
+// MUI Icons
+import MovingIcon from '@mui/icons-material/Moving';
+import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined';
+import AttachMoneyOutlinedIcon from '@mui/icons-material/AttachMoneyOutlined';
+import AddIcon from '@mui/icons-material/Add';
+
+// Componentes
+import StatsCard from '../../Components/StatsCard';
+import { Link } from 'react-router-dom';
+import { Button } from '@mui/material';
+import ServiceCard from '../../Components/serviceCard';
 
 export default function DashboardMyServices() {
+
+
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [selectedService, setSelectedService] = useState(null);
+
+  const [services, setServices] = useState([
+    {
+      id: "1",
+      name: "Dog Walking",
+      description: "Professional dog walking service in Central Park area. Experienced with all breeds and sizes.",
+      price: 25,
+      priceUnit: "hour",
+      duration: "30-60 minutes",
+      active: true,
+      bookings: 127,
+      revenue: 3175,
+      nextBooking: "Today at 10:00 AM",
+    },
+    {
+      id: "2",
+      name: "Extended Dog Walking",
+      description: "Longer walks for high-energy dogs. Includes playtime and training exercises.",
+      price: 40,
+      priceUnit: "session",
+      duration: "90 minutes",
+      active: true,
+      bookings: 45,
+      revenue: 1800,
+      nextBooking: "Tomorrow at 2:00 PM",
+    },
+    {
+      id: "3",
+      name: "Pet Sitting",
+      description: "In-home pet sitting service. Perfect for when you're away for the day.",
+      price: 50,
+      priceUnit: "day",
+      duration: "Full day",
+      active: false,
+      bookings: 23,
+      revenue: 1150,
+      nextBooking: "No upcoming bookings",
+    },
+  ])
+
+
+
+  const toggleServiceStatus = (id) => {
+    setServices(services.map((service) => (service.id === id ? { ...service, active: !service.active } : service)))
+  }
+
+  const handleEdit = (service) => {
+    setSelectedService(service)
+    setEditModalOpen(true)
+  }
+
+  const totalRevenue = services.reduce((sum, service) => sum + service.revenue, 0)
+  const totalBookings = services.reduce((sum, service) => sum + service.bookings, 0)
+  const activeServices = services.filter((s) => s.active).length
+
+
   return (
-    <div>
-        <main>
-            <h1>BUSCAR MIS SERVICIOS</h1>
+        <main className='flex  py-6 px-10 md:px-5 lg:px-10 xl:px-25 bg-gray-100 min-h-screen flex-col gap-6'>
+
+          {/* Sección de Estadísticas */}
+          <div className='w-full h-auto grid grid-cols-9 gap-6'>
+            <StatsCard title="Servicios activos" value={activeServices} icon={MovingIcon} />
+            <StatsCard title="Reservas totales" value={totalBookings} icon={CalendarTodayOutlinedIcon} />
+            <StatsCard title="Ingresos totales" value={`$ ${totalRevenue}`} icon={AttachMoneyOutlinedIcon} />
+          </div>
+          {/* Sección del botón para agregar un nuevo servicio */}
+          <div >
+            <Link to={''}>
+              <Button
+
+              startIcon={<AddIcon />}
+              sx={{
+                textTransform: 'none' ,fontFamily:'Poppins, sans-serif',
+                color: '#ffffffff',
+                background:'#175a69ff',
+                borderColor:'none',
+                fontWeight:500,
+                borderRadius:3,
+                '&:hover':{
+                    backgroundColor: '#186c7e',
+                },
+                paddingX:3,
+                paddingY:1.5
+              }}
+              >
+                Agregar nuevo servicio
+              </Button>
+            </Link>
+          </div>
+
+          {/* Sección de las cartas */}
+          {services.length > 0 ? (
+            <div className='grid md:grid-cols-2 lg:grid-cols-3 gap-6'>
+              {services.map((service) => (
+                <ServiceCard 
+                  key={service.id}
+                  {...service}
+                  handleEdit={() => handleEdit(service)}
+                  toggleServiceStatus={() => toggleServiceStatus(service.id)}
+                />
+              ))}
+            </div>
+          ) : (
+            <div></div>
+          )}
         </main>
-    </div>
   );
 }
