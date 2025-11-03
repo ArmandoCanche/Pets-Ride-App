@@ -190,8 +190,7 @@ const myPets = [
               <div className='flex flex-col h-full border-2 gap-6 border-gray-200 p-10 rounded-lg bg-white col-span-12  xl:col-span-4'>
 
                   <div className='flex flex-row justify-between items-center w-full'>
-                    <h1 className='text-2xl font-semibold'>MIS MASCOTAS</h1>
-                    <Link to='/client/pets' className='text-[#005c71] font-medium hover:underline text-mxs'>Ver todas</Link>
+                    <h1 className='text-2xl font-semibold'> RESEÑAS RECIENTES</h1>
                   </div>
                   <div className='space-y-4'>
                     {myPets.map((pet) => (
