@@ -23,14 +23,13 @@ import ClientRescheduleModal from '../../Components/ClientRescheduleModal.jsx';
 import PetDetailModal from '../../Components/PetDetailModal.jsx';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import MovingIcon from '@mui/icons-material/Moving';
+import ReviewCard from '../../Components/ReviewCard.jsx';
 
 
 export default function DashboardHomeProvider() {
 const [detailModalOpen, setDetailModalOpen] = useState(false)
 const [rescheduleModalOpen, setRescheduleModalOpen] = useState(false)
-const [petDetailModalOpen, setPetDetailModalOpen] = useState(false)
 const [selectedBooking, setSelectedBooking] = useState(null)
-const [selectedPet, setSelectedPet] = useState(null)
 
 
   const [snackbar, setSnackbar] = useState({
@@ -83,23 +82,30 @@ const [selectedPet, setSelectedPet] = useState(null)
     },
   ]
 
-const myPets = [
-    {
-      name: "Max",
-      species: "perro",
-      breed: "Golden Retriever", // Los nombres de razas como esta suelen mantenerse
-      age: 3,
-      weight: 30,
-      specialNeeds: ["Alergias", "Medicación"],
-    },
-    {
-      name: "Luna",
-      species: "gato",
-      breed: "Persa",
-      age: 2,
-      weight: 4,
-    },
-  ]
+
+const recentReviews = [
+  {
+    id: 1,
+    client: "John Smith",
+    rating: 5,
+    comment: "Sarah was amazing with Max! Very professional and my dog loved the walk.",
+    date: "2 days ago",
+  },
+  {
+    id: 2,
+    client: "Emily Davis",
+    rating: 5,
+    comment: "Great service, very punctual and caring. Highly recommend!",
+    date: "5 days ago",
+  },
+  {
+    id: 3,
+    client: "Michael Brown",
+    rating: 4,
+    comment: "Good experience overall. Would book again.",
+    date: "1 week ago",
+  },
+];
 
   const handleViewDetails = (booking) => {
     const detailedBooking = {
@@ -120,10 +126,6 @@ const myPets = [
     setRescheduleModalOpen(true)
   }
 
-  const handlePetClick = (pet) => {
-    setSelectedPet(pet)
-    setPetDetailModalOpen(true)
-  }
 
 
   const handleMessageSent = () => {
@@ -193,25 +195,11 @@ const myPets = [
                     <h1 className='text-2xl font-semibold'> RESEÑAS RECIENTES</h1>
                   </div>
                   <div className='space-y-4'>
-                    {myPets.map((pet) => (
-                      <div key={pet.name} onClick={() => handlePetClick(pet)} className='w-full bg-transparent hover:bg-accent/10'>
-                        <PetCard {...pet} />
+                    {recentReviews.map((review) => (
+                      <div key={review.id} className='border-1 border-gray-200 rounded-3xl shadow-sm'>
+                        <ReviewCard {...review} />
                       </div>
                     ))}
-                    <NavLink to={"/pets/new"}><Button
-                    sx={{
-                      textTransform: 'none' ,
-                      borderColor: '#ccc',
-                      fontWeight:500,
-                      color: '#000',
-                      borderRadius:3,fontFamily:'Poppins, sans-serif',
-                      '&:hover':{
-                        backgroundColor: '#eb9902ff',
-                        color: '#fff',
-                        borderColor: '#f7ae26ff',
-                      }
-                    }} variant='outlined' className='w-full bg-transparent'>
-                      Agregar nueva mascota</Button></NavLink>
                   </div>
               </div>
             </div>
@@ -230,9 +218,6 @@ const myPets = [
                 booking={selectedBooking}
                 />
               </>
-            )}
-            {selectedPet && (
-              <PetDetailModal open={petDetailModalOpen} onOpenChange={setPetDetailModalOpen} pet={selectedPet} />
             )}
             <Snackbar
               open={snackbar.open}
