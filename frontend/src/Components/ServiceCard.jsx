@@ -46,31 +46,65 @@ export default function ServiceCard({ active, name, description, price, priceUni
             </div>
                             <div className="flex gap-2">
                     <Button 
-                    variant="outline"
+                    variant="outlined"
                     size="sm"
                     onClick={handleEdit}
                     startIcon={<EditIcon />}
-                    sx={{textTransform: 'none' , height: 35, borderRadius: 3,  border:1,bgcolor:'#fff',color: '#000000ff', fontFamily:'Poppins, sans-serif', borderColor:'#ccc','&:hover': { bgcolor: '#f26644',
-                    color: '#fff', 
-                    borderColor: '#f26644', textTransform: 'none' } }}
+                    sx={{
+                    textTransform: 'none' ,fontFamily:'Poppins, sans-serif',
+                    color: '#000', 
+                    background:'#fff', 
+                    borderColor:'#ccc', 
+                    fontWeight:500, 
+                    borderRadius:3,
+                    '&:hover':{
+                        backgroundColor: '#eb9902ff',
+                        color: '#fff',
+                        borderColor: '#f7ae26ff',
+                    },
+                    gridColumn: { xs: 'span 12', lg: 'span 4' }
+                }} 
                     >
                         Editar
                     </Button>
                     <Button 
-                    variant="outline"
+                    variant="outlined"
                     size="sm"
                     onClick={toggleServiceStatus}
                     startIcon={active ? <ToggleOnIcon /> : <ToggleOffIcon />}
-                    sx={{textTransform: 'none' , height: 35, borderRadius: 3,  border:1,bgcolor:'#fff',color: '#000000ff', fontFamily:'Poppins, sans-serif', borderColor:'#ccc','&:hover': { bgcolor: '#f26644',
-                    color: '#fff', 
-                    borderColor: '#f26644', textTransform: 'none' } }}
+                    sx={{
+                    textTransform: 'none' ,fontFamily:'Poppins, sans-serif',
+                    color: '#000', 
+                    background:'#fff', 
+                    borderColor:'#ccc', 
+                    fontWeight:500, 
+                    borderRadius:3,
+                    '&:hover':{
+                        backgroundColor: '#eb9902ff',
+                        color: '#fff',
+                        borderColor: '#f7ae26ff',
+                    },
+                    gridColumn: { xs: 'span 12', lg: 'span 4' }
+                }} 
                     >
                          {active ? "Desactivar" : "Activar"}
                     </Button>
                     <Button
                     variant="destructive"
                     size="sm"
-                    sx={{ height: 35, borderRadius: 3, bgcolor:'#ff0000ff',color: '#ffffffff', fontFamily:'Poppins, sans-serif' }}
+                    sx={{
+                    textTransform: 'none' ,fontFamily:'Poppins, sans-serif',
+                    color: '#ffffffff',
+                    background:'#f50000ff',
+                    borderColor:'#ccc',
+                    fontWeight:500,
+                    borderRadius:3,
+                    '&:hover':{
+                        backgroundColor: 'rgba(248, 115, 53, 1)',
+                        color: '#fff'
+                    },
+                    gridColumn: { xs: 'span 12', lg: 'span 4' }
+                }} 
                     >
                         <DeleteOutlineIcon />
                     </Button>
