@@ -88,7 +88,7 @@ export default function DashboardPets(){
                 ))}
               </div>
             ):(
-              <div className="text-center rounded-2xl border-2 border-gray-300 bg-white p-10 flex flex-col items-center gap-12">
+              <div className="flex flex-col items-center py-12 bg-white rounded-lg border-2 border-dashed border-gray-300 gap-10">
                 <Pets sx={{height:64, width:64, color:'#888888ff'}}/>
                 <p className="text-2xl font-medium text-gray-400">
                   {searchQuery ? "No se encontraron mascotas que coincidan con tu búsqueda."

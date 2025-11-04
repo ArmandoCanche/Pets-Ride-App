@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 
 import { Box, Tabs, Tab } from '@mui/material';
+import BookingCardProvider from '../../Components/BookingCardProvider';
 
 export default function DashboardBookingsProvider() {
 
   const [detailModalOpen, setDetailModalOpen] = useState(false)
   const [messageModalOpen, setMessageModalOpen] = useState(false)
   const [selectedBooking, setSelectedBooking] = useState(null)
-  const [currentTab, setCurrentTab] = useState('upcoming');
+  const [currentTab, setCurrentTab] = useState('proximas');
 
   const upcomingBookings = [
     {
@@ -26,7 +27,7 @@ export default function DashboardBookingsProvider() {
       phone: "+1 (555) 123-4567",
       email: "sarah.j@example.com",
       price: "$25",
-      status: "confirmed",
+      status: "confirmado",
       notes: "Max loves to play fetch and is very friendly with other dogs.",
       specialRequirements: "Please avoid the north entrance, construction in progress.",
     },
@@ -46,7 +47,7 @@ export default function DashboardBookingsProvider() {
       phone: "+1 (555) 987-6543",
       email: "m.chen@example.com",
       price: "$60",
-      status: "confirmed",
+      status: "confirmado",
       notes: "Luna is a bit shy, please be gentle during grooming.",
     },
   ]
@@ -68,7 +69,7 @@ export default function DashboardBookingsProvider() {
       phone: "+1 (555) 456-7890",
       email: "emma.w@example.com",
       price: "$80",
-      status: "pending",
+      status: "pendiente",
       specialRequirements: "Charlie needs his medication at 11 AM.",
     },
   ]
@@ -88,7 +89,7 @@ export default function DashboardBookingsProvider() {
       duration: "1 hour",
       location: "Riverside Park, NY",
       price: "$25",
-      status: "completed",
+      status: "completado",
       rating: 5,
     },
     {
@@ -105,7 +106,7 @@ export default function DashboardBookingsProvider() {
       duration: "30 minutes",
       location: "Pet Clinic, NY",
       price: "$50",
-      status: "completed",
+      status: "completado",
       rating: 5,
     },
   ]
@@ -152,7 +153,7 @@ export default function DashboardBookingsProvider() {
                             >
                                 <Tab 
                                     label={`Próximas (${upcomingBookings.length})`}
-                                    value={"upcoming"}
+                                    value={"proximas"}
                                     sx={{ 
                                         fontFamily: 'Poppins, sans-serif',
                                         fontWeight: 500,
@@ -172,7 +173,7 @@ export default function DashboardBookingsProvider() {
                                 />
                                 <Tab 
                                     label={`Pendientes (${pendingBookings.length})`} 
-                                    value={"pending"} 
+                                    value={"pendiente"} 
                                     sx={{ 
                                         fontFamily: 'Poppins, sans-serif',
                                         fontWeight: 500,
@@ -193,7 +194,7 @@ export default function DashboardBookingsProvider() {
                                 />
                                 <Tab 
                                     label={`Completadas (${completedBookings.length})`} 
-                                    value={"completed"} 
+                                    value={"completado"} 
                                     sx={{ 
                                         fontFamily: 'Poppins, sans-serif',
                                         fontWeight: 500,
@@ -215,12 +216,17 @@ export default function DashboardBookingsProvider() {
                             </Tabs>
                         </Box>
 
-                        {currentTab === 'upcoming' && (
+                        {currentTab === 'proximas' && (
                           <Box sx={{width:'100%', pt:0}}>
                             {upcomingBookings.length > 0 ? (
-                              <div className='grid lg:grid-cols-2 gap-6'>
+                              <div className='grid lg:grid-cols-1 gap-6'>
                                 {upcomingBookings.map((booking) => (
-                                  <div></div>
+                                  <BookingCardProvider
+                                  key={booking.id}
+                                  {...booking}
+                                  onViewDetails={() => handleViewDetails(booking)}
+                                  onMessageClient={() => handleMessageClient(booking)}
+                                  />
                                 ))}
                               </div>
                             ) : (
@@ -234,15 +240,17 @@ export default function DashboardBookingsProvider() {
                           </Box>
                         )}
 
-                        {currentTab === 'pending' && (
+                        {currentTab === 'pendiente' && (
                           <Box sx={{width:'100%', pt:0}}>
                             {pendingBookings.length > 0 ? (
-                              <div className='grid lg:grid-cols-2 gap-6'>
+                              <div className='grid lg:grid-cols-1 gap-6'>
                                 {pendingBookings.map((booking) => (
-                                  <div key={booking.id} className="border p-4 rounded-lg shadow-sm">
-                                    <h3 className="font-semibold">{booking.title}</h3>
-                                    <p className="text-gray-500">{booking.date}</p>
-                                  </div>
+                                    <BookingCardProvider
+                                  key={booking.id}
+                                  {...booking}
+                                  onViewDetails={() => handleViewDetails(booking)}
+                                  onMessageClient={() => handleMessageClient(booking)}
+                                  />
                                 ))}
                               </div>
                             ) : (
@@ -255,15 +263,17 @@ export default function DashboardBookingsProvider() {
                             )}
                           </Box>
                         )}
-                        {currentTab === 'completed' && (
+                        {currentTab === 'completado' && (
                           <Box sx={{width:'100%', pt:0}}>
                             {completedBookings.length > 0 ? (
-                              <div className='grid lg:grid-cols-2 gap-6'>
+                              <div className='grid lg:grid-cols-1 gap-6'>
                                 {completedBookings.map((booking) => (
-                                  <div key={booking.id} className="border p-4 rounded-lg shadow-sm">
-                                    <h3 className="font-semibold">{booking.title}</h3>
-                                    <p className="text-gray-500">{booking.date}</p>
-                                  </div>
+                                  <BookingCardProvider
+                                  key={booking.id}
+                                  {...booking}
+                                  onViewDetails={() => handleViewDetails(booking)}
+                                  onMessageClient={() => handleMessageClient(booking)}
+                                  />
                                 ))}
                               </div>
                             ) : (
