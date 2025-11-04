@@ -47,8 +47,8 @@ export default function BookingCardProvider({
                         <div className="flex items-center gap-4">
                             <Avatar src={clientImagen || "/placeholder.svg"} alt={`${client}`} >U</Avatar>
                             <div className="">
-                                <h2 className="text-lg">{service}</h2>
-                                <p>{client} • {pet} ({petType})</p>
+                                <h2 className="text-lg font-semibold">{service}</h2>
+                                <p className="text-sm text-gray-500">{client} • {pet} ({petType})</p>
                             </div>
                         </div>
                         <div className={`flex px-2 py-1 rounded-2xl ${statusColors[status]}`}>

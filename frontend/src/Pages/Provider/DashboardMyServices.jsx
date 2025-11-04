@@ -1,4 +1,4 @@
-import { desc } from 'framer-motion/client';
+
 import React, { useState } from 'react';
 
 // MUI Icons
@@ -21,43 +21,43 @@ export default function DashboardMyServices() {
   const [selectedService, setSelectedService] = useState(null);
 
   const [services, setServices] = useState([
-    {
-      id: "1",
-      name: "Dog Walking",
-      description: "Professional dog walking service in Central Park area. Experienced with all breeds and sizes.",
-      price: 25,
-      priceUnit: "hora",
-      duration: "30-60 minutos",
-      active: true,
-      bookings: 127,
-      revenue: 3175,
-      nextBooking: "Hoy a las 10:00 AM",
-    },
-    {
-      id: "2",
-      name: "Extended Dog Walking",
-      description: "Longer walks for high-energy dogs. Includes playtime and training exercises.",
-      price: 40,
-      priceUnit: "sesión",
-      duration: "90 minutos",
-      active: true,
-      bookings: 45,
-      revenue: 1800,
-      nextBooking: "Mañana a las 2:00 PM",
-    },
-    {
-      id: "3",
-      name: "Pet Sitting",
-      description: "In-home pet sitting service. Perfect for when you're away for the day.",
-      price: 50,
-      priceUnit: "día",
-      duration: "Día completo",
-      active: false,
-      bookings: 23,
-      revenue: 1150,
-      nextBooking: "Ninguna reserva próxima",
-    },
-  ])
+  {
+    id: "1",
+    name: "Paseo de Perros",
+    description: "Servicio profesional de paseo de perros en el área de Central Park. Con experiencia en todas las razas y tamaños.",
+    price: 25,
+    priceUnit: "hora",
+    duration: "30-60 minutos",
+    active: true,
+    bookings: 127,
+    revenue: 3175,
+    nextBooking: "Hoy a las 10:00 AM",
+  },
+  {
+    id: "2",
+    name: "Paseo de Perros Extendido",
+    description: "Paseos más largos para perros con mucha energía. Incluye tiempo de juego y ejercicios de entrenamiento.",
+    price: 40,
+    priceUnit: "sesión",
+    duration: "90 minutos",
+    active: true,
+    bookings: 45,
+    revenue: 1800,
+    nextBooking: "Mañana a las 2:00 PM",
+  },
+  {
+    id: "3",
+    name: "Cuidado de Mascotas",
+    description: "Servicio de cuidado de mascotas a domicilio. Perfecto para cuando estás fuera todo el día.",
+    price: 50,
+    priceUnit: "día",
+    duration: "Día completo",
+    active: false,
+    bookings: 23,
+    revenue: 1150,
+    nextBooking: "Ninguna reserva próxima",
+  },
+])
 
 
 
@@ -79,7 +79,7 @@ export default function DashboardMyServices() {
         <main className='flex  py-6 px-10 md:px-5 lg:px-10 xl:px-25 bg-gray-100 min-h-screen flex-col gap-6'>
 
           {/* Sección de Estadísticas */}
-          <div className='w-full h-auto grid grid-cols-9 gap-6'>
+          <div className='w-full h-auto grid grid-cols-3 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-9 gap-6'>
             <StatsCard title="Servicios activos" value={activeServices} icon={MovingIcon} />
             <StatsCard title="Reservas totales" value={totalBookings} icon={CalendarTodayOutlinedIcon} />
             <StatsCard title="Ingresos totales" value={`$ ${totalRevenue}`} icon={AttachMoneyOutlinedIcon} />
@@ -111,7 +111,7 @@ export default function DashboardMyServices() {
 
           {/* Sección de las cartas */}
           {services.length > 0 ? (
-            <div className='grid md:grid-cols-2 lg:grid-cols-3 gap-6'>
+            <div className='grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-6'>
               {services.map((service) => (
                 <ServiceCard 
                   key={service.id}
