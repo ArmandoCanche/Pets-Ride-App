@@ -9,6 +9,52 @@ export default function LoginProvider() {
 
   const toggleShowPassword = () => setShowPassword(!showPassword);
 
+  // Lógica para el log-in de proveedor
+
+  const API = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+
+  async function handleLogin(e) {
+    e.preventDefault();
+
+    const email = document.getElementById('email')?.value?.trim();
+    if (!email || !password) {
+      alert('Completa correo y contraseña.');
+      return;
+    }
+
+    try {
+      const resp = await fetch(`${API}/api/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      });
+
+      if (resp.ok) {
+        const data = await resp.json();
+        localStorage.setItem('token', data.token);
+
+        // (Opcional) Verificar que el rol sea provider antes de entrar
+        try {
+          const payload = JSON.parse(atob(data.token.split('.')[1] || ''));
+          if (payload?.user?.role !== 'provider') {
+            alert('Esta cuenta no es de proveedor. Usa el login de cliente.');
+            return;
+          }
+        } catch { /* si falla el parse, continuamos */ }
+
+        alert('✅ Sesión iniciada');
+        navigate('/provider');
+      } else {
+        const err = await resp.json().catch(() => ({}));
+        alert(`❌ ${err.message || 'Credenciales inválidas'}`);
+      }
+    } catch {
+      alert('⚠️ No se pudo conectar con el servidor (¿backend en :3001?).');
+    }
+  }
+
+  // Fin de lógica para el log-in de proveedor
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#f4fbfb] to-[#f9fcfc] flex items-center justify-center px-4 relative">
       {/* Fondo con huellitas */}
@@ -86,7 +132,7 @@ export default function LoginProvider() {
               <label className="text-sm font-medium text-gray-600">Correo Electrónico</label>
               <div className="relative">
                 <Mail className="absolute left-3 top-3 text-gray-400 w-5 h-5" />
-                <input
+                <input id="email"
                   type="email"
                   placeholder="tu@ejemplo.com"
                   className="w-full border border-gray-200 rounded-xl pl-10 pr-4 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-[#005c71]/60 text-gray-500 placeholder-gray-400"
@@ -107,7 +153,7 @@ export default function LoginProvider() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 11c0-1.105.895-2 2-2s2 .895 2 2v2h-4v-2zM5 11h14v10H5V11z" />
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 11V7a4 4 0 118 0v4" />
                 </svg>
-                <input
+                <input id="password"
                   type={showPassword ? "text" : "password"}
                   placeholder="********"
                   value={password}
@@ -139,7 +185,7 @@ export default function LoginProvider() {
           {/* Botón */}
           <div className="mt-6 text-center">
             <button
-              onClick={() => navigate("/prestador")}
+              onClick={handleLogin}
               className="w-full bg-[#005c71] hover:bg-[#279ab2] text-white px-10 py-3 rounded-xl font-semibold transition"
             >
               Iniciar sesión
