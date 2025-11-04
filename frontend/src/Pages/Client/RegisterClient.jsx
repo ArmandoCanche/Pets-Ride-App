@@ -10,6 +10,61 @@ export default function RegisterClient (){
   
   const toggleShowPassword = () => setShowPassword(!showPassword);
 
+  // Lógica para el registro de cliente
+
+  const API = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+
+async function handleSubmit(e) {
+  e.preventDefault();
+
+  const firstName = document.getElementById('firstName')?.value?.trim();
+  const lastName  = document.getElementById('lastName')?.value?.trim();
+  const email     = document.getElementById('email')?.value?.trim();
+  const phone = document.getElementById('phone')?.value?.trim();
+  const addr  = document.getElementById('addr')?.value?.trim();
+  const city  = document.getElementById('city')?.value?.trim();
+  const zip   = document.getElementById('zip')?.value?.trim();
+
+  const address = [addr, city, zip ? `CP ${zip}` : ''].filter(Boolean).join(', ');
+
+  if (!firstName || !lastName || !email || !password) {
+    alert("Completa nombre, apellido, correo y contraseña.");
+    return;
+  }
+  if (password.length < 8) {
+    alert("La contraseña debe tener al menos 8 caracteres.");
+    return;
+  }
+
+  try {
+    const resp = await fetch(`${API}/api/register`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email,
+        password,
+        firstName,
+        lastName,
+        role: 'client',
+        phone,
+        address
+      })
+    });
+
+    if (resp.status === 201) {
+      alert("✅ Cuenta creada. Te llevamos al login…");
+      return navigate('/login/cliente');
+    } else {
+      const err = await resp.json().catch(() => ({}));
+      alert(`❌ ${err.message || 'No se pudo registrar'}`);
+    }
+  } catch {
+    alert("⚠️ No se pudo conectar con el servidor (¿backend en :3001?).");
+  }
+}
+
+// Fin de la lógica para el registro de cliente
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#f4fbfb] to-[#f9fcfc] flex flex-col items-center justify-center px-4 relative">
       {/* Fondo con huellitas */}
@@ -52,7 +107,7 @@ export default function RegisterClient (){
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="text-sm font-medium text-gray-600">Nombre *</label>
-              <input
+              <input id="firstName"
                 type="text"
                 placeholder="Anna"
                 className="w-full border border-gray-200 rounded-xl px-4 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-[#f26644]/60 text-gray-500 placeholder-gray-400"
@@ -60,7 +115,7 @@ export default function RegisterClient (){
             </div>
             <div>
               <label className="text-sm font-medium text-gray-600">Apellido *</label>
-              <input
+              <input id="lastName"
                 type="text"
                 placeholder="Pérez"
                 className="w-full border border-gray-200 rounded-xl px-4 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-[#f26644]/60 text-gray-500 placeholder-gray-400"
@@ -72,7 +127,7 @@ export default function RegisterClient (){
             <label className="text-sm font-medium text-gray-600">Correo Electrónico *</label>
             <div className="relative">
               <Mail className="absolute left-3 top-3 text-gray-400 w-5 h-5" />
-              <input
+              <input id="email"
                 type="email"
                 placeholder="tu@ejemplo.com"
                 className="w-full border border-gray-200 rounded-xl pl-10 pr-4 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-[#f26644]/60 text-gray-500 placeholder-gray-400"
@@ -84,7 +139,7 @@ export default function RegisterClient (){
             <label className="text-sm font-medium text-gray-600">Número de Teléfono *</label>
             <div className="relative">
               <Phone className="absolute left-3 top-3 text-gray-400 w-5 h-5" />
-              <input
+              <input id="phone"
                 type="tel"
                 placeholder="+52 (555) 123-4567"
                 className="w-full border border-gray-200 rounded-xl pl-10 pr-4 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-[#f26644]/60 text-gray-500 placeholder-gray-400"
@@ -101,7 +156,7 @@ export default function RegisterClient (){
           </h2>
           <div>
             <label className="text-sm font-medium text-gray-600">Dirección *</label>
-            <input
+            <input id="addr"
               type="text"
               placeholder="Calle Principal 123"
               className="w-full border border-gray-200 rounded-xl px-4 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-[#f26644]/60 text-gray-500 placeholder-gray-400"
@@ -111,7 +166,7 @@ export default function RegisterClient (){
           <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="text-sm font-medium text-gray-600">Ciudad *</label>
-              <input
+              <input id="city"
                 type="text"
                 placeholder="Cozumel de San Miguel"
                 className="w-full border border-gray-200 rounded-xl px-4 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-[#f26644]/60 text-gray-500 placeholder-gray-400"
@@ -119,7 +174,7 @@ export default function RegisterClient (){
             </div>
             <div>
               <label className="text-sm font-medium text-gray-600">Código Postal *</label>
-              <input
+              <input id="zip"
                 type="text"
                 placeholder="77602"
                 className="w-full border border-gray-200 rounded-xl px-4 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-[#f26644]/60 text-gray-500 placeholder-gray-400"
@@ -197,7 +252,7 @@ export default function RegisterClient (){
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 11c0-1.105.895-2 2-2s2 .895 2 2v2h-4v-2zM5 11h14v10H5V11z" />
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 11V7a4 4 0 118 0v4" />
                 </svg>
-                <input
+                <input id="password"
                   type={showPassword ? "text" : "password"}
                   placeholder="********"
                   value={password}
@@ -249,7 +304,7 @@ export default function RegisterClient (){
         
         {/* Botón final */}
         <div className="mt-8 text-center">
-          <button className="w-full border bg-[#f26644] hover:bg-[#ff8c6d] text-white px-10 py-3 rounded-xl font-semibold transition">
+          <button onClick={handleSubmit} className="w-full border bg-[#f26644] hover:bg-[#ff8c6d] text-white px-10 py-3 rounded-xl font-semibold transition">
             Crear Cuenta
           </button>
           <p className="text-xs text-gray-400 mt-3">
