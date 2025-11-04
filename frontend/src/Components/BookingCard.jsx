@@ -45,7 +45,7 @@ export default function BookingCard({
         <div className='flex flex-col gap-3'>
         <div className='flex items-center'>
             <PetsIcon sx={{color:'#000000ff', fontSize:'1.5rem', marginRight:'0.5rem'}} />
-            <span className='text-md font-medium text-gray-400'>Pet: <span className='text-black'>{petName}</span></span>
+            <span className='text-md font-medium text-gray-400'>Mascota: <span className='text-black'>{petName}</span></span>
         </div>
         <div className='flex items-center'>
             <CalendarTodayIcon sx={{color:'#000000ff', fontSize:'1.5rem', marginRight:'0.5rem'}} />

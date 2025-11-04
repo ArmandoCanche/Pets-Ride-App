@@ -36,7 +36,7 @@ const upcomingBookings = [
       petName: "Luna",
       date: "Marzo 18, 2025",
       time: "2:00 PM - 3:00 PM",
-      location: "Pet Care Clinic", // Se mantiene como nombre propio
+      location: "Pet Care Clinic",
       price: 75,
       status: "confirmado",
       bookingId: "BK-2025-002",

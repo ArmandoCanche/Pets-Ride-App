@@ -19,7 +19,7 @@ export default function DashboardPets(){
         breed: "Golden Retriever",
         age: 3,
         weight: 30,
-        specialNeeds: ["Allergies", "Medication"],
+        specialNeeds: ["Alergias", "Medicación"],
         },
         {
         name: "Luna",
@@ -34,7 +34,7 @@ export default function DashboardPets(){
         breed: "Labrador",
         age: 5,
         weight: 35,
-        specialNeeds: ["Hip dysplasia"],
+        specialNeeds: ["Displasia de cadera"],
         },
         {
         name: "Bella",
