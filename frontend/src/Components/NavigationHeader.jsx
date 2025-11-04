@@ -1,5 +1,4 @@
-
-import { Link , NavLink} from 'react-router-dom'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
 import Button from '@mui/material/Button'
 import Avatar from '@mui/material/Avatar'
 import Menu from '@mui/material/Menu'
@@ -15,6 +14,7 @@ import {
 import { useState } from 'react'
 
 export default function NavigationHeader({ userType }) {
+  const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [anchorEl, setAnchorEl] = useState(null)
   const menuOpen = Boolean(anchorEl)
@@ -104,10 +104,20 @@ export default function NavigationHeader({ userType }) {
                     <SettingsIcon fontSize="small" className="mr-2" />
                     <Link to={`/${userType}/settings`}>Configuración</Link>
                   </MenuItem>
-                  <MenuItem onClick={handleMenuClose}>
-                    <LogOutIcon fontSize="small" className="mr-2" />
-                    Cerrar sesión
-                  </MenuItem>
+                  <MenuItem
+                  onClick={() => {
+                    localStorage.removeItem("token");
+                    handleMenuClose();
+                    if (userType === "provider") {
+                      navigate("/login/prestador");
+                    } else {
+                      navigate("/login/cliente");
+                    }
+                  }}
+                >
+                  <LogOutIcon fontSize="small" className="mr-2" />
+                  Cerrar sesión
+                </MenuItem>
                 </Menu>
               </>
             )}
