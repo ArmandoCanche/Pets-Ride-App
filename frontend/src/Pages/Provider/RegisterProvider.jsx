@@ -140,6 +140,9 @@ export default function RegisterClient (){
               <option value="Entrenamiento">Entrenamiento</option>
               <option value="Cuidado en casa">Cuidado en casa</option>
             </select>
+            <p className="text-xs text-gray-400 mt-0">
+              Se puede seleccionar más de un servicio
+            </p>
 
             {selectedServices.length > 0 && (
               <div className="flex flex-wrap gap-2 mt-3">
