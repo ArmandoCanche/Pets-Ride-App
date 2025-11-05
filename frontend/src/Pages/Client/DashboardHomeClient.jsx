@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Transition } from '@headlessui/react';
 
-
 // MUI Components
 import { Button, Snackbar, Alert } from '@mui/material';
 
@@ -100,6 +99,16 @@ const myPets = [
     },
   ]
 
+const categoryToQueryParam = {
+  "Paseo de perro": "paseo",
+  "Veterinaria": "veterinaria",
+  "Transporte": "transporte",
+  "Hoteles": "hoteles",
+  "Peluquería": "peluqueria",
+  "Entrenamiento": "entrenamiento",
+  "Cuidado en casa": "cuidado en casa",
+  "Emergencias": "emergencias",
+};
   const handleViewDetails = (booking) => {
     const detailedBooking = {
       ...booking,
@@ -161,10 +170,18 @@ const myPets = [
             </div>
 
             <div className='w-full h-auto grid grid-cols-12 gap-6'>
-              <CategoryCard category="Paseo" icon={PetsIcon} colorText="#005c71" colorBg="#e3f6f8" />
-              <CategoryCard category="Veterinaria" icon={VaccinesIcon} colorText="#f97316" colorBg="#ffedd5" />
-              <CategoryCard category="Transporte" icon={ElectricMopedIcon} colorText="#005c71" colorBg="#e3f6f8" />
-              <CategoryCard category="Hoteles" icon={ApartmentIcon} colorText="#f97316" colorBg="#ffedd5" />
+              <Link to={`/client/search?type=${categoryToQueryParam["Paseo de perro"]}`} className="col-span-3 lg:col-span-3 xl:col-span-3">
+              <CategoryCard category="Paseo de perro" icon={PetsIcon} colorText="#005c71" colorBg="#e3f6f8" />
+              </Link>
+              <Link to={`/client/search?type=${categoryToQueryParam["Veterinaria"]}`} className="col-span-3 lg:col-span-3 xl:col-span-3">
+                <CategoryCard category="Veterinaria" icon={VaccinesIcon} colorText="#f97316" colorBg="#ffedd5" />
+              </Link>
+              <Link to={`/client/search?type=${categoryToQueryParam["Transporte"]}`} className="col-span-3 lg:col-span-3 xl:col-span-3">
+                <CategoryCard category="Transporte" icon={ElectricMopedIcon} colorText="#005c71" colorBg="#e3f6f8" />
+              </Link>
+              <Link to={`/client/search?type=${categoryToQueryParam["Hoteles"]}`} className="col-span-3 lg:col-span-3 xl:col-span-3">
+                <CategoryCard category="Hoteles" icon={ApartmentIcon} colorText="#f97316" colorBg="#ffedd5" />
+              </Link>
               <Transition
                 show={showServices}
                 as="div"
@@ -177,12 +194,13 @@ const myPets = [
                 leaveFrom="opacity-100 translate-y-0"
                 leaveTo="opacity-0 translate-y-1"
               >
-                <CategoryCard category="Peluquería" icon={ContentCutIcon} colorText="#005c71" colorBg="#e3f6f8" />
+                <CategoryCard category="Peluqueria" icon={ContentCutIcon} colorText="#005c71" colorBg="#e3f6f8" />
               </Transition>
 
               <Transition
                 show={showServices}
-                as="div"
+                as={Link}
+                to={`/client/search?type=${categoryToQueryParam["Entrenamiento"]}`}
                 className="col-span-3 lg:col-span-3 xl:col-span-3"
 
                 enter="transition ease-out duration-300"
@@ -197,7 +215,8 @@ const myPets = [
 
               <Transition
                 show={showServices}
-                as="div"
+                as={Link}
+                to={`/client/search?type=${categoryToQueryParam["Cuidado en casa"]}`}
                 className="col-span-3 lg:col-span-3 xl:col-span-3"
 
                 enter="transition ease-out duration-300"
@@ -212,7 +231,8 @@ const myPets = [
 
               <Transition
                 show={showServices}
-                as="div"
+                as={Link}
+                to={`/client/search?type=${categoryToQueryParam["Emergencias"]}`}
                 className="col-span-3 lg:col-span-3 xl:col-span-3"
 
                 enter="transition ease-out duration-300"
