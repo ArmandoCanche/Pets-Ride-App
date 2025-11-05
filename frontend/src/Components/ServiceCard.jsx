@@ -44,7 +44,7 @@ export default function ServiceCard({ active, name, description, price, priceUni
                     </div>
                 </div>
             </div>
-                            <div className="flex gap-2">
+                    <div className="flex gap-2">
                     <Button 
                     variant="outlined"
                     size="sm"
