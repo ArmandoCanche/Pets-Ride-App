@@ -3,6 +3,7 @@ import React, { useState } from 'react'; // Added React import
 // import { ServiceCard } from "@/components/service-card"; // Keep custom component
 // import { ServiceDetailModal } from "@/components/service-detail-modal"; // Keep custom componentç
 import { Transition } from '@headlessui/react';
+import { useSearchParams } from 'react-router-dom';
 
 // MUI Imports
 import {
@@ -29,83 +30,197 @@ import SearchCard from '../../Components/SearchCard';
 // import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 
 export default function SearchServicesPage() {
+
+  const [searchParams] = useSearchParams();
+  const initialServiceType = searchParams.get('type') || 'all';
+  const hasInitialFilter = initialServiceType !== 'all';
+
   const [searchQuery, setSearchQuery] = useState("");
-  const [serviceType, setServiceType] = useState("all");
+  const [serviceType, setServiceType] = useState(initialServiceType);
   const [location, setLocation] = useState("");
   const [sortBy, setSortBy] = useState("rating");
-  const [showFilters, setShowFilters] = useState(false);
+  const [showFilters, setShowFilters] = useState(hasInitialFilter);
   const [selectedService, setSelectedService] = useState(null); // Removed <any>
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Mock data - in real app, this would come from API/database
 const services = [
-    {
-      providerName: "Sarah Johnson",
-      serviceType: "Paseo de perros",
-      rating: 4.9,
-      reviewCount: 127,
-      price: 25,
-      priceUnit: "hora",
-      location: "Área de Central Park",
-      availability: "Disponible hoy",
-      verified: true,
-    },
-    {
-      providerName: "Dr. Michael Chen",
-      serviceType: "Atención veterinaria",
-      rating: 4.8,
-      reviewCount: 89,
-      price: 75,
-      priceUnit: "visita",
-      location: "Centro",
-      availability: "Próxima disponibilidad: Mañana",
-      verified: true,
-    },
-    {
-      providerName: "Happy Paws Resort",
-      serviceType: "Hotel para mascotas",
-      rating: 4.7,
-      reviewCount: 156,
-      price: 50,
-      priceUnit: "noche",
-      location: "Área suburbana",
-      availability: "Disponible esta semana",
-      verified: true,
-    },
-    {
-      providerName: "Emma Wilson",
-      serviceType: "Peluquería de mascotas",
-      rating: 4.9,
-      reviewCount: 203,
-      price: 45,
-      priceUnit: "sesión",
-      location: "Lado oeste",
-      availability: "Disponible hoy",
-      verified: true,
-    },
-    {
-      providerName: "Quick Ride Pets",
-      serviceType: "Transporte de mascotas",
-      rating: 4.6,
-      reviewCount: 78,
-      price: 30,
-      priceUnit: "viaje",
-      location: "Toda la ciudad",
-      availability: "Disponible 24/7",
-      verified: false,
-    },
-    {
-      providerName: "Pawsitive Training",
-      serviceType: "Entrenamiento de mascotas",
-      rating: 4.8,
-      reviewCount: 92,
-      price: 60,
-      priceUnit: "sesión",
-      location: "Distrito norte",
-      availability: "Disponible los fines de semana",
-      verified: false,
-    },
-  ];
+  {
+    providerName: "Sarah Johnson",
+    serviceType: "Paseo de perros",
+    rating: 4.9,
+    reviewCount: 127,
+    price: 25,
+    priceUnit: "hora",
+    location: "Área de Central Park",
+    availability: "Disponible hoy",
+    verified: true,
+  },
+  {
+    providerName: "Walky Paws",
+    serviceType: "Paseo de perros",
+    rating: 4.7,
+    reviewCount: 98,
+    price: 22,
+    priceUnit: "hora",
+    location: "Centro",
+    availability: "Disponible mañana",
+    verified: false,
+  },
+  {
+    providerName: "Dr. Michael Chen",
+    serviceType: "Atención veterinaria",
+    rating: 4.8,
+    reviewCount: 89,
+    price: 75,
+    priceUnit: "visita",
+    location: "Centro",
+    availability: "Próxima disponibilidad: Mañana",
+    verified: true,
+  },
+  {
+    providerName: "Clínica PetCare",
+    serviceType: "Atención veterinaria",
+    rating: 4.9,
+    reviewCount: 150,
+    price: 80,
+    priceUnit: "visita",
+    location: "Distrito norte",
+    availability: "Disponible hoy",
+    verified: true,
+  },
+  {
+    providerName: "Happy Paws Resort",
+    serviceType: "Hotel para mascotas",
+    rating: 4.7,
+    reviewCount: 156,
+    price: 50,
+    priceUnit: "noche",
+    location: "Área suburbana",
+    availability: "Disponible esta semana",
+    verified: true,
+  },
+  {
+    providerName: "The Pet Palace",
+    serviceType: "Hotel para mascotas",
+    rating: 4.6,
+    reviewCount: 112,
+    price: 45,
+    priceUnit: "noche",
+    location: "Lado oeste",
+    availability: "Completo esta semana",
+    verified: true,
+  },
+  {
+    providerName: "Emma Wilson",
+    serviceType: "Peluquería de mascotas",
+    rating: 4.9,
+    reviewCount: 203,
+    price: 45,
+    priceUnit: "sesión",
+    location: "Lado oeste",
+    availability: "Disponible hoy",
+    verified: true,
+  },
+  {
+    providerName: "Grooming by Alice",
+    serviceType: "Peluquería de mascotas",
+    rating: 4.8,
+    reviewCount: 180,
+    price: 50,
+    priceUnit: "sesión",
+    location: "Centro",
+    availability: "Disponible la próxima semana",
+    verified: true,
+  },
+  {
+    providerName: "Quick Ride Pets",
+    serviceType: "Transporte de mascotas",
+    rating: 4.6,
+    reviewCount: 78,
+    price: 30,
+    priceUnit: "viaje",
+    location: "Toda la ciudad",
+    availability: "Disponible 24/7",
+    verified: false,
+  },
+  {
+    providerName: "Pet-Taxi Express",
+    serviceType: "Transporte de mascotas",
+    rating: 4.7,
+    reviewCount: 65,
+    price: 35,
+    priceUnit: "viaje",
+    location: "Toda la ciudad",
+    availability: "Bajo demanda",
+    verified: true,
+  },
+  {
+    providerName: "Pawsitive Training",
+    serviceType: "Entrenamiento de mascotas",
+    rating: 4.8,
+    reviewCount: 92,
+    price: 60,
+    priceUnit: "sesión",
+    location: "Distrito norte",
+    availability: "Disponible los fines de semana",
+    verified: false,
+  },
+  {
+    providerName: "Good Boy Academy",
+    serviceType: "Entrenamiento de mascotas",
+    rating: 4.9,
+    reviewCount: 110,
+    price: 65,
+    priceUnit: "sesión",
+    location: "Área suburbana",
+    availability: "Clases grupales disponibles",
+    verified: true,
+  },
+  {
+    providerName: "Home Pet Sitters",
+    serviceType: "Cuidado en casa",
+    rating: 4.9,
+    reviewCount: 85,
+    price: 40,
+    priceUnit: "día",
+    location: "Lado oeste",
+    availability: "Disponible la próxima semana",
+    verified: true,
+  },
+  {
+    providerName: "Jane's Home Care",
+    serviceType: "Cuidado en casa",
+    rating: 4.7,
+    reviewCount: 70,
+    price: 35,
+    priceUnit: "día",
+    location: "Centro",
+    availability: "Disponible hoy",
+    verified: false,
+  },
+  {
+    providerName: "24/7 Vet Emergency",
+    serviceType: "Emergencias",
+    rating: 4.9,
+    reviewCount: 210,
+    price: 150,
+    priceUnit: "visita",
+    location: "Toda la ciudad",
+    availability: "Disponible 24/7",
+    verified: true,
+  },
+  {
+    providerName: "Pet-ER",
+    serviceType: "Emergencias",
+    rating: 4.8,
+    reviewCount: 190,
+    price: 140,
+    priceUnit: "visita",
+    location: "Distrito norte",
+    availability: "Disponible 24/7",
+    verified: true,
+  },
+];
 
   const filteredServices = services.filter((service) => {
     const matchesSearch =
@@ -209,12 +324,14 @@ const services = [
                     sx={{borderRadius:3}}
                   >
                     <MenuItem value="all">Todos los Servicios</MenuItem>
-                    <MenuItem value="walking">Paseo de Perros</MenuItem>
-                    <MenuItem value="veterinary">Cuidado Veterinario</MenuItem>
-                    <MenuItem value="hotel">Hotel para Mascotas</MenuItem>
-                    <MenuItem value="grooming">Peluquería</MenuItem>
-                    <MenuItem value="transport">Transporte</MenuItem>
-                    <MenuItem value="training">Entrenamiento</MenuItem>
+                    <MenuItem value="paseo">Paseo de Perros</MenuItem>
+                    <MenuItem value="veterinaria">Atención veterinaria</MenuItem>
+                    <MenuItem value="transporte">Transporte</MenuItem>
+                    <MenuItem value="hotel">Hoteles</MenuItem>
+                    <MenuItem value="peluqueria">Peluquería</MenuItem>
+                    <MenuItem value="entrenamiento">Entrenamiento</MenuItem>
+                    <MenuItem value="cuidado en casa">Cuidado en casa</MenuItem>
+                    <MenuItem value="emergencias">Emergencias</MenuItem>
                   </Select>
                 </FormControl>
                  <TextField
