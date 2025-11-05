@@ -1,5 +1,6 @@
 import * as React from 'react';
-import {useNavigate } from 'react-router-dom';
+import {useNavigate, useLocation } from 'react-router-dom';
+import { useEffect } from "react";
 import { ArrowRight, StarIcon, HeartIcon, Shield,CheckCircleIcon } from "lucide-react";
 import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
 import SchoolIcon from '@mui/icons-material/School';
@@ -9,13 +10,26 @@ import HomeIcon from '@mui/icons-material/Home';
 import ElectricMopedIcon from '@mui/icons-material/ElectricMoped';
 import VaccinesIcon from '@mui/icons-material/Vaccines';
 import PetsIcon from '@mui/icons-material/Pets';
+import Header from "../Components/Header";
 import Footer from './Footer';
 import TestimonialsSection from './TestimonialSection';
 
 export default function HomePage() {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.hash) {
+      const element = document.querySelector(location.hash);
+      if (element) {
+         element.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  }, [location]);
+
   return (
     <div>
+      <Header/>
       <section
           className="w-full h-screen flex items-center justify-center bg-cover bg-center relative"
         >
@@ -23,7 +37,7 @@ export default function HomePage() {
           <div
             className="absolute inset-0"
             style={{
-              backgroundImage: "url('/bg-pets.jpeg')",
+              backgroundImage: "url('/bg-r.jpg')",
               backgroundSize: "cover",
               backgroundPosition: "center",
               opacity: 0.15,
@@ -222,7 +236,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="w-full bg-white py-20">
+      <section id="servicios" className="w-full bg-white py-20">
         <div className="max-w-6xl mx-auto text-center px-6">
           {/* Encabezado */}
           <div className="mb-10">

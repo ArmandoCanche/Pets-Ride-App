@@ -1,10 +1,27 @@
-import React from "react";
-import { useState } from "react";
+import React, {useState} from "react";
 import {useNavigate } from 'react-router-dom';
-import { Mail, Phone, MapPin, User, LockKeyhole, Luggage, FileText, ShieldCheck, Eye, EyeOff } from "lucide-react";
+import { Mail, Phone, MapPin, User, LockKeyhole, Luggage, FileText, ShieldCheck, Eye, EyeOff, X } from "lucide-react";
 
 export default function RegisterClient (){
   const navigate = useNavigate();
+  const [selectedServices, setSelectedServices] = useState([]);
+
+  const handleSelectChange = (e) => {
+    const value = e.target.value;
+
+    setSelectedServices((prev) =>
+      prev.includes(value)
+        ? prev.filter((service) => service !== value) // Si ya estaba, lo quita
+        : [...prev, value] // Si no estaba, lo agrega
+    );
+
+    // Reseteamos el select para que se pueda volver a seleccionar
+    e.target.value = "";
+  };
+
+  const removeService = (service) => {
+    setSelectedServices((prev) => prev.filter((s) => s !== service));
+  };
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
@@ -14,54 +31,54 @@ export default function RegisterClient (){
 
   const API = import.meta.env.VITE_API_URL || 'http://localhost:3001';
 
-async function handleSubmit(e) {
-  e.preventDefault();
+  async function handleSubmit(e) {
+    e.preventDefault();
 
-  const firstName = document.getElementById('firstName')?.value?.trim();
-  const lastName  = document.getElementById('lastName')?.value?.trim();
-  const email     = document.getElementById('email')?.value?.trim();
-  const phone     = document.getElementById('phone')?.value?.trim();
-  const addr      = document.getElementById('addr')?.value?.trim();
-  const city      = document.getElementById('city')?.value?.trim();
-  const zip       = document.getElementById('zip')?.value?.trim();
+    const firstName = document.getElementById('firstName')?.value?.trim();
+    const lastName  = document.getElementById('lastName')?.value?.trim();
+    const email     = document.getElementById('email')?.value?.trim();
+    const phone     = document.getElementById('phone')?.value?.trim();
+    const addr      = document.getElementById('addr')?.value?.trim();
+    const city      = document.getElementById('city')?.value?.trim();
+    const zip       = document.getElementById('zip')?.value?.trim();
 
-  if (!firstName || !lastName || !email || !password) {
-    alert("Completa nombre, apellido, correo y contraseña.");
-    return;
-  }
-  if (password.length < 8) {
-    alert("La contraseña debe tener al menos 8 caracteres.");
-    return;
-  }
-
-  const address = [addr, city, zip ? `CP ${zip}` : ''].filter(Boolean).join(', ');
-
-  try {
-    const resp = await fetch(`${API}/api/register`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        email,
-        password,
-        firstName,
-        lastName,
-        role: 'provider',
-        phone,
-        address
-      })
-    });
-
-    if (resp.status === 201) {
-      alert("✅ Solicitud enviada. Te llevamos al login de prestador…");
-      return navigate('/login/prestador');
-    } else {
-      const err = await resp.json().catch(() => ({}));
-      alert(`❌ ${err.message || 'No se pudo registrar el prestador'}`);
+    if (!firstName || !lastName || !email || !password) {
+      alert("Completa nombre, apellido, correo y contraseña.");
+      return;
     }
-  } catch {
-    alert("⚠️ No se pudo conectar con el servidor (¿backend en :3001?).");
+    if (password.length < 8) {
+      alert("La contraseña debe tener al menos 8 caracteres.");
+      return;
+    }
+
+    const address = [addr, city, zip ? `CP ${zip}` : ''].filter(Boolean).join(', ');
+
+    try {
+      const resp = await fetch(`${API}/api/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email,
+          password,
+          firstName,
+          lastName,
+          role: 'provider',
+          phone,
+          address
+        })
+      });
+
+      if (resp.status === 201) {
+        alert("✅ Solicitud enviada. Te llevamos al login de prestador…");
+        return navigate('/login/prestador');
+      } else {
+        const err = await resp.json().catch(() => ({}));
+        alert(`❌ ${err.message || 'No se pudo registrar el prestador'}`);
+      }
+    } catch {
+      alert("⚠️ No se pudo conectar con el servidor (¿backend en :3001?).");
+    }
   }
-}
 
 
   return (
@@ -106,17 +123,42 @@ async function handleSubmit(e) {
             <label className="text-sm font-medium text-gray-600 flex items-center gap-1">
               Tipo de Servicio Principal *
             </label>
+
             <select
-              className="w-full sm:w-auto mt-1 border border-gray-200 rounded-xl px-6 py-2 text-gray-600 bg-white focus:outline-none focus:ring-2 focus:ring-[#005c71]/40 focus:border-[#005c71]/30 appearance-none bg-[url('/chevron-down.svg')] bg-no-repeat bg-right bg-center"
-              defaultValue="0"
+              onChange={handleSelectChange}
+              className="w-full sm:w-auto mt-1 border border-gray-200 rounded-xl px-6 py-2 text-gray-700 bg-white 
+                        focus:outline-none focus:ring-2 focus:ring-[#005c71]/40 focus:border-[#005c71]/30 
+                        appearance-none bg-[url('/chevron-down.svg')] bg-no-repeat bg-right bg-center"
             >
-              <option value="0">Selecciona el tipo de servicio</option>
-              <option value="1">1 mascota</option>
-              <option value="2">2 mascotas</option>
-              <option value="3">3 mascotas</option>
-              <option value="4">4 mascotas</option>
-              <option value="5">5 o más</option>
+              <option value="">Selecciona una opción</option>
+              <option value="Paseos">Paseos</option>
+              <option value="Veterinaria">Veterinaria</option>
+              <option value="Transporte">Transporte</option>
+              <option value="Hotel">Hotel</option>
+              <option value="Peluquería">Peluquería</option>
+              <option value="Entrenamiento">Entrenamiento</option>
+              <option value="Cuidado en casa">Cuidado en casa</option>
             </select>
+
+            {selectedServices.length > 0 && (
+              <div className="flex flex-wrap gap-2 mt-3">
+                {selectedServices.map((service, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center gap-1 bg-[#005c71]/10 text-[#005c71] px-3 py-1 rounded-full text-sm font-medium border border-[#005c71]/30"
+                  >
+                    {service}
+                    <button
+                      type="button"
+                      onClick={() => removeService(service)}
+                      className="hover:text-[#f26644] transition"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
           <div className="mt-4">

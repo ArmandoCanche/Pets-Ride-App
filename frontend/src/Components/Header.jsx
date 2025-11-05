@@ -14,7 +14,7 @@ export default function Header() {
           className="text-2xl font-bold text-[#f26644] cursor-pointer"
           onClick={() => navigate("/")}
         >
-          <img src="/logo-h.png" alt="Pet's Ride Logo" style={{height: '4rem' }} />
+          <img src="/logo-h.png" alt="Pet's Ride Logo" style={{height: '5rem' }} />
         </div>
 
         {/* Menú principal - visible en pantallas medianas en adelante */}
@@ -36,13 +36,13 @@ export default function Header() {
             </button>
 
             <button
-                onClick={() => navigate("/servicios")}
+                onClick={() => navigate("/#servicios")}
                 className="flex items-center gap-2 hover:text-[#f26644] transition"
             >
                 <PawPrint className="w-5 h-5" />
                 Nuestros servicios
             </button>
-            </nav>
+        </nav>
 
             {/* Ayuda - lado derecho */}
             <div className="hidden md:block">
