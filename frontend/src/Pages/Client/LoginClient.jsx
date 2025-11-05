@@ -33,7 +33,8 @@ export default function LoginClient() {
         const data = await resp.json();
         // Guarda el token para siguientes peticiones
         localStorage.setItem('token', data.token);
-        alert('✅ Sesión iniciada');
+        // COMENTARIO NyE de Luis: Alerta quitada para mejorar la UX
+        // alert('✅ Sesión iniciada');
         navigate('/client');
       } else {
         const err = await resp.json().catch(() => ({}));

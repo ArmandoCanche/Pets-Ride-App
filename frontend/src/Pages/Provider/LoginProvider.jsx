@@ -42,7 +42,8 @@ export default function LoginProvider() {
           }
         } catch { /* si falla el parse, continuamos */ }
 
-        alert('✅ Sesión iniciada');
+        // COMENTARIO NyE de Luis: Alerta quitada para mejorar la UX
+        // alert('✅ Sesión iniciada');
         navigate('/provider');
       } else {
         const err = await resp.json().catch(() => ({}));

@@ -69,7 +69,8 @@ export default function RegisterClient (){
       });
 
       if (resp.status === 201) {
-        alert("✅ Solicitud enviada. Te llevamos al login de prestador…");
+        // COMENTARIO NyE de Luis: Alerta quitada para mejorar la UX
+        // alert("✅ Solicitud enviada. Te llevamos al login de prestador…");
         return navigate('/login/prestador');
       } else {
         const err = await resp.json().catch(() => ({}));

@@ -52,7 +52,8 @@ async function handleSubmit(e) {
     });
 
     if (resp.status === 201) {
-      alert("✅ Cuenta creada. Te llevamos al login…");
+      // COMENTARIO NyE de Luis: Alerta quitada para mejorar la UX
+      // alert("✅ Cuenta creada. Te llevamos al login…");
       return navigate('/login/cliente');
     } else {
       const err = await resp.json().catch(() => ({}));
