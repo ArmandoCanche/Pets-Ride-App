@@ -1,7 +1,8 @@
 import React, { useState } from 'react'; // Added React import
 // import { NavigationHeader } from "@/components/navigation-header"; // Keep custom component
 // import { ServiceCard } from "@/components/service-card"; // Keep custom component
-// import { ServiceDetailModal } from "@/components/service-detail-modal"; // Keep custom component
+// import { ServiceDetailModal } from "@/components/service-detail-modal"; // Keep custom componentç
+import { Transition } from '@headlessui/react';
 
 // MUI Imports
 import {
@@ -177,7 +178,17 @@ const services = [
                 </Button>
               </Box>
             </Box>
-            {showFilters && (
+            <Transition
+            show={showFilters}
+            as="div"
+
+            enter="transition ease-out duration-300"
+            enterFrom="opacity-0 translate-y-1"
+            enterTo="opacity-100 translate-y-0"
+            leave="transition ease-in duration-200"
+            leaveFrom="opacity-100 translate-y-0"
+            leaveTo="opacity-0 translate-y-1"
+            >
               <Box sx={{
                 display: 'grid',
                 gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', lg: 'repeat(4, 1fr)' },
@@ -245,7 +256,7 @@ const services = [
                         Solo verificados
                     </Button>
               </Box>
-            )}
+            </Transition>
           </CardContent>
         </Card>
 

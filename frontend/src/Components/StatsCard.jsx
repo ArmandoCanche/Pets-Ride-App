@@ -9,7 +9,6 @@ export default function StatsCard({ title, value, icon: Icon }) {
             <h1 className='text-4xl font-bold'>{value}</h1>
         </div>
       <div>
-        {/* Verifica que Icon exista antes de renderizar */}
         {Icon && (
           <Icon sx={{
             background:'#e6eff1',

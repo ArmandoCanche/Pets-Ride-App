@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Transition } from '@headlessui/react';
 
 
 // MUI Components
@@ -10,6 +11,14 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import PetsIcon from '@mui/icons-material/Pets';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { Calendar } from 'lucide-react';
+import VaccinesIcon from '@mui/icons-material/Vaccines';
+import ElectricMopedIcon from '@mui/icons-material/ElectricMoped';
+import ApartmentIcon from '@mui/icons-material/Apartment';
+import ContentCutIcon from '@mui/icons-material/ContentCut';
+import SchoolIcon from '@mui/icons-material/School';
+import HomeIcon from '@mui/icons-material/Home';
+import EmergencyIcon from '@mui/icons-material/Emergency';
+
 
 // Routers...
 import { Link, NavLink } from 'react-router-dom';
@@ -21,6 +30,7 @@ import PetCard from '../../Components/PetCard.jsx';
 import ClientBookingDetailModal from '../../Components/ClientBookingDetailModal.jsx';
 import ClientRescheduleModal from '../../Components/ClientRescheduleModal.jsx';
 import PetDetailModal from '../../Components/PetDetailModal.jsx';
+import CategoryCard from '../../Components/CategoryCard.jsx';
 
 
 export default function DashboardHomeClient() {
@@ -30,6 +40,7 @@ const [rescheduleModalOpen, setRescheduleModalOpen] = useState(false)
 const [petDetailModalOpen, setPetDetailModalOpen] = useState(false)
 const [selectedBooking, setSelectedBooking] = useState(null)
 const [selectedPet, setSelectedPet] = useState(null)
+const [showServices, setShowServices] = useState(false)
 
 
   const [snackbar, setSnackbar] = useState({
@@ -115,16 +126,14 @@ const myPets = [
 
 
   const handleMessageSent = () => {
-    setDetailModalOpen(false); // Cierra el modal
-    setSnackbar({ // Y activa el Snackbar
+    setDetailModalOpen(false);
+    setSnackbar({
       open: true,
       message: 'Message sent successfully. They will respond shortly.',
       severity: 'success',
     });
-    // La navegación a /client/messages la manejará el modal hijo
   };
 
-  // <-- CAMBIO 3: Añadir la función para cerrar el Snackbar
   const handleSnackbarClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
@@ -135,12 +144,89 @@ const myPets = [
   return (
     <>
         <main className='flex  py-6 px-10 md:px-5 lg:px-10 xl:px-25 bg-gray-100 min-h-screen flex-col gap-6'>
-            <div className='w-full h-auto grid grid-cols-12 gap-6'>
-              <StatsCard title="Reservas totales" value={stats.totalBookings} icon={CalendarTodayIcon} />
-              <StatsCard title="Próximas" value={stats.upcomingBookings} icon={AccessTimeIcon} />
-              <StatsCard title="Mis mascotas" value={stats.activePets} icon={PetsIcon} />
-              <StatsCard title="Favoritos" value={stats.favoriteProviders} icon={FavoriteBorderIcon} />
+          <div className='flex flex-col gap-6'>
+            <div className='flex flex-row items-center justify-between'>
+              <h1 className='text-2xl font-semibold'>SUGERENCIAS</h1>
+              <Button
+              sx={{textTransform: 'none' , fontFamily:'Poppins, sans-serif',color: '#000000ff', borderColor:'#ccc','&:hover': { bgcolor: 'transparent',
+                textDecoration:'underline',    
+                color: '#005c71',
+                borderColor: '#f37556',
+                   } }}
+                disableRipple
+                onClick={() => setShowServices(!showServices)}
+              >
+                Ver más
+              </Button>
             </div>
+
+            <div className='w-full h-auto grid grid-cols-12 gap-6'>
+              <CategoryCard category="Paseo" icon={PetsIcon} colorText="#005c71" colorBg="#e3f6f8" />
+              <CategoryCard category="Veterinaria" icon={VaccinesIcon} colorText="#f97316" colorBg="#ffedd5" />
+              <CategoryCard category="Transporte" icon={ElectricMopedIcon} colorText="#005c71" colorBg="#e3f6f8" />
+              <CategoryCard category="Hoteles" icon={ApartmentIcon} colorText="#f97316" colorBg="#ffedd5" />
+              <Transition
+                show={showServices}
+                as="div"
+                className="col-span-3 lg:col-span-3 xl:col-span-3"
+
+                enter="transition ease-out duration-300"
+                enterFrom="opacity-0 translate-y-1"
+                enterTo="opacity-100 translate-y-0"
+                leave="transition ease-in duration-200"
+                leaveFrom="opacity-100 translate-y-0"
+                leaveTo="opacity-0 translate-y-1"
+              >
+                <CategoryCard category="Peluquería" icon={ContentCutIcon} colorText="#005c71" colorBg="#e3f6f8" />
+              </Transition>
+
+              <Transition
+                show={showServices}
+                as="div"
+                className="col-span-3 lg:col-span-3 xl:col-span-3"
+
+                enter="transition ease-out duration-300"
+                enterFrom="opacity-0 translate-y-1"
+                enterTo="opacity-100 translate-y-0"
+                leave="transition ease-in duration-200"
+                leaveFrom="opacity-100 translate-y-0"
+                leaveTo="opacity-0 translate-y-1"
+              >
+                <CategoryCard category="Entrenamiento" icon={SchoolIcon} colorText="#f97316" colorBg="#ffedd5" />
+              </Transition>
+
+              <Transition
+                show={showServices}
+                as="div"
+                className="col-span-3 lg:col-span-3 xl:col-span-3"
+
+                enter="transition ease-out duration-300"
+                enterFrom="opacity-0 translate-y-1"
+                enterTo="opacity-100 translate-y-0"
+                leave="transition ease-in duration-200"
+                leaveFrom="opacity-100 translate-y-0"
+                leaveTo="opacity-0 translate-y-1"
+              >
+                <CategoryCard category="Cuidado en casa" icon={HomeIcon} colorText="#005c71" colorBg="#e3f6f8" />
+              </Transition>
+
+              <Transition
+                show={showServices}
+                as="div"
+                className="col-span-3 lg:col-span-3 xl:col-span-3"
+
+                enter="transition ease-out duration-300"
+                enterFrom="opacity-0 translate-y-1"
+                enterTo="opacity-100 translate-y-0"
+                leave="transition ease-in duration-200"
+                leaveFrom="opacity-100 translate-y-0"
+                leaveTo="opacity-0 translate-y-1"
+              >
+                <CategoryCard category="Emergencias" icon={EmergencyIcon} colorText="#f97316" colorBg="#ffedd5" />
+              </Transition>
+
+            </div>
+          </div>
 
 
             {/* Segunda sección */}
@@ -202,6 +288,12 @@ const myPets = [
                       Agregar nueva mascota</Button></NavLink>
                   </div>
               </div>
+            </div>
+            <div className='w-full h-auto grid grid-cols-12 gap-6'>
+              <StatsCard title="Reservas totales" value={stats.totalBookings} icon={CalendarTodayIcon} />
+              <StatsCard title="Próximas" value={stats.upcomingBookings} icon={AccessTimeIcon} />
+              <StatsCard title="Mis mascotas" value={stats.activePets} icon={PetsIcon} />
+              <StatsCard title="Favoritos" value={stats.favoriteProviders} icon={FavoriteBorderIcon} />
             </div>
 
             {selectedBooking && (
