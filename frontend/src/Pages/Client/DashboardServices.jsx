@@ -112,7 +112,7 @@ const services = [
   },
   {
     providerName: "Emma Wilson",
-    serviceType: "Peluquería de mascotas",
+    serviceType: "Peluqueria de mascotas",
     rating: 4.9,
     reviewCount: 203,
     price: 45,
@@ -123,7 +123,7 @@ const services = [
   },
   {
     providerName: "Grooming by Alice",
-    serviceType: "Peluquería de mascotas",
+    serviceType: "Peluqueria de mascotas",
     rating: 4.8,
     reviewCount: 180,
     price: 50,
@@ -328,7 +328,7 @@ const services = [
                     <MenuItem value="veterinaria">Atención veterinaria</MenuItem>
                     <MenuItem value="transporte">Transporte</MenuItem>
                     <MenuItem value="hotel">Hoteles</MenuItem>
-                    <MenuItem value="peluqueria">Peluquería</MenuItem>
+                    <MenuItem value="peluqueria">Peluqueria</MenuItem>
                     <MenuItem value="entrenamiento">Entrenamiento</MenuItem>
                     <MenuItem value="cuidado en casa">Cuidado en casa</MenuItem>
                     <MenuItem value="emergencias">Emergencias</MenuItem>
