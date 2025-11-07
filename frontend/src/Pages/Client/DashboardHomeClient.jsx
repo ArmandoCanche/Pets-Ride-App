@@ -103,8 +103,8 @@ const categoryToQueryParam = {
   "Paseo de perro": "paseo",
   "Veterinaria": "veterinaria",
   "Transporte": "transporte",
-  "Hoteles": "hoteles",
-  "Peluquería": "peluqueria",
+  "Hoteles": "hotel",
+  "Peluqueria": "peluqueria",
   "Entrenamiento": "entrenamiento",
   "Cuidado en casa": "cuidado en casa",
   "Emergencias": "emergencias",
@@ -184,7 +184,8 @@ const categoryToQueryParam = {
               </Link>
               <Transition
                 show={showServices}
-                as="div"
+                as={Link}
+                to={`/client/search?type=${categoryToQueryParam["Peluqueria"]}`}
                 className="col-span-3 lg:col-span-3 xl:col-span-3"
 
                 enter="transition ease-out duration-300"
