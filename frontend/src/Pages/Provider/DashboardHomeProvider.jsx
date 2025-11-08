@@ -17,10 +17,8 @@ import { Link, NavLink } from 'react-router-dom';
 // Componentes
 import StatsCard from '../../Components/StatsCard.jsx';
 import BookingCard  from '../../Components/BookingCard.jsx';
-import PetCard from '../../Components/PetCard.jsx';
 import ClientBookingDetailModal from '../../Components/ClientBookingDetailModal.jsx';
 import ClientRescheduleModal from '../../Components/ClientRescheduleModal.jsx';
-import PetDetailModal from '../../Components/PetDetailModal.jsx';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import MovingIcon from '@mui/icons-material/Moving';
 import ReviewCard from '../../Components/ReviewCard.jsx';
