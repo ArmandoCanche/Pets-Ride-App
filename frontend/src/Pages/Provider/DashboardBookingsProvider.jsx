@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 import { Box, Tabs, Tab } from '@mui/material';
 import BookingCardProvider from '../../Components/BookingCardProvider';
+import LineChard from '../../Components/LineChard';
 
 export default function DashboardBookingsProvider() {
 

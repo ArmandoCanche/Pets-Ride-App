@@ -165,7 +165,7 @@ const categoryToQueryParam = {
                 disableRipple
                 onClick={() => setShowServices(!showServices)}
               >
-                Ver más
+                {showServices ? 'Ver menos' : 'Ver más'}
               </Button>
             </div>
 

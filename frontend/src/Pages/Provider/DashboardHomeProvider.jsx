@@ -22,6 +22,9 @@ import ClientRescheduleModal from '../../Components/ClientRescheduleModal.jsx';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import MovingIcon from '@mui/icons-material/Moving';
 import ReviewCard from '../../Components/ReviewCard.jsx';
+import LineChard from '../../Components/LineChard.jsx';
+import LineChardComponent from '../../Components/LineChard.jsx';
+import BarChartComponent from '../../Components/BarChart.jsx';
 
 
 export default function DashboardHomeProvider() {
@@ -146,6 +149,15 @@ const recentReviews = [
   
   return (
         <main className='flex  py-6 px-10 md:px-5 lg:px-10 xl:px-25 bg-gray-100 min-h-screen flex-col gap-6'>
+              <div className='grid grid-cols-12 gap-6'>
+                <div className='flex flex-row col-span-4 border-2 border-gray-200 bg-white items-center justify-center rounded-lg p-2'>
+                  <BarChartComponent />
+                </div>
+                <div className='flex flex-row col-span-8 border-2 border-gray-200 bg-white items-center justify-center rounded-lg p-2'>
+                  <LineChardComponent />
+                </div>
+              </div>
+
             {/* <div className='w-full h-auto grid grid-cols-12 gap-6'>
               <StatsCard title="Ganancias totales" value={`$ ${stats.totalEarnings}`} icon={AttachMoneyIcon} />
               <StatsCard title="Reservas pendientes" value={stats.pendingBookings} icon={CalendarTodayIcon} />
