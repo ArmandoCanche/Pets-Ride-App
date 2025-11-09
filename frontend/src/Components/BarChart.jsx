@@ -2,7 +2,6 @@ import { BarChart } from '@mui/x-charts/BarChart';
 import * as React from 'react';
 import { animated, useSpring } from '@react-spring/web';
 import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
 
 export default function BarChartComponent() {
   const [key, animate] = React.useReducer((v) => v + 1, 0);
@@ -11,31 +10,33 @@ export default function BarChartComponent() {
     <Stack>
       <BarChart
         key={key}
-        xAxis={[{ data: ['Paseos', 'Hoteles', 'Veterinaria'],
+        xAxis={[{ data: ['Jun', 'Jul', 'Ago','Sep','Oct','Nov'],
             scaleType: 'band'
          }]}
         series={[
             {
-            type: 'bar',
-            label: 'Q1',
-            data: [25, 40, 30],
-                        valueFormatter: (value) => `${value} servicios`,
+                data: [120,140,130,160,180,210],
+                label:'Paseos',
+                valueFormatter: (value) => `${value} servicios`,
             },
             {
-            type: 'bar',
-            label: 'Q2',
-            data: [30, 42, 35],
-                        valueFormatter: (value) => `${value} servicios`,
+                data:[40,55,60,50,65,70],
+                label:'Peluquería',
+                valueFormatter: (value) => `${value} servicios`,
             },
             {
-            type: 'bar',
-            label: 'Q3',
-            data: [38, 50, 40],
-                        valueFormatter: (value) => `${value} servicios`,
+                data:[30,70,80,40,45,50],
+                label:'Hoteles',
+                valueFormatter: (value) => `${value} servicios`,
             },
+            {
+                data:[60,65,62,68,70,75],
+                label:'Veterinaria',
+                valueFormatter: (value) => `${value} servicios`,
+            }
         ]}
-        width={300}
-        height={400}
+        width={750}
+        height={300}
         barLabel="value"
         slots={{ barLabel: AnimatedBarLabel }}
       />
