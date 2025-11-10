@@ -19,8 +19,6 @@ import StatsCard from '../../Components/StatsCard.jsx';
 import BookingCard  from '../../Components/BookingCard.jsx';
 import ClientBookingDetailModal from '../../Components/ClientBookingDetailModal.jsx';
 import ClientRescheduleModal from '../../Components/ClientRescheduleModal.jsx';
-import StarBorderIcon from '@mui/icons-material/StarBorder';
-import MovingIcon from '@mui/icons-material/Moving';
 import ReviewCard from '../../Components/ReviewCard.jsx';
 // import BarChartComponent from '../../Components/BarChart.jsx';
 
@@ -50,12 +48,7 @@ const [selectedBooking, setSelectedBooking] = useState(null)
   });
 
 
-  // const stats = {
-  //   totalEarnings: 2450,
-  //   pendingBookings: 5,
-  //   rating: 4.9,
-  //   completedServices: 127,
-  // }
+
 
   const upcomingBookings = [
     {
@@ -239,7 +232,7 @@ const recentReviews = [
   });
 
   // --- 6. Gráfica 6 (Fila 2, Col 2 - BarChart Vertical Servicios/Mes) ---
-  const [key, animate] = React.useReducer((v) => v + 1, 0);
+  const [key, animate] = React.useReducer((v) => v + 1, 0); 
 
 
   return (
@@ -375,13 +368,6 @@ const recentReviews = [
                   </Stack>
             </div>
           </div>
-
-            {/* <div className='w-full h-auto grid grid-cols-12 gap-6'>
-              <StatsCard title="Ganancias totales" value={`$ ${stats.totalEarnings}`} icon={AttachMoneyIcon} />
-              <StatsCard title="Reservas pendientes" value={stats.pendingBookings} icon={CalendarTodayIcon} />
-              <StatsCard title="Calificación" value={stats.rating} icon={StarBorderIcon} />
-              <StatsCard title="Completados" value={stats.completedServices} icon={MovingIcon} />
-            </div> */}
 
 
             {/* Segunda sección */}
