@@ -59,7 +59,7 @@ export default function ClientBookingDetailModal({
   return (
     <Dialog
       open={open}
-      onOpenChange={() => onOpenChange(false)}
+      onClose={() => onOpenChange(false)}
       slotProps={{
         paper: {
           sx: {

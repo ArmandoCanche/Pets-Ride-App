@@ -6,7 +6,7 @@ import { Chip } from "@mui/material";
 
 export default function PetCard({ name, species, breed, age, imageUrl, weight, specialNeeds, onClick }) {
   return (
-    <div onClick={onClick} className='flex flex-col h-full border-2 border-gray-200 rounded-lg  bg-white  '>
+    <div onClick={onClick} className='flex flex-col h-full border-2 border-gray-200 rounded-lg  bg-white overflow-hidden  '>
         <div className="relative h-48 w-full bg-gray-100 ">
             {imageUrl ? (
                 <Image src={imageUrl ||"/placeholder.svg"} alt={name} fill className="object-cover" />
