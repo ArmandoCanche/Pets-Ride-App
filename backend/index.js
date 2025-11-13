@@ -11,7 +11,7 @@ app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
 
 const PORT = process.env.PORT || 3001; // Puerto para el backend
 
-// Middleware de autenticación JWT
+// Middleware simple de autenticación JWT
 function authenticateJWT(req, res, next) {
   const authHeader = req.headers['authorization'];
   if (!authHeader) {
@@ -98,7 +98,7 @@ app.post('/api/login', async (req, res) => {
   }
 });
 
-// --- RUTA Reseñas ---
+// --- RUTA: Crear Reseña ---
 // Requiere autenticación de cliente (JWT)
 app.post('/api/reviews', authenticateJWT, async (req, res) => {
   const { bookingId, rating, comment } = req.body;
@@ -121,7 +121,7 @@ app.post('/api/reviews', authenticateJWT, async (req, res) => {
       `SELECT b.booking_id, b.client_id, b.status, b.service_id, s.provider_id
        FROM Bookings b
        JOIN Services s ON b.service_id = s.service_id
-       WHERE b.booking_id = 1`,
+       WHERE b.booking_id = $1`,
       [bookingId]
     );
 
@@ -144,7 +144,7 @@ app.post('/api/reviews', authenticateJWT, async (req, res) => {
     // Insertar reseña; Reviews.booking_id es UNIQUE (una reseña por reserva)
     const reviewInsert = await db.query(
       `INSERT INTO Reviews (booking_id, client_id, provider_id, rating, comment)
-       VALUES (1, 2, 3, 4, 5)
+       VALUES ($1, $2, $3, $4, $5)
        RETURNING review_id, booking_id, client_id, provider_id, rating, comment, created_at`,
       [bookingId, clientId, providerId, rating, comment || null]
     );
@@ -172,7 +172,7 @@ app.get('/api/providers/:providerId/reviews', async (req, res) => {
        FROM Reviews r
        WHERE r.provider_id = $1
        ORDER BY r.created_at DESC
-       LIMIT 2 OFFSET 3`,
+       LIMIT $2 OFFSET $3`,
       [providerId, limit, offset]
     );
     return res.json({ items: reviewsRes.rows, page: { limit, offset } });
