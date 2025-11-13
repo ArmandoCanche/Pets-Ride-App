@@ -289,8 +289,8 @@ const categoryToQueryParam = {
                   </div>
                   <div className='space-y-4'>
                     {myPets.map((pet) => (
-                      <div key={pet.name} onClick={() => handlePetClick(pet)} className='w-full bg-transparent hover:bg-accent/10'>
-                        <PetCard {...pet} />
+                      <div>
+                        <PetCard {...pet} key={pet.name} onClick={() => handlePetClick(pet)} />
                       </div>
                     ))}
                     <NavLink to={"/pets/new"}><Button

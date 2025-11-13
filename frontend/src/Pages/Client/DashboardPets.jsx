@@ -1,10 +1,10 @@
 import { Pets, Search } from "@mui/icons-material"
 import { Button, Input } from "@mui/material"
-import { div } from "framer-motion/client"
 import { useState } from "react"
 import { Link } from "react-router-dom"
 
 import PetCard from "../../Components/PetCard"
+import PetDetailModal from "../../Components/PetDetailModal"
 
 
 export default function DashboardPets(){
@@ -98,8 +98,7 @@ export default function DashboardPets(){
             )}
 
             {selectedPet && (
-              // Modal
-              ("")
+              <PetDetailModal open={petDetailModalOpen} onOpenChange={setPetDetailModalOpen} pet={selectedPet} />
             )}
 
         </main>
