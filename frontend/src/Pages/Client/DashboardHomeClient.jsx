@@ -85,6 +85,7 @@ const myPets = [
     {
       name: "Max",
       species: "perro",
+      gender: "macho",
       breed: "Golden Retriever", // Los nombres de razas como esta suelen mantenerse
       age: 3,
       weight: 30,
