@@ -1,7 +1,4 @@
 import React, { useState } from 'react'; // Added React import
-// import { NavigationHeader } from "@/components/navigation-header"; // Keep custom component
-// import { ServiceCard } from "@/components/service-card"; // Keep custom component
-// import { ServiceDetailModal } from "@/components/service-detail-modal"; // Keep custom componentç
 import { Transition } from '@headlessui/react';
 import { useSearchParams } from 'react-router-dom';
 
@@ -23,11 +20,8 @@ import {
 // Icon Imports (Keeping lucide-react as used)
 import { Search, SlidersHorizontal, MapPin, Sparkles } from "lucide-react";
 import SearchCard from '../../Components/SearchCard';
-// Can also use MUI Icons if preferred:
-// import SearchIcon from '@mui/icons-material/Search';
-// import FilterListIcon from '@mui/icons-material/FilterList';
-// import LocationOnIcon from '@mui/icons-material/LocationOn';
-// import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
+import ServiceDetailModal from '../../Components/ServiceDetailModal';
+
 
 export default function SearchServicesPage() {
 
@@ -40,7 +34,7 @@ export default function SearchServicesPage() {
   const [location, setLocation] = useState("");
   const [sortBy, setSortBy] = useState("rating");
   const [showFilters, setShowFilters] = useState(hasInitialFilter);
-  const [selectedService, setSelectedService] = useState(null); // Removed <any>
+  const [selectedService, setSelectedService] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
 const services = [
@@ -386,7 +380,7 @@ const services = [
         {sortedServices.length > 0 ? (
           <div className="grid grid-cols-12 gap-6">
             {sortedServices.map((service, index) => (
-              <SearchCard key={index} {...service} onClick={() => handleViewDetails(service)}/>
+              <SearchCard key={index} {...service} onViewDetails={() => handleViewDetails(service)}/>
             ))}
           </div>
         ) : (

@@ -223,10 +223,10 @@ export default function EditPetModal({open, onOpenChange, pet}) {
                                 flex : {xs: 'auto', sm:'1'},
                                 width: {xs : '100%', sm: 'auto'},
                                 alignSelf : { xs: 'stretch', sm: 'center' },
-                                color: '#ffffffff', background:'#0b80d9ff',
+                                color: '#ffffffff', background:'#0b704eff',
                                 fontWeight:500, borderRadius:3,
                                 '&:hover':{
-                                    backgroundColor: '#045a9cff',
+                                    backgroundColor: '#11a876ff',
                                     color: '#fff'
                                 }
                             }}
