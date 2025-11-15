@@ -4,6 +4,11 @@ import { CalendarToday } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 
+import ClientBookingDetailModal from "../../Components/ClientBookingDetailModal";
+import ClientRescheduleModal from "../../Components/ClientRescheduleModal";
+
+
+
 
 export default function DashboardBookings(){
 
@@ -311,18 +316,6 @@ const upcomingBookings = [
                         open={rescheduleModalOpen}
                         onOpenChange={setRescheduleModalOpen}
                         booking={selectedBooking}
-                    />
-                    <ClientMessageModal
-                        open={messageModalOpen}
-                        onOpenChange={setMessageModalOpen}
-                        provider={{
-                        name: selectedBooking.providerName,
-                        image: selectedBooking.providerImage,
-                        }}
-                        booking={{
-                        serviceType: selectedBooking.serviceType,
-                        petName: selectedBooking.petName,
-                        }}
                     />
                 </>
             )}

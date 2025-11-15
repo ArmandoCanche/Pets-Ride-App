@@ -35,7 +35,7 @@ export default function PetCard({ name, species, breed, age, imageUrl, weight, s
 
                 {specialNeeds && specialNeeds.length > 0 && (
                     <div className="pt-2 border-t">
-                        <p className="text-cs text-muted-foreground mb-1"> Special Needs:</p>
+                        <p className="text-cs text-muted-foreground mb-1"> Necesidades especiales:</p>
                         <div className="flex flex-wrap gap-2">
                             {specialNeeds.map((need) => (
                                 <Chip key={need} color="error" variant="outlined" label={need} />
