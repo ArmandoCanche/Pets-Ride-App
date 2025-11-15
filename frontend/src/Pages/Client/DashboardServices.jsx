@@ -48,6 +48,8 @@ const services = [
     location: "Área de Central Park",
     availability: "Disponible hoy",
     verified: true,
+    description: "Amante de los perros con experiencia ofreciendo paseos energéticos y personalizados en Central Park. Me aseguro de que tu mascota haga ejercicio y se divierta.",
+    servicesOffered: ['Paseos en grupo', 'Paseos individuales', 'Alimentación post-paseo', 'Reportes con foto']
   },
   {
     providerName: "Walky Paws",
@@ -59,6 +61,8 @@ const services = [
     location: "Centro",
     availability: "Disponible mañana",
     verified: false,
+    description: "Servicio de paseo de perros confiable en el centro. Nos enfocamos en grupos pequeños para una atención más dedicada a cada cachorro.",
+    servicesOffered: ['Paseos matutinos', 'Paseos de mediodía', 'Juegos en el parque']
   },
   {
     providerName: "Dr. Michael Chen",
@@ -70,6 +74,8 @@ const services = [
     location: "Centro",
     availability: "Próxima disponibilidad: Mañana",
     verified: true,
+    description: "Veterinario compasivo con 10 años de experiencia. Ofrece consultas generales, vacunación y cuidados preventivos en su clínica del centro.",
+    servicesOffered: ['Consultas generales', 'Vacunación', 'Desparasitación', 'Chequeos de salud']
   },
   {
     providerName: "Clínica PetCare",
@@ -81,6 +87,8 @@ const services = [
     location: "Distrito norte",
     availability: "Disponible hoy",
     verified: true,
+    description: "Clínica veterinaria de servicio completo en el Distrito Norte. Equipados con tecnología moderna para diagnósticos y tratamientos.",
+    servicesOffered: ['Consultas', 'Vacunación', 'Cirugías menores', 'Análisis de laboratorio', 'Rayos X']
   },
   {
     providerName: "Happy Paws Resort",
@@ -92,6 +100,8 @@ const services = [
     location: "Área suburbana",
     availability: "Disponible esta semana",
     verified: true,
+    description: "Un lujoso hotel para mascotas en las afueras. Ofrecemos suites privadas, amplias zonas de juego y supervisión 24/7.",
+    servicesOffered: ['Alojamiento nocturno', 'Guardería de día', 'Tiempo de juego supervisado', 'Alimentación premium']
   },
   {
     providerName: "The Pet Palace",
@@ -103,6 +113,8 @@ const services = [
     location: "Lado oeste",
     availability: "Completo esta semana",
     verified: true,
+    description: "El lugar perfecto para que tu mascota se quede mientras estás fuera. Ambiente hogareño y mucho cariño en el Lado Oeste.",
+    servicesOffered: ['Alojamiento nocturno', 'Cuidado de día', 'Paseos diarios incluidos', 'Administración de medicamentos']
   },
   {
     providerName: "Emma Wilson",
@@ -114,6 +126,8 @@ const services = [
     location: "Lado oeste",
     availability: "Disponible hoy",
     verified: true,
+    description: "Estilista canina profesional con un toque suave. Especialista en cortes de raza y baños relajantes. Tu mascota saldrá luciendo y sintiéndose genial.",
+    servicesOffered: ['Baño y secado', 'Corte de pelo completo', 'Corte de uñas', 'Limpieza de oídos']
   },
   {
     providerName: "Grooming by Alice",
@@ -125,6 +139,8 @@ const services = [
     location: "Centro",
     availability: "Disponible la próxima semana",
     verified: true,
+    description: "Salón de peluquería en el centro que utiliza solo productos orgánicos. Nos tomamos el tiempo necesario para que sea una experiencia libre de estrés.",
+    servicesOffered: ['Baño hipoalergénico', 'Corte de raza', 'Corte de uñas y limado', 'Tratamiento anti-pulgas']
   },
   {
     providerName: "Quick Ride Pets",
@@ -136,6 +152,8 @@ const services = [
     location: "Toda la ciudad",
     availability: "Disponible 24/7",
     verified: false,
+    description: "Servicio de transporte de mascotas rápido y seguro para toda la ciudad. Perfecto para citas al veterinario o traslados al aeropuerto.",
+    servicesOffered: ['Transporte a citas veterinarias', 'Traslados al aeropuerto', 'Transporte de emergencia', 'Servicio puerta a puerta']
   },
   {
     providerName: "Pet-Taxi Express",
@@ -147,6 +165,8 @@ const services = [
     location: "Toda la ciudad",
     availability: "Bajo demanda",
     verified: true,
+    description: "Transporte express bajo demanda para tu mascota. Vehículos climatizados y conductores entrenados para el manejo de animales.",
+    servicesOffered: ['Transporte bajo demanda', 'Viajes locales', 'Vehículos con aire acondicionado']
   },
   {
     providerName: "Pawsitive Training",
@@ -158,6 +178,8 @@ const services = [
     location: "Distrito norte",
     availability: "Disponible los fines de semana",
     verified: false,
+    description: "Entrenamiento basado en refuerzo positivo para cachorros y perros adultos. Clases de obediencia básica y modificación de conducta.",
+    servicesOffered: ['Clases de obediencia básica', 'Entrenamiento para cachorros', 'Modificación de conducta', 'Clases privadas']
   },
   {
     providerName: "Good Boy Academy",
@@ -169,6 +191,8 @@ const services = [
     location: "Área suburbana",
     availability: "Clases grupales disponibles",
     verified: true,
+    description: "Academia de entrenamiento canino de primer nivel. Ofrecemos clases grupales divertidas y efectivas para construir un vínculo fuerte con tu perro.",
+    servicesOffered: ['Clases grupales', 'Entrenamiento de agilidad (Agility)', 'Socialización de cachorros']
   },
   {
     providerName: "Home Pet Sitters",
@@ -180,6 +204,8 @@ const services = [
     location: "Lado oeste",
     availability: "Disponible la próxima semana",
     verified: true,
+    description: "Cuidamos a tu mascota en la comodidad de su propio hogar. Ideal para mascotas que se estresan en hoteles. Incluye paseos y alimentación.",
+    servicesOffered: ['Cuidado en casa por día', 'Visitas diarias', 'Alimentación y agua fresca', 'Paseos y juego']
   },
   {
     providerName: "Jane's Home Care",
@@ -191,6 +217,8 @@ const services = [
     location: "Centro",
     availability: "Disponible hoy",
     verified: false,
+    description: "Servicio de cuidado en casa personalizado. Jane se asegura de que tu mascota mantenga su rutina normal mientras estás fuera.",
+    servicesOffered: ['Cuidado en casa', 'Administración de medicamentos', 'Paseos cortos', 'Compañía']
   },
   {
     providerName: "24/7 Vet Emergency",
@@ -202,6 +230,8 @@ const services = [
     location: "Toda la ciudad",
     availability: "Disponible 24/7",
     verified: true,
+    description: "Hospital de emergencia veterinaria totalmente equipado. Nuestro equipo está listo para atender cualquier urgencia médica las 24 horas del día.",
+    servicesOffered: ['Atención de urgencias 24/7', 'Cirugía de emergencia', 'Cuidados intensivos', 'Hospitalización']
   },
   {
     providerName: "Pet-ER",
@@ -213,6 +243,8 @@ const services = [
     location: "Distrito norte",
     availability: "Disponible 24/7",
     verified: true,
+    description: "Clínica de emergencias en el Distrito Norte. Estabilización y tratamiento rápido para accidentes y enfermedades graves.",
+    servicesOffered: ['Atención de emergencias', 'Diagnóstico rápido (Rayos X, Ultrasonido)', 'Cirugías urgentes', 'Transfusiones de sangre']
   },
 ];
 
