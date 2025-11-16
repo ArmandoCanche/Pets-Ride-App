@@ -24,7 +24,7 @@ export default function ServiceDetailModal({open, onOpenChange, service}) {
                     sx:{
                         borderRadius:"1rem",
                         maxWidth:"600px",
-                        width:"500px",
+                        width:"600px",
                         padding:2
                     }
                 }
@@ -133,46 +133,36 @@ export default function ServiceDetailModal({open, onOpenChange, service}) {
                         <div className="flex flex-col gap-3">
                             <h3 className="font-semibold text-lg">Reseñas recientes</h3>
                             <div className="flex flex-col gap-3">
-                                <div className="border-1 border-gray-300 rounded-lg p-4 gap-2 flex flex-col">
-                                    <div className="flex items-center gap-2">
-                                        <Avatar>
-                                            SJ
-                                        </Avatar>
-                                        <div className="flex-1">
-                                            <p className="font-medium text-sm">Sarah Johnson</p>
-                                            <div className="flex items-center gap-1">
-                                                {[...Array(5)].map((_,i) => (
-                                                    <Star key={i} className="h-4 w-4 text-yellow-400"
-                                                    fill="currentColor"/>
-                                                ))}
+                                {service.reviews.map((review, index) => (
+                                    <div key={index} className="border-1 border-gray-300 rounded-lg p-4 gap-2 flex flex-col">
+                                        <div className="flex items-center justify-between">
+                                            <div className="flex gap-3">
+                                                <Avatar>
+                                                    {review.initials}
+                                                </Avatar>
+                                                <div className="flex flex-col gap-1">
+                                                    <p className="font-medium text-sm">{review.reviewerName}</p>
+                                                    <div className="flex items-center gap-1">
+                                                        {[...Array(5)].map((_, i) => (
+                                                            <Star
+                                                            key={i}
+                                                            className={`
+                                                                h-4 w-4
+                                                                ${i < review.rating ? 'text-yellow-400' : 'text-gray-300'}
+                                                            `}
+                                                            fill="currentColor"
+                                                            />
+                                                        ))}
+                                                    </div>
+                                                </div>
                                             </div>
+                                            <span className="text-xs text-gray-500">{review.date}</span>
                                         </div>
-                                        <span className="text-xs text-gray-500">2 days ago</span>
+                                        <p className="text-sm text-gray-600 ">
+                                            {review.content}
+                                        </p>
                                     </div>
-                                    <p className="text-sm text-gray-600 ">
-                                        Excelente servicio! Mi perro estuvo muy feliz durante el paseo y el cuidador fue muy atento y profesional. Definitivamente lo volveré a contratar.
-                                    </p>
-                                </div>
-                                <div className="border-1 border-gray-300 rounded-lg p-4 gap-2 flex flex-col">
-                                    <div className="flex items-center gap-2">
-                                        <Avatar>
-                                            MC
-                                        </Avatar>
-                                        <div className="flex-1">
-                                            <p className="font-medium text-sm">Michael Cen</p>
-                                            <div className="flex items-center gap-1">
-                                                {[...Array(5)].map((_,i) => (
-                                                    <Star key={i} className="h-4 w-4 text-yellow-400"
-                                                    fill="currentColor"/>
-                                                ))}
-                                            </div>
-                                        </div>
-                                        <span className="text-xs text-gray-500">1 week ago</span>
-                                    </div>
-                                    <p className="text-sm text-gray-600">
-                                        Muy satisfecho con el servicio veterinario a domicilio. El veterinario fue muy profesional y amable, y mi gato se sintió cómodo durante la consulta. Lo recomiendo totalmente.
-                                    </p>
-                                </div>
+                                ))}
                             </div>
                         </div>
 
