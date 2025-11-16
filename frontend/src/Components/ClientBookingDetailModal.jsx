@@ -65,6 +65,7 @@ export default function ClientBookingDetailModal({
           sx: {
             borderRadius: "1rem",
             maxWidth: "600px",
+            width:"600px",
             padding: 3
           },
         },
@@ -97,8 +98,8 @@ export default function ClientBookingDetailModal({
 
               {/* seccion2 */}
 
-              <div className="flex flex-col justify-between ">
-                <div className="flex flex-col justify-between items-center xs:flex-col  md:flex-row lg:flex-row xl:flex-row">
+              <div className="flex flex-col justify-between w-full ">
+                <div className="flex flex-col justify-between items-center  md:flex-row lg:flex-row xl:flex-row">
                   <h4 className="font-semibold text-lg">{booking.providerName}</h4>
                   <Chip
                   {...getStatusChipProps(booking.status)}

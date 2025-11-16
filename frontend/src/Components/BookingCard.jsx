@@ -5,6 +5,9 @@ import PetsIcon from '@mui/icons-material/Pets';
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import AttachMoneyOutlinedIcon from '@mui/icons-material/AttachMoneyOutlined';
 
+import DoneIcon from '@mui/icons-material/Done';
+import CancelIcon from '@mui/icons-material/Cancel';
+
 // Importación de componentes MUI
 import { Button } from '@mui/material';
 
@@ -85,7 +88,7 @@ export default function BookingCard({
             >
             Detalles
             </Button>
-            {status === "pendiente" || status === "confirmado" ? (
+            {status === "confirmado" ? (
             <>
                 <Button 
                     variant="outlined" 
@@ -128,7 +131,55 @@ export default function BookingCard({
                 Cancelar
                 </Button>
             </>
-            ) : null}
+            ) : 
+            <>
+            {status === "pendiente" && (
+                <>
+                    <Button
+                    variant="outlined"
+                    startIcon={<DoneIcon sx={{marginRight:'0.5rem'}}/>}
+                    sx={{
+                        flex:1,
+                        textTransform: 'none' ,fontFamily:'Poppins, sans-serif',
+                        color: '#ffffffff',
+                        background:'#209129ff',
+                        borderColor:'none',
+                        fontWeight:500,
+                        borderRadius:3,
+                        '&:hover':{
+                            borderColor:'#ffff',
+                            backgroundColor: 'rgba(41, 187, 54, 1)',
+                        },
+                        gridColumn: { xs: 'span 12', lg: 'span 4' }
+                    }}
+                    >
+                        aceptar
+                    </Button>
+                    <Button
+                    variant="outlined"
+                    startIcon={<CancelIcon sx={{marginRight:'0.5rem'}}/>}
+                    sx={{
+                        flex:1,
+                        textTransform: 'none' ,fontFamily:'Poppins, sans-serif',
+                        color: '#ff2e2eff', 
+                        background:'#fff', 
+                        borderColor:'#ccc', 
+                        fontWeight:500, 
+                        borderRadius:3,
+                        '&:hover':{
+                            backgroundColor: '#df1111ff',
+                            color: '#fff',
+                        },
+                        gridColumn: { xs: 'span 12', lg: 'span 4' }
+                    }} 
+                    >
+                        Rechazar
+                    </Button>
+                </>
+            )}
+            </>
+            }
+
         </div>
     </div>
   )
