@@ -18,17 +18,14 @@ import {
   Phone,
   Mail,
 } from "lucide-react";
-// CAMBIO: Import 'useNavigate' de 'react-router-dom' en lugar de 'useRouter' de Next.js
 import { useNavigate } from "react-router-dom";
 
-// CAMBIO: Se eliminó la 'interface' de TypeScript
 export default function ClientBookingDetailModal({
   open,
   onOpenChange,
   booking,
   onMessage,
 }) {
-  // CAMBIO: Se usa 'useNavigate'
   const navigate = useNavigate();
 
   const handleMessage = () => {
