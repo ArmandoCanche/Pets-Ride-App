@@ -13,6 +13,7 @@ import StatsCard from '../../Components/StatsCard';
 import { Link } from 'react-router-dom';
 import { Button } from '@mui/material';
 import ServiceCard from '../../Components/serviceCard';
+import EditServiceModal from '../../Components/EditServiceModal';
 
 export default function DashboardMyServices() {
 
@@ -113,7 +114,7 @@ export default function DashboardMyServices() {
           {services.length > 0 ? (
             <div className='grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-6'>
               {services.map((service) => (
-                <ServiceCard 
+                <ServiceCard
                   key={service.id}
                   {...service}
                   handleEdit={() => handleEdit(service)}
@@ -147,7 +148,11 @@ export default function DashboardMyServices() {
             </div>
           )}
           {selectedService && (
-            <div></div>
+            <EditServiceModal
+            open={editModalOpen}
+            onOpenChange={setEditModalOpen}
+            service={selectedService}
+            />
           )}
         </main>
   );
