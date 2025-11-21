@@ -12,6 +12,7 @@ import {
   Logout as LogOutIcon,
 } from '@mui/icons-material'
 import { useState } from 'react'
+import { ListItemIcon } from '@mui/material'
 
 export default function NavigationHeader({ userType }) {
   const navigate = useNavigate();
@@ -25,6 +26,17 @@ export default function NavigationHeader({ userType }) {
 
   const handleMenuClose = () => {
     setAnchorEl(null)
+  }
+
+  const handleLogOut = () => {
+    handleMenuClose();
+    setMobileMenuOpen(false);
+    localStorage.removeItem("token");
+    if (userType === "provider") {
+      navigate("/login/prestador");
+    } else {
+      navigate("/login/cliente");
+    }
   }
 
   return (
@@ -96,26 +108,25 @@ export default function NavigationHeader({ userType }) {
                   </Avatar>
                 </Button>
                 <Menu anchorEl={anchorEl} open={menuOpen} onClose={handleMenuClose}>
-                  <MenuItem onClick={handleMenuClose}>
-                    <UserIcon fontSize="small" className="mr-2" />
-                    <Link to={`/${userType}/profile`}>Perfil</Link>
+                  <MenuItem 
+                  component={Link} 
+                  to={`/${userType}/profile`}
+                  onClick={handleMenuClose}>
+                    <ListItemIcon><UserIcon fontSize="small" className="mr-2" /></ListItemIcon>
+                    Perfil
                   </MenuItem>
-                  <MenuItem onClick={handleMenuClose}>
-                    <SettingsIcon fontSize="small" className="mr-2" />
-                    <Link to={`/${userType}/settings`}>Configuración</Link>
+                  <MenuItem 
+                  component={Link} 
+                  to={`/${userType}/settings`}
+                  onClick={handleMenuClose}>
+                    <ListItemIcon><SettingsIcon fontSize="small" className="mr-2" /></ListItemIcon>
+                    Configuración
                   </MenuItem>
                   <MenuItem
-                  onClick={() => {
-                    localStorage.removeItem("token");
-                    handleMenuClose();
-                    if (userType === "provider") {
-                      navigate("/login/prestador");
-                    } else {
-                      navigate("/login/cliente");
-                    }
-                  }}
+                  onClick={handleLogOut}
+                  sx={{color:'error.main'}}
                 >
-                  <LogOutIcon fontSize="small" className="mr-2" />
+                  <ListItemIcon><LogOutIcon fontSize="small" className="mr-2" /></ListItemIcon>
                   Cerrar sesión
                 </MenuItem>
                 </Menu>

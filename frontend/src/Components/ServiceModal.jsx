@@ -1,14 +1,25 @@
 import { Button, createTheme, Dialog, DialogContent, FormControl, InputLabel, Menu, MenuItem, Select, TextField, ThemeProvider, Chip, Box, OutlinedInput, IconButton, InputAdornment, Divider} from "@mui/material"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
-import CloseIcon from '@mui/icons-material/Close';
+import CloseIcon from '@mui/icons-material/Close';  
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import PetsIcon from '@mui/icons-material/Pets';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 
-
+const INITIAL_STATE = {
+    name: "",
+    description: "",
+    price: 0,
+    priceUnit: "hora",
+    duration: 0,
+    durationUnit: "minutos",
+    category: "",
+    petType: [],
+    serviceArea: "",
+    availability: [],
+}
 
 const PET_TYPES_LIST = [
     "Perros",
@@ -31,20 +42,31 @@ const DAYS_LIST = [
 
 
 
-export default function EditServiceModal({open, onOpenChange, service}) {
+export default function ServiceModal({open, onOpenChange, service, onSave}) {
 
-    const [formData, setFormData] = useState({
-        name: service.name || "",
-        description: service.description || "",
-        price: service.price || 0,
-        priceUnit: service.priceUnit || "",
-        duration: service.duration || 0,
-        category: service.category || "",
-        petType: service.petType || [],
-        serviceArea: service.serviceArea || "",
-        availability: service.availability || [],
-        durationUnit: service.durationUnit || "minutos",
-    })
+    const isEditing = !!service;
+
+    const [formData, setFormData] = useState(INITIAL_STATE);
+
+    useEffect(() => {
+        if (service) {
+            setFormData({
+                name: service.name || "",
+                description: service.description || "",
+                price: service.price || 0,
+                priceUnit: service.priceUnit || "",
+                duration: service.duration || 0,
+                category: service.category || "",
+                petType: service.petType || [],
+                serviceArea: service.serviceArea || "",
+                availability: service.availability || [],
+                durationUnit: service.durationUnit || "minutos",
+            })
+        }
+        else{
+            setFormData(INITIAL_STATE);
+        }
+    },[service, open])
 
     const theme = createTheme({
         typography:{
@@ -89,7 +111,8 @@ export default function EditServiceModal({open, onOpenChange, service}) {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        console.log("[v0] Updating pet data:", formData)
+        onSave(formData);
+        onOpenChange(false);
     }
 
     const handleChange = (prop) => (event) => {
@@ -130,7 +153,7 @@ export default function EditServiceModal({open, onOpenChange, service}) {
                 }}
                 >
                     <div className="flex flex-row justify-between">
-                        <h3 className="text-3xl font-semibold">Editar servicio</h3>
+                        <h3 className="text-3xl font-semibold">{isEditing ? "Editar servicio" : "Crear servicio"}</h3>
                         <IconButton onClick={() => onOpenChange(false)} sx={{color:"#000000", background:"none", ":hover":{background:"#grey"}}} >
                             <CloseIcon />
                         </IconButton>
@@ -309,7 +332,7 @@ export default function EditServiceModal({open, onOpenChange, service}) {
                                     }
                                 }}
                                 >
-                                    Guardar cambios
+                                    {isEditing ? "Guardar cambios" : "Crear servicio"}
                                 </Button>
 
                             </div>
