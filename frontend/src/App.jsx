@@ -64,6 +64,8 @@ function App() {
           <Route path="bookings" element={<DashboardBookings />} />
           <Route path="pets" element={<DashboardPets />} />
           <Route path="messages" element={<DashboardMessages />} />
+          <Route path="profile" element={''} />
+          <Route path="settings" element={''} />
         </Route>
 
         <Route path="/provider" element={<LayoutProvider />}>
@@ -72,6 +74,8 @@ function App() {
           <Route path="bookings" element={<DashboardBookingsProvider />} />
           <Route path="earnings" element={<DashboardEarnings />} />
           <Route path="messages" element={<DashboardMessagesProvider />} />
+          <Route path="profile" element={''} />
+          <Route path="settings" element={''} />
         </Route>
 
         <Route path="*" element={<Error404/>} />
