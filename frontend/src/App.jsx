@@ -35,6 +35,8 @@ import HowWorks from './Footers/HowWorks';
 // Errores
 import Error404 from './Pages/Error404';
 import ForgotPassword from './Pages/ForgotPassword';
+import ProfileClient from './Pages/Client/ProfileClient';
+import SettingsClient from './Pages/Client/SettingsClient';
 
 
 
@@ -64,8 +66,8 @@ function App() {
           <Route path="bookings" element={<DashboardBookings />} />
           <Route path="pets" element={<DashboardPets />} />
           <Route path="messages" element={<DashboardMessages />} />
-          <Route path="profile" element={''} />
-          <Route path="settings" element={''} />
+          <Route path="profile" element={<ProfileClient />} />
+          <Route path="settings" element={<SettingsClient />} />
         </Route>
 
         <Route path="/provider" element={<LayoutProvider />}>
