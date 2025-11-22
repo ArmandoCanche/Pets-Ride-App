@@ -1,6 +1,6 @@
 import { Button, Dialog, DialogContent, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 import { Upload } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -11,19 +11,23 @@ const theme = createTheme({
     }
 })
 
+const INITIAL_STATE = {
+    name: "",
+    species: "",
+    breed: "",
+    age: "",
+    weight: "",
+    specialNeeds: "",
+    medicalHistory: "",
+    gender: "",
+}
+
 
 export default function EditPetModal({open, onOpenChange, pet}) {
 
-    const [formData, setFormData] = useState({
-        name: pet.name,
-        species: pet.species,
-        breed: pet.breed,
-        age: pet.age.toString(),
-        weight: pet.weight?.toString() || "",
-        specialNeeds: pet.specialNeeds?.join(", ") || "",
-        medicalHistory: pet.medicalHistory || "",
-        gender: pet.gender || "",
-    })
+    const isEditing = !!pet;
+
+    const [formData, setFormData] = useState(INITIAL_STATE);
 
     const handleChange = (e) => {
         const {name,value} = e.target
@@ -36,8 +40,27 @@ export default function EditPetModal({open, onOpenChange, pet}) {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        console.log("[v0] Updating pet data:", formData)
+        onOpenChange(false);
     }
+
+    useEffect(() => {
+        if (open) {
+            if (pet) {
+                setFormData({
+                name: pet.name || "",
+                species: pet.species || "",
+                breed: pet.breed || "",
+                age: pet.age?.toString() || "",
+                weight: pet.weight?.toString() || "",
+                specialNeeds: Array.isArray(pet.specialNeeds) ? pet.specialNeeds.join(", ") : pet.specialNeeds || "",
+                medicalHistory: pet.medicalHistory || "",
+                gender: pet.gender || "",
+            });
+            }
+        } else{
+            setFormData(INITIAL_STATE);
+        }
+    }, [open, pet]);
 
 
     return(
@@ -63,14 +86,14 @@ export default function EditPetModal({open, onOpenChange, pet}) {
                     gap: "1.5rem"
                 }}
                 >
-                    <h3 className="text-2xl font-semibold">Editar información de Mascota</h3>
-                    <span className="text-sm font-medium text-gray-500">Actualiza la información de tu mascota</span>
+                    <h3 className="text-2xl font-semibold">{isEditing ? "Editar información de Mascota" : "Agregar nueva Mascota"}</h3>
+                    <span className="text-sm font-medium text-gray-500">{isEditing ? "Actualiza la información de tu mascota" : "Agrega una nueva mascota a tu perfil"}</span>
                     <form onSubmit={handleSubmit} className="flex flex-col gap-8">
                         <div className="space-y-2 flex flex-col gap-1">
                             <span>Foto de mascota</span>
                             <div className="flex items-center gap-4">
                                 <div className="h-20 w-20 rounded-lg bg-gray-200 flex items-center justify-center text-3xl">
-                                    {pet.species === "perro" ? "🐶" : pet.species === "gato" ? "🐱" : "🐾"}
+                                    {formData.species === "perro" ? "🐶" : formData.species === "gato" ? "🐱" : "🐾"}
 
                                 </div>
                                 <Button variant="outlined" 
@@ -87,7 +110,7 @@ export default function EditPetModal({open, onOpenChange, pet}) {
                                             }}
                                 >
                                     <Upload  className="h-4 w-4 mr-2"/>
-                                    Cambiar foto
+                                    Subir foto
                                 </Button>
                             </div>
                         </div>
@@ -230,7 +253,7 @@ export default function EditPetModal({open, onOpenChange, pet}) {
                                     color: '#fff'
                                 }
                             }}
-                            >Guardar cambios</Button>
+                            >{isEditing ? "Guardar cambios" : "Agregar mascota"}</Button>
                         </div>
                     </form>
 
