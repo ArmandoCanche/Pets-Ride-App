@@ -21,6 +21,8 @@ import {
     Chip
 } from "@mui/material";
 import { useState } from "react";
+import AddCardForm from "../../Components/AddCardForm";
+import BaseModalCredit from "../../Components/BaseModalCredit";
 
 const theme = createTheme({
     typography: { fontFamily: 'Poppins, sans-serif' },
@@ -31,6 +33,9 @@ const theme = createTheme({
 });
 
 export default function SettingsClient() {
+
+    const [creditCardModalOpen, setCreditCardModalOpen] = useState(false);
+
     const [showPassword, setShowPassword] = useState(false);
     const [notifications, setNotifications] = useState({
         tripUpdates: true,
@@ -38,6 +43,14 @@ export default function SettingsClient() {
         promotions: false,
         emailSummaries: true
     });
+
+    const handleNewCreditCard = () =>{
+        setCreditCardModalOpen(true);
+    }
+
+    const handleSaveCard = () =>{
+        setCreditCardModalOpen(false);
+    }
 
     const handleNotifChange = (event) => {
         setNotifications({
@@ -58,14 +71,12 @@ export default function SettingsClient() {
 
                     {/* --- COLUMNA IZQUIERDA --- */}
                     <div className="flex flex-col gap-6">
-                        
                         {/* 1. NOTIFICACIONES */}
                         <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
                             <div className="flex items-center gap-2 mb-4 pb-4 border-b border-gray-100">
                                 <Notifications color="primary" />
                                 <h2 className="text-lg font-semibold">Notificaciones</h2>
                             </div>
-                            
                             <div className="flex flex-col gap-2">
                                 <FormControlLabel
                                     control={<Switch checked={notifications.tripUpdates} onChange={handleNotifChange} name="tripUpdates" />}
@@ -95,7 +106,7 @@ export default function SettingsClient() {
                                     <CreditCard color="primary" />
                                     <h2 className="text-lg font-semibold">Métodos de Pago</h2>
                                 </div>
-                                <Button startIcon={<Add />} size="small" variant="outlined" sx={{textTransform:'none', borderRadius:5}}>Agregar</Button>
+                                <Button onClick={handleNewCreditCard} startIcon={<Add />} size="small" variant="outlined" sx={{textTransform:'none', borderRadius:5}}>Agregar</Button>
                             </div>
 
                             <div className="flex flex-col gap-3">
@@ -222,6 +233,15 @@ export default function SettingsClient() {
                     </div>
                 </div>
             </main>
+            {creditCardModalOpen && (
+                <BaseModalCredit
+                    open={creditCardModalOpen}
+                    onClose={() => setCreditCardModalOpen(false)}
+                    title="Agregar método de pago"
+                >
+                    <AddCardForm onCancel={() => setCreditCardModalOpen(false)} onSave={handleSaveCard} />
+                </BaseModalCredit>
+            )}
         </ThemeProvider>
     )
 }
