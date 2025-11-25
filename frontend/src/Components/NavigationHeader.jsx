@@ -221,19 +221,19 @@ export default function NavigationHeader({ userType }) {
                     <Link to="/client/pets" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Mis mascotas</Link>
                     <Link to="/client/messages" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Mensajes</Link>
                     <div className="flex flex-col gap-2 pt-2 border-t">
-                      <Link href="/client/profile" className="flex w-full justify-start">
+                      <Link to="/client/profile" className="flex w-full justify-start">
                         <Button variant="ghost" sx={{fontFamily:'Poppins', paddingLeft:'0'}}>
                           <UserIcon className="mr-2 h-4 w-4" />
                           Perfil
                         </Button>
                       </Link>
-                      <Link href="/client/settings">
+                      <Link to="/client/settings">
                         <Button variant="ghost" sx={{fontFamily:'Poppins', paddingLeft:'0'}}>
                           <SettingsIcon className="mr-2 h-4 w-4" />
                           Configuración
                         </Button>
                       </Link>
-                      <Link href="/login/client">
+                      <Link to="/login/client">
                         <Button variant="ghost" sx={{fontFamily:'Poppins', justifyContent:'flex-start', paddingLeft:'0'}}>
                           <LogOutIcon className="mr-2 h-4 w-4" />
                           Cerrar sesión
@@ -250,19 +250,19 @@ export default function NavigationHeader({ userType }) {
                     <Link to="/provider/earnings" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Ganancias</Link>
                     <Link to="/provider/messages" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Mensajes</Link>
                     <div className="flex flex-col gap-2 pt-2 border-t">
-                      <Link href="/provider/profile" className="flex w-full justify-start">
+                      <Link to="/provider/profile" className="flex w-full justify-start">
                         <Button variant="ghost" sx={{fontFamily:'Poppins', paddingLeft:'0', justifyContent:'flex-start' }} className='w-full'>
                           <UserIcon className="mr-2 h-4 w-4" />
                           Perfil
                         </Button>
                       </Link>
-                      <Link href="/provider/settings">
+                      <Link to="/provider/settings">
                         <Button variant="ghost" sx={{fontFamily:'Poppins', paddingLeft:'0', justifyContent:'flex-start' }} className='w-full'>
                           <SettingsIcon className="mr-2 h-4 w-4" />
                           Configuración
                         </Button>
                       </Link>
-                      <Link href="/login/provider">
+                      <Link to="/login/provider">
                         <Button variant="ghost" sx={{fontFamily:'Poppins', paddingLeft:'0', justifyContent:'flex-start' }} className='w-full'>
                           <LogOutIcon className="mr-2 h-4 w-4" />
                           Cerrar sesión
