@@ -5,7 +5,11 @@ import { useState } from "react";
 
 const theme = createTheme({
     typography: { fontFamily: 'Poppins, sans-serif' },
+    palette: {
+        primary: { main: '#005c71' }
+    }
 });
+
 
 export default function ProfileClient(){
 
@@ -19,7 +23,7 @@ export default function ProfileClient(){
         email: 'sarah.johnson@example.com',
         emergencyContact:'+1 (284) 785-6718',
         rating: 4.9,
-        services: 12 
+        services: 12
     })
 
     const handleChange = (e) => {
@@ -32,22 +36,49 @@ export default function ProfileClient(){
     return (
         <ThemeProvider theme={theme}>
             <main className='flex  py-6 px-10 md:px-5 lg:px-10 xl:px-25 bg-gray-100 min-h-screen flex-col gap-6'>
-                <div className="flex justify-between items-center">
+                <div className="flex justify-between items-center ">
                     <div className="flex flex-col gap-3">
                         <h1 className="text-3xl font-bold ">Mi perfil</h1>
                         <span className="text-gray-600">Información del perfil pública</span>
                     </div>
                     {!isEditing ? (
-                    <Button onClick={() => setIsEditing(true)}>
+                    <Button
+                    variant="contained"
+                    color="primary"
+                    sx={{ 
+                        fontWeight:500, borderRadius:3
+                    }}
+                    onClick={() => setIsEditing(true)}>
                         Editar perfil
                     </Button>
                     ) : (
                         <>
-                        <div>
-                            <Button onClick={() => setIsEditing(false)}>
+                        <div className="flex items-center gap-4">
+                            <Button 
+                            variant="outlined"
+                            sx={{
+                                fontFamily:'Poppins, sans-serif',
+                                flex : {xs: 'auto', sm:'1'},
+                                width: {xs : '100%', sm: 'auto'},
+                                alignSelf: { xs: 'stretch', sm: 'center' },
+                                color: '#000', background:'#fff', borderColor:'#ccc', fontWeight:500, borderRadius:3,
+                                '&:hover':{
+                                    backgroundColor: '#eb2502ff',
+                                    color: '#fff',
+                                    borderColor: '#f7ae26ff',
+                                }
+                            }}
+                            onClick={() => setIsEditing(false)}>
                                 Cancelar
                             </Button>
-                            <Button>
+                            <Button
+                            type="submit"
+                            variant="contained"
+                            color="primary"
+                            sx={{ 
+                                fontWeight:500, borderRadius:3,
+                            }}
+                            >
                                 Guardar cambios
                             </Button>
                         </div>
@@ -58,10 +89,12 @@ export default function ProfileClient(){
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
                     {/* Seccion de Foto de perfil */}
-                    <div className="flex flex-col border-1 border-gray-400 bg-white rounded-xl p-6 gap-5">
+                    <div className="flex flex-col border border-gray-200 bg-white rounded-xl p-6 gap-6 h-fit">
                         <div className="flex flex-col items-center text-center gap-4">
-                            <h2 className="text-xl font-semibold">Foto de perfil</h2>
-                            <span className="text-gray-500">Esta foto será visible para los prestadores</span>
+                            <div className="flex flex-col gap-1 text-center">
+                                <h2 className="text-lg font-semibold">Foto de perfil</h2>
+                                <span className="text-gray-500 text-sm">Esta foto será visible para los prestadores</span>
+                            </div>
                             <div className="flex flex-col relative items-center gap-10">
                                 <Avatar
                                     alt="Profile Picture"
@@ -70,9 +103,15 @@ export default function ProfileClient(){
                                 />
                                 {isEditing && (
                                     <Button
-                                    startIcon={<CameraAlt />}
+                                        variant="contained"
+                                        color="primary"
+                                        sx={{
+                                            position: 'absolute', bottom: 0, right: -10,
+                                            minWidth: 'auto', padding: 1, borderRadius: '50%',
+                                            border: '2px solid white'
+                                        }}
                                     >
-                                        Cambiar foto
+                                        <CameraAlt fontSize="small" />
                                     </Button>
                                 )}
                             </div>
@@ -80,15 +119,19 @@ export default function ProfileClient(){
                                 <h2 className="text-xl font-bold">{formData.displayName}</h2>
                                 <span className="text-gray-500 text-sm">{formData.location}</span>
                             </div>
-                            <div className="flex items-center gap-1 bg-orange-50 px-3 py-1 rounded-full border-orange-300 border-1">
-                                <Star sx={{color:'#f59e0b', fontSize:20}}/>
-                                <span className="font-bold text-gray-700">{formData.rating}</span>
-                                <span className="text-xs text-gray-400">({formData.services} servicios)</span>
+                            <div className="flex justify-center gap-3 w-full">
+                                <div className="flex flex-col items-center bg-orange-50 px-3 py-2 rounded-lg border border-orange-100 flex-1">
+                                     <div className="flex items-center gap-1">
+                                        <Star sx={{ color: '#f59e0b', fontSize: 18 }} />
+                                        <span className="font-bold text-gray-800">{formData.rating}</span>
+                                    </div>
+                                    <span className="text-xs text-gray-500">Calificación</span>
+                                </div>
                             </div>
                         </div>
                         <Divider />
                         <div className="flex flex-col gap-2 ">
-                            <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Verificaciones</span>
+                            <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">Verificaciones</span>
                             <div className="flex flex-wrap gap-2">
                                 <Chip label="Email verificado" size="small" color="success" variant="outlined"/>
                                 <Chip label="Teléfono verificado" size="small" color="success" variant="outlined"/>
@@ -98,7 +141,7 @@ export default function ProfileClient(){
                     </div>
 
                     {/* Seccion de Información pública */}
-                    <div className="flex flex-col border-1 border-gray-400 rounded-xl p-6 bg-white">
+                    <div className="flex flex-col border border-gray-200 bg-white rounded-xl p-6 gap-6 h-fit">
                         <div className="flex flex-col gap-5">
                             <div className="flex flex-col gap-1">
                                 <div className="flex items-center gap-2">
@@ -187,7 +230,7 @@ export default function ProfileClient(){
 
                     </div>
 
-                    <div className="flex flex-col border-1 border-gray-400 bg-white rounded-xl p-6">
+                    <div className="flex flex-col border border-gray-200 bg-white rounded-xl p-6 gap-6 h-fit">
                         <div className="flex flex-col gap-5">
                             <div className="flex flex-col gap-1 ">
                                 <div className="flex items-center gap-2">
