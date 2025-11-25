@@ -20,6 +20,9 @@ import {
     Chip
 } from "@mui/material";
 import { useState } from "react";
+import BaseModalCredit from "../../Components/BaseModalCredit";
+import AddCardForm from "../../Components/AddCardForm";
+import AddBankAccountForm from "../../Components/AddBankAccountForm";
 
 const theme = createTheme({
     typography: { fontFamily: 'Poppins, sans-serif' },
@@ -30,6 +33,7 @@ const theme = createTheme({
 });
 
 export default function SettingsProvider() {
+    const [creditCardModalOpen, setCreditCardModalOpen] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
 
     const [settings, setSettings] = useState({
@@ -46,6 +50,14 @@ export default function SettingsProvider() {
             [event.target.name]: event.target.checked,
         });
     };
+
+    const handleNewCreditCard = () =>{
+        setCreditCardModalOpen(true);
+    }
+
+    const handleSaveCard = () =>{
+        setCreditCardModalOpen(false);
+    }
 
     return (
         <ThemeProvider theme={theme}>
@@ -90,7 +102,7 @@ export default function SettingsProvider() {
                                     <AccountBalance color="primary" />
                                     <h2 className="text-lg font-semibold">Métodos de Cobro</h2>
                                 </div>
-                                <Button startIcon={<Add />} size="small" variant="outlined" sx={{textTransform:'none', borderRadius:5}}>Cuenta</Button>
+                                <Button onClick={handleNewCreditCard} startIcon={<Add />} size="small" variant="outlined" sx={{textTransform:'none', borderRadius:5}}>Cuenta</Button>
                             </div>
 
                             <div className="flex flex-col gap-3">
@@ -199,6 +211,9 @@ export default function SettingsProvider() {
                     </div>
                 </div>
             </main>
+            <BaseModalCredit open={creditCardModalOpen} onClose={() => setCreditCardModalOpen(false)}>
+                <AddBankAccountForm onCancel={() => setCreditCardModalOpen(false)} onSave={handleSaveCard} />
+            </BaseModalCredit>
         </ThemeProvider>
     )
 }
