@@ -5,6 +5,9 @@ import PetsIcon from '@mui/icons-material/Pets';
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import AttachMoneyOutlinedIcon from '@mui/icons-material/AttachMoneyOutlined';
 
+import DoneIcon from '@mui/icons-material/Done';
+import CancelIcon from '@mui/icons-material/Cancel';
+
 // Importación de componentes MUI
 import { Button } from '@mui/material';
 
@@ -17,7 +20,7 @@ export default function BookingCard({
     location,
     price,
     status,
-    onCancel,
+    onCancel, // No se le pasa ningúna función actualmente
     onReschedule,
     onViewDetails,
 }) {
@@ -65,14 +68,14 @@ export default function BookingCard({
         </div>
         </div>
         <div className='w-full h-auto grid grid-cols-12 gap-4'>
-            <Button 
-                variant="outlined" 
+            <Button
+                variant="outlined"
                 sx={{
                     textTransform: 'none' ,fontFamily:'Poppins, sans-serif',
-                    color: '#000', 
-                    background:'#fff', 
-                    borderColor:'#ccc', 
-                    fontWeight:500, 
+                    color: '#000',
+                    background:'#fff',
+                    borderColor:'#ccc',
+                    fontWeight:500,
                     borderRadius:3,
                     '&:hover':{
                         backgroundColor: '#eb9902ff',
@@ -80,21 +83,21 @@ export default function BookingCard({
                         borderColor: '#f7ae26ff',
                     },
                     gridColumn: { xs: 'span 12', lg: 'span 4' }
-                }} 
+                }}
                 onClick={onViewDetails}
             >
             Detalles
             </Button>
-            {status === "pendiente" || status === "confirmado" ? (
+            {status === "confirmado" ? (
             <>
                 <Button 
-                    variant="outlined" 
+                    variant="outlined"
                     sx={{
                         textTransform: 'none' ,fontFamily:'Poppins, sans-serif',
-                        color: '#000', 
-                        background:'#fff', 
-                        borderColor:'#ccc', 
-                        fontWeight:500, 
+                        color: '#000',
+                        background:'#fff',
+                        borderColor:'#ccc',
+                        fontWeight:500,
                         borderRadius:3,
                         '&:hover':{
                             backgroundColor: '#eb9902ff',
@@ -103,18 +106,18 @@ export default function BookingCard({
                         },
                         flex: 1,
                         gridColumn: { xs: 'span 12', lg: 'span 4' }
-                    }} 
+                    }}
                     onClick={onReschedule}
                 >
                 Reprogramar
                 </Button>
-                <Button 
-                    variant="contained" 
+                <Button
+                    variant="contained"
                     sx={{
                         textTransform: 'none' ,fontFamily:'Poppins, sans-serif',
-                        color: '#ffffffff', 
+                        color: '#ffffffff',
                         background:'#cf0c0cff',
-                        fontWeight:500, 
+                        fontWeight:500,
                         borderRadius:3,
                         '&:hover':{
                             backgroundColor: '#af3200ff',
@@ -122,13 +125,61 @@ export default function BookingCard({
                         },
                         flex: 1,
                         gridColumn: { xs: 'span 12', lg: 'span 4' }
-                    }} 
+                    }}
                     onClick={onCancel}
                 >
                 Cancelar
                 </Button>
             </>
-            ) : null}
+            ) :
+            <>
+            {status === "pendiente" && (
+                <>
+                    <Button
+                    variant="outlined"
+                    startIcon={<DoneIcon sx={{marginRight:'0.5rem'}}/>}
+                    sx={{
+                        flex:1,
+                        textTransform: 'none' ,fontFamily:'Poppins, sans-serif',
+                        color: '#ffffffff',
+                        background:'#209129ff',
+                        borderColor:'none',
+                        fontWeight:500,
+                        borderRadius:3,
+                        '&:hover':{
+                            borderColor:'#ffff',
+                            backgroundColor: 'rgba(41, 187, 54, 1)',
+                        },
+                        gridColumn: { xs: 'span 12', lg: 'span 4' }
+                    }}
+                    >
+                        aceptar
+                    </Button>
+                    <Button
+                    variant="outlined"
+                    startIcon={<CancelIcon sx={{marginRight:'0.5rem'}}/>}
+                    sx={{
+                        flex:1,
+                        textTransform: 'none' ,fontFamily:'Poppins, sans-serif',
+                        color: '#ff2e2eff',
+                        background:'#fff',
+                        borderColor:'#ccc',
+                        fontWeight:500,
+                        borderRadius:3,
+                        '&:hover':{
+                            backgroundColor: '#df1111ff',
+                            color: '#fff',
+                        },
+                        gridColumn: { xs: 'span 12', lg: 'span 4' }
+                    }}
+                    >
+                        Rechazar
+                    </Button>
+                </>
+            )}
+            </>
+            }
+
         </div>
     </div>
   )

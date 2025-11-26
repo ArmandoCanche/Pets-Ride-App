@@ -12,6 +12,7 @@ import {
   Logout as LogOutIcon,
 } from '@mui/icons-material'
 import { useState } from 'react'
+import { ListItemIcon } from '@mui/material'
 
 export default function NavigationHeader({ userType }) {
   const navigate = useNavigate();
@@ -27,6 +28,19 @@ export default function NavigationHeader({ userType }) {
     setAnchorEl(null)
   }
 
+  const handleLogOut = () => {
+    handleMenuClose();
+    setMobileMenuOpen(false);
+    localStorage.removeItem("token");
+    if (userType === "provider") {
+      navigate("/login/prestador");
+    } else {
+      navigate("/login/cliente");
+    }
+  }
+
+  const baseClasses = "text-md font-medium py-2 px-4 rounded-full border-2 transition-all";
+
   return (
     <header className="flex border-b flex-col w-full border-gray-200 shadow-sm">
       <>
@@ -38,33 +52,85 @@ export default function NavigationHeader({ userType }) {
           <nav className="hidden md:flex  items-center justify-text-center md:text-sm md:gap-0  lg:text-sm lg:gap-6 xl:text-sm xl:gap-12">
             {!userType && (
               <div className="xs:font-size-sm ">
-                <NavLink to="/services" className={({isActive}) => isActive ? "text-md font-medium text-purple-600 border-2 py-2 px-4 rounded-full" : "text-md font-medium py-2 px-4 rounded-full"}>
+                <NavLink to="/services" className={({isActive}) => 
+                  isActive 
+                    ? `${baseClasses} text-purple-600 border-purple-600` 
+                    : `${baseClasses} border-transparent hover:bg-gray-50`
+                }>
                   Servicios
                 </NavLink>
-                <NavLink to="/how-it-works" className={({isActive}) => isActive ? "text-md font-medium text-purple-600 border-2 py-2 px-4 rounded-full" : "text-md font-medium py-2 px-4 rounded-full"}>
+                <NavLink to="/how-it-works" className={({isActive}) => 
+                  isActive 
+                    ? `${baseClasses} text-purple-600 border-purple-600` 
+                    : `${baseClasses} border-transparent hover:bg-gray-50`
+                }>
                   Cómo funciona
                 </NavLink>
-                <NavLink to="/about" className={({isActive}) => isActive ? "text-md font-medium text-purple-600 border-2 py-2 px-4 rounded-full" : "text-md font-medium py-2 px-4 rounded-full"}>
+                <NavLink to="/about" className={({isActive}) => 
+                  isActive 
+                    ? `${baseClasses} text-purple-600 border-purple-600` 
+                    : `${baseClasses} border-transparent hover:bg-gray-50`
+                }>
                   Acerca de
                 </NavLink>
               </div>
             )}
             {userType === "client" && (
               <>
-                <NavLink to="/client" end className={({isActive}) => isActive ? "text-md font-medium text-green-600 border-2 py-2 px-4 rounded-full" : "text-md font-medium py-2 px-4 rounded-full"}>Panel</NavLink>
-                <NavLink to="/client/search" className={({isActive}) => isActive ? "text-md font-medium text-green-600 border-2 py-2 px-4 rounded-full" : "text-md font-medium py-2 px-4 rounded-full"}>Buscar servicios</NavLink>
-                <NavLink to="/client/bookings" className={({isActive}) => isActive ? "text-md font-medium text-green-600 border-2 py-2 px-4 rounded-full" : "text-md font-medium py-2 px-4 rounded-full"}>Mis reservas</NavLink>
-                <NavLink to="/client/pets" className={({isActive}) => isActive ? "text-md font-medium text-green-600 border-2 py-2 px-4 rounded-full" : "text-md font-medium py-2 px-4 rounded-full"}>Mis mascotas</NavLink>
-                <NavLink to="/client/messages" className={({isActive}) => isActive ? "text-md font-medium text-green-600 border-2 py-2 px-4 rounded-full" : "text-md font-medium py-2 px-4 rounded-full"}>Mensajes</NavLink>
+                <NavLink to="/client" end className={({isActive}) => 
+                  isActive 
+                    ? `${baseClasses} text-green-600 border-green-600` 
+                    : `${baseClasses} border-transparent hover:bg-gray-50`
+                }>Panel</NavLink>
+                <NavLink to="/client/search" className={({isActive}) => 
+                  isActive 
+                    ? `${baseClasses} text-green-600 border-green-600` 
+                    : `${baseClasses} border-transparent hover:bg-gray-50`
+                }>Buscar servicios</NavLink>
+                <NavLink to="/client/bookings" className={({isActive}) => 
+                  isActive 
+                    ? `${baseClasses} text-green-600 border-green-600` 
+                    : `${baseClasses} border-transparent hover:bg-gray-50`
+                }>Mis reservas</NavLink>
+                <NavLink to="/client/pets" className={({isActive}) => 
+                  isActive 
+                    ? `${baseClasses} text-green-600 border-green-600` 
+                    : `${baseClasses} border-transparent hover:bg-gray-50`
+                }>Mis mascotas</NavLink>
+                <NavLink to="/client/messages" className={({isActive}) => 
+                  isActive 
+                    ? `${baseClasses} text-green-600 border-green-600` 
+                    : `${baseClasses} border-transparent hover:bg-gray-50`
+                }>Mensajes</NavLink>
               </>
             )}
             {userType === "provider" && (
               <>
-                <NavLink end to="/provider" className={({isActive}) => isActive ? "text-md font-medium text-orange-600 border-2 py-2 px-4 rounded-full" : "text-md font-medium py-2 px-4 rounded-full"}>Panel</NavLink>
-                <NavLink to="/provider/services" className={({isActive}) => isActive ? "text-md font-medium text-orange-600 border-2 py-2 px-4 rounded-full" : "text-md font-medium py-2 px-4 rounded-full"}>Mis servicios</NavLink>
-                <NavLink to="/provider/bookings" className={({isActive}) => isActive ? "text-md font-medium text-orange-600 border-2 py-2 px-4 rounded-full" : "text-md font-medium py-2 px-4 rounded-full"}>Reservas</NavLink>
-                <NavLink to="/provider/earnings" className={({isActive}) => isActive ? "text-md font-medium text-orange-600 border-2 py-2 px-4 rounded-full" : "text-md font-medium py-2 px-4 rounded-full"}>Ganancias</NavLink>
-                <NavLink to="/provider/messages" className={({isActive}) => isActive ? "text-md font-medium text-orange-600 border-2 py-2 px-4 rounded-full" : "text-md font-medium py-2 px-4 rounded-full"}>Mensajes</NavLink>
+                <NavLink end to="/provider" className={({isActive}) => 
+                  isActive 
+                    ? `${baseClasses} text-orange-600 border-orange-600` 
+                    : `${baseClasses} border-transparent hover:bg-gray-50`
+                }>Panel</NavLink>
+                <NavLink to="/provider/services" className={({isActive}) => 
+                  isActive 
+                    ? `${baseClasses} text-orange-600 border-orange-600` 
+                    : `${baseClasses} border-transparent hover:bg-gray-50`
+                }>Mis servicios</NavLink>
+                <NavLink to="/provider/bookings" className={({isActive}) => 
+                  isActive 
+                    ? `${baseClasses} text-orange-600 border-orange-600` 
+                    : `${baseClasses} border-transparent hover:bg-gray-50`
+                }>Reservas</NavLink>
+                <NavLink to="/provider/earnings" className={({isActive}) => 
+                  isActive 
+                    ? `${baseClasses} text-orange-600 border-orange-600` 
+                    : `${baseClasses} border-transparent hover:bg-gray-50`
+                }>Ganancias</NavLink>
+                <NavLink to="/provider/messages" className={({isActive}) => 
+                  isActive 
+                    ? `${baseClasses} text-orange-600 border-orange-600` 
+                    : `${baseClasses} border-transparent hover:bg-gray-50`
+                }>Mensajes</NavLink>
               </>
             )}
             {userType === "admin" && (
@@ -96,26 +162,25 @@ export default function NavigationHeader({ userType }) {
                   </Avatar>
                 </Button>
                 <Menu anchorEl={anchorEl} open={menuOpen} onClose={handleMenuClose}>
-                  <MenuItem onClick={handleMenuClose}>
-                    <UserIcon fontSize="small" className="mr-2" />
-                    <Link to={`/${userType}/profile`}>Perfil</Link>
+                  <MenuItem 
+                  component={Link} 
+                  to={`/${userType}/profile`}
+                  onClick={handleMenuClose}>
+                    <ListItemIcon><UserIcon fontSize="small" className="mr-2" /></ListItemIcon>
+                    Perfil
                   </MenuItem>
-                  <MenuItem onClick={handleMenuClose}>
-                    <SettingsIcon fontSize="small" className="mr-2" />
-                    <Link to={`/${userType}/settings`}>Configuración</Link>
+                  <MenuItem 
+                  component={Link} 
+                  to={`/${userType}/settings`}
+                  onClick={handleMenuClose}>
+                    <ListItemIcon><SettingsIcon fontSize="small" className="mr-2" /></ListItemIcon>
+                    Configuración
                   </MenuItem>
                   <MenuItem
-                  onClick={() => {
-                    localStorage.removeItem("token");
-                    handleMenuClose();
-                    if (userType === "provider") {
-                      navigate("/login/prestador");
-                    } else {
-                      navigate("/login/cliente");
-                    }
-                  }}
+                  onClick={handleLogOut}
+                  sx={{color:'error.main'}}
                 >
-                  <LogOutIcon fontSize="small" className="mr-2" />
+                  <ListItemIcon><LogOutIcon fontSize="small" className="mr-2" /></ListItemIcon>
                   Cerrar sesión
                 </MenuItem>
                 </Menu>
@@ -156,19 +221,19 @@ export default function NavigationHeader({ userType }) {
                     <Link to="/client/pets" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Mis mascotas</Link>
                     <Link to="/client/messages" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Mensajes</Link>
                     <div className="flex flex-col gap-2 pt-2 border-t">
-                      <Link href="/client/profile" className="flex w-full justify-start">
+                      <Link to="/client/profile" className="flex w-full justify-start">
                         <Button variant="ghost" sx={{fontFamily:'Poppins', paddingLeft:'0'}}>
                           <UserIcon className="mr-2 h-4 w-4" />
                           Perfil
                         </Button>
                       </Link>
-                      <Link href="/client/settings">
+                      <Link to="/client/settings">
                         <Button variant="ghost" sx={{fontFamily:'Poppins', paddingLeft:'0'}}>
                           <SettingsIcon className="mr-2 h-4 w-4" />
                           Configuración
                         </Button>
                       </Link>
-                      <Link href="/login/client">
+                      <Link to="/login/client">
                         <Button variant="ghost" sx={{fontFamily:'Poppins', justifyContent:'flex-start', paddingLeft:'0'}}>
                           <LogOutIcon className="mr-2 h-4 w-4" />
                           Cerrar sesión
@@ -185,19 +250,19 @@ export default function NavigationHeader({ userType }) {
                     <Link to="/provider/earnings" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Ganancias</Link>
                     <Link to="/provider/messages" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Mensajes</Link>
                     <div className="flex flex-col gap-2 pt-2 border-t">
-                      <Link href="/provider/profile" className="flex w-full justify-start">
+                      <Link to="/provider/profile" className="flex w-full justify-start">
                         <Button variant="ghost" sx={{fontFamily:'Poppins', paddingLeft:'0', justifyContent:'flex-start' }} className='w-full'>
                           <UserIcon className="mr-2 h-4 w-4" />
                           Perfil
                         </Button>
                       </Link>
-                      <Link href="/provider/settings">
+                      <Link to="/provider/settings">
                         <Button variant="ghost" sx={{fontFamily:'Poppins', paddingLeft:'0', justifyContent:'flex-start' }} className='w-full'>
                           <SettingsIcon className="mr-2 h-4 w-4" />
                           Configuración
                         </Button>
                       </Link>
-                      <Link href="/login/provider">
+                      <Link to="/login/provider">
                         <Button variant="ghost" sx={{fontFamily:'Poppins', paddingLeft:'0', justifyContent:'flex-start' }} className='w-full'>
                           <LogOutIcon className="mr-2 h-4 w-4" />
                           Cerrar sesión

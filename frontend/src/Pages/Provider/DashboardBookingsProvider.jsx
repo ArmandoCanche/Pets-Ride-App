@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 
 import { Box, Tabs, Tab } from '@mui/material';
 import BookingCardProvider from '../../Components/BookingCardProvider';
-
 export default function DashboardBookingsProvider() {
 
   const [detailModalOpen, setDetailModalOpen] = useState(false)
@@ -61,7 +60,7 @@ export default function DashboardBookingsProvider() {
     pet: "Charlie",
     petType: "Beagle",
     petAge: "5 años",
-    petWeight: "25 lbs", // O "11.3 kg"
+    petWeight: "25 lbs",
     date: "2025-01-27",
     time: "9:00 AM",
     duration: "4 horas",
@@ -83,7 +82,7 @@ export default function DashboardBookingsProvider() {
     pet: "Buddy",
     petType: "Labrador",
     petAge: "4 años",
-    petWeight: "70 lbs", // O "31.7 kg"
+    petWeight: "70 lbs",
     date: "2025-01-20",
     time: "3:00 PM",
     duration: "1 hora",
@@ -98,9 +97,9 @@ export default function DashboardBookingsProvider() {
     client: "Lisa Anderson",
     clientImage: "/woman-3.jpg",
     pet: "Milo",
-    petType: "Gato Atigrado", // O "Gato Tabby"
+    petType: "Gato Atigrado", 
     petAge: "6 años",
-    petWeight: "12 lbs", // O "5.4 kg"
+    petWeight: "12 lbs",
     date: "2025-01-18",
     time: "11:00 AM",
     duration: "30 minutos",

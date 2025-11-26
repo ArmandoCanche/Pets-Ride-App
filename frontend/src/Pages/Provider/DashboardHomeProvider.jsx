@@ -17,13 +17,12 @@ import { Link, NavLink } from 'react-router-dom';
 // Componentes
 import StatsCard from '../../Components/StatsCard.jsx';
 import BookingCard  from '../../Components/BookingCard.jsx';
-import PetCard from '../../Components/PetCard.jsx';
 import ClientBookingDetailModal from '../../Components/ClientBookingDetailModal.jsx';
 import ClientRescheduleModal from '../../Components/ClientRescheduleModal.jsx';
-import PetDetailModal from '../../Components/PetDetailModal.jsx';
-import StarBorderIcon from '@mui/icons-material/StarBorder';
-import MovingIcon from '@mui/icons-material/Moving';
 import ReviewCard from '../../Components/ReviewCard.jsx';
+// import BarChartComponent from '../../Components/BarChart.jsx';
+
+
 
 
 export default function DashboardHomeProvider() {
@@ -39,12 +38,7 @@ const [selectedBooking, setSelectedBooking] = useState(null)
   });
 
 
-  const stats = {
-    totalEarnings: 2450,
-    pendingBookings: 5,
-    rating: 4.9,
-    completedServices: 127,
-  }
+
 
   const upcomingBookings = [
     {
@@ -129,16 +123,14 @@ const recentReviews = [
 
 
   const handleMessageSent = () => {
-    setDetailModalOpen(false); // Cierra el modal
-    setSnackbar({ // Y activa el Snackbar
+    setDetailModalOpen(false);
+    setSnackbar({
       open: true,
       message: 'Message sent successfully. They will respond shortly.',
       severity: 'success',
     });
-    // La navegación a /client/messages la manejará el modal hijo
   };
-
-  // <-- CAMBIO 3: Añadir la función para cerrar el Snackbar
+  
   const handleSnackbarClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
@@ -147,15 +139,12 @@ const recentReviews = [
   };
 
 
-  
+
+
   return (
         <main className='flex  py-6 px-10 md:px-5 lg:px-10 xl:px-25 bg-gray-100 min-h-screen flex-col gap-6'>
-            <div className='w-full h-auto grid grid-cols-12 gap-6'>
-              <StatsCard title="Ganancias totales" value={`$ ${stats.totalEarnings}`} icon={AttachMoneyIcon} />
-              <StatsCard title="Reservas pendientes" value={stats.pendingBookings} icon={CalendarTodayIcon} />
-              <StatsCard title="Calificación" value={stats.rating} icon={StarBorderIcon} />
-              <StatsCard title="Completados" value={stats.completedServices} icon={MovingIcon} />
-            </div>
+
+
 
 
             {/* Segunda sección */}

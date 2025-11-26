@@ -1,16 +1,18 @@
 import { Pets, Search } from "@mui/icons-material"
 import { Button, Input } from "@mui/material"
-import { div } from "framer-motion/client"
 import { useState } from "react"
 import { Link } from "react-router-dom"
 
 import PetCard from "../../Components/PetCard"
+import PetDetailModal from "../../Components/PetDetailModal"
+import EditPetModal from "../../Components/EditPetModal"
 
 
 export default function DashboardPets(){
     const [searchQuery, setSearchQuery] = useState("")
     const [petDetailModalOpen, setPetDetailModalOpen] = useState(false)
     const [selectedPet, setSelectedPet] = useState(null)
+    const [createModalOpen, setCreateModalOpen] = useState(false)
 
     const pets = [
         {
@@ -56,6 +58,10 @@ export default function DashboardPets(){
         setPetDetailModalOpen(true)
     }
 
+    const handleCreateNew = () => {
+        setCreateModalOpen(true)
+    }
+
     return (
     <>
         <main className='flex  py-6 px-10 md:px-5 lg:px-10 xl:px-25 bg-gray-100 min-h-screen flex-col gap-6'>
@@ -72,11 +78,9 @@ export default function DashboardPets(){
                 size="medium"
                 />
               </div>
-              <Link to={""}>
-                  <Button sx={{textTransform: 'none' , padding: '10px 16px', fontFamily: 'Poppins, sans-serif',height:'100%', borderRadius:3, color:'#fff', border:'none',bgcolor:'#f37556', '&:hover': { bgcolor: '#f37556' } }}>
-                    Agregar mascota
-                  </Button>
-              </Link>
+                <Button onClick={handleCreateNew} sx={{textTransform: 'none' , padding: '10px 16px', fontFamily: 'Poppins, sans-serif',height:'100%', borderRadius:3, color:'#fff', border:'none',bgcolor:'#f37556', '&:hover': { bgcolor: '#f37556' } }}>
+                  Agregar mascota
+                </Button>
             </div>
 
             {filteredPets.length > 0 ? (
@@ -98,9 +102,13 @@ export default function DashboardPets(){
             )}
 
             {selectedPet && (
-              // Modal
-              ("")
+              <PetDetailModal open={petDetailModalOpen} onOpenChange={setPetDetailModalOpen} pet={selectedPet} />
             )}
+            <EditPetModal
+            open={createModalOpen}
+            onOpenChange={setCreateModalOpen}
+            pet={null}
+            />
 
         </main>
     </>

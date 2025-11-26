@@ -10,16 +10,15 @@ import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 
 // Componentes
 import StatsCard from '../../Components/StatsCard';
-import { Link } from 'react-router-dom';
 import { Button } from '@mui/material';
 import ServiceCard from '../../Components/serviceCard';
+import ServiceModal from '../../Components/ServiceModal';
 
 export default function DashboardMyServices() {
 
 
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [selectedService, setSelectedService] = useState(null);
-
   const [services, setServices] = useState([
   {
     id: "1",
@@ -65,11 +64,34 @@ export default function DashboardMyServices() {
     setServices(services.map((service) => (service.id === id ? { ...service, active: !service.active } : service)))
   }
 
+  const handleCreateNew = () => {
+    setSelectedService(null);
+    setEditModalOpen(true);
+  }
+
   const handleEdit = (service) => {
     setSelectedService(service)
     setEditModalOpen(true)
   }
 
+  const handleSaveService = (dataFromModal) => {
+    if (selectedService) {
+      const updatedServices = services.map((service) =>
+        service.id === selectedService.id ? { ...service, ...dataFromModal } : service
+      );
+      setServices(updatedServices);
+    } else {
+      const newService = {
+        id: Date.now().toString(),
+        active: true,
+        bookings: 0,
+        revenue: 0,
+        nextBooking: "Sin reservas",
+        ...dataFromModal
+      };
+      setServices([...services, newService]);
+    }
+  }
   const totalRevenue = services.reduce((sum, service) => sum + service.revenue, 0)
   const totalBookings = services.reduce((sum, service) => sum + service.bookings, 0)
   const activeServices = services.filter((s) => s.active).length
@@ -86,34 +108,32 @@ export default function DashboardMyServices() {
           </div>
           {/* Sección del botón para agregar un nuevo servicio */}
           <div >
-            <Link to={''}>
-              <Button
-
-              startIcon={<AddIcon />}
-              sx={{
-                textTransform: 'none' ,fontFamily:'Poppins, sans-serif',
-                color: '#ffffffff',
-                background:'#175a69ff',
-                borderColor:'none',
-                fontWeight:500,
-                borderRadius:3,
-                '&:hover':{
-                    backgroundColor: '#186c7e',
-                },
-                paddingX:3,
-                paddingY:1.5
-              }}
-              >
-                Agregar nuevo servicio
-              </Button>
-            </Link>
+            <Button
+            onClick={handleCreateNew}
+            startIcon={<AddIcon />}
+            sx={{
+              textTransform: 'none' ,fontFamily:'Poppins, sans-serif',
+              color: '#ffffffff',
+              background:'#175a69ff',
+              borderColor:'none',
+              fontWeight:500,
+              borderRadius:3,
+              '&:hover':{
+                  backgroundColor: '#186c7e',
+              },
+              paddingX:3,
+              paddingY:1.5
+            }}
+            >
+              Agregar nuevo servicio
+            </Button>
           </div>
 
           {/* Sección de las cartas */}
           {services.length > 0 ? (
             <div className='grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-6'>
               {services.map((service) => (
-                <ServiceCard 
+                <ServiceCard
                   key={service.id}
                   {...service}
                   handleEdit={() => handleEdit(service)}
@@ -125,8 +145,8 @@ export default function DashboardMyServices() {
             <div className='flex flex-col gap-6 text-center py-18 rounded-2xl border-1 border-gray-300 shadow-sm '>
               <div ><HelpOutlineIcon sx={{height:64, width:64, color:'#b6b6b6ff'}}/></div>
               <p className='text-lg font-medium text-gray-400'>Aún no has agregado servicios</p>
-              <Link to={''}>
                 <Button
+                  onClick={handleCreateNew}
                   sx={{
                     textTransform: 'none' ,fontFamily:'Poppins, sans-serif',
                     color: '#ffffffff',
@@ -143,12 +163,14 @@ export default function DashboardMyServices() {
                 >
                   <AddIcon />
                 </Button>
-              </Link>
             </div>
           )}
-          {selectedService && (
-            <div></div>
-          )}
+            <ServiceModal
+            open={editModalOpen}
+            onOpenChange={setEditModalOpen}
+            service={selectedService}
+            onSave={handleSaveService}
+            />
         </main>
   );
 }

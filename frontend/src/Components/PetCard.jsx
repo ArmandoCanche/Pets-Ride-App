@@ -1,4 +1,3 @@
-import { Image} from "@mui/icons-material";
 
 
 import { Chip } from "@mui/material";
@@ -6,10 +5,15 @@ import { Chip } from "@mui/material";
 
 export default function PetCard({ name, species, breed, age, imageUrl, weight, specialNeeds, onClick }) {
   return (
-    <div onClick={onClick} className='flex flex-col h-full border-2 border-gray-200 rounded-lg  bg-white  '>
-        <div className="relative h-48 w-full bg-gray-100 ">
+    <div onClick={onClick} className='flex flex-col h-full border-3 border-gray-200 rounded-lg  bg-white overflow-hidden 
+        hover:border-[#b154c0]
+        hover:scale-105
+        transition duration-300 ease-in-out'>
+        <div className="relative h-48 w-full bg-gray-100   hover:border-[#b154c0]
+               hover:scale-105
+               transition duration-300 ease-in-out">
             {imageUrl ? (
-                <Image src={imageUrl ||"/placeholder.svg"} alt={name} fill className="object-cover" />
+                <img src={imageUrl ||"/placeholder.svg"} alt={name} className="object-cover w-full h-full" />
             ) : (
                 <div className="h-full w-full flex items-center justify-center text-6xl">
                     {species === "perro" ? "🐶" : species === "gato" ? "🐱" : "🐾"}
@@ -31,7 +35,7 @@ export default function PetCard({ name, species, breed, age, imageUrl, weight, s
 
                 {specialNeeds && specialNeeds.length > 0 && (
                     <div className="pt-2 border-t">
-                        <p className="text-cs text-muted-foreground mb-1"> Special Needs:</p>
+                        <p className="text-cs text-muted-foreground mb-1"> Necesidades especiales:</p>
                         <div className="flex flex-wrap gap-2">
                             {specialNeeds.map((need) => (
                                 <Chip key={need} color="error" variant="outlined" label={need} />

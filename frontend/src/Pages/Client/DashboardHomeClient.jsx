@@ -30,6 +30,7 @@ import ClientBookingDetailModal from '../../Components/ClientBookingDetailModal.
 import ClientRescheduleModal from '../../Components/ClientRescheduleModal.jsx';
 import PetDetailModal from '../../Components/PetDetailModal.jsx';
 import CategoryCard from '../../Components/CategoryCard.jsx';
+import EditPetModal from '../../Components/EditPetModal.jsx';
 
 
 export default function DashboardHomeClient() {
@@ -40,12 +41,13 @@ const [petDetailModalOpen, setPetDetailModalOpen] = useState(false)
 const [selectedBooking, setSelectedBooking] = useState(null)
 const [selectedPet, setSelectedPet] = useState(null)
 const [showServices, setShowServices] = useState(false)
+const [createPetModalOpen, setCreatePetModalOpen] = useState(false)
 
 
   const [snackbar, setSnackbar] = useState({
       open: false,
       message: '',
-      severity: 'success', // 'success', 'error', 'warning', 'info'
+      severity: 'success',
   });
 
 
@@ -81,34 +83,36 @@ const [showServices, setShowServices] = useState(false)
     },
   ]
 
-const myPets = [
-    {
-      name: "Max",
-      species: "perro",
-      breed: "Golden Retriever", // Los nombres de razas como esta suelen mantenerse
-      age: 3,
-      weight: 30,
-      specialNeeds: ["Alergias", "Medicación"],
-    },
-    {
-      name: "Luna",
-      species: "gato",
-      breed: "Persa",
-      age: 2,
-      weight: 4,
-    },
+  const myPets = [
+      {
+        name: "Max",
+        species: "perro",
+        gender: "macho",
+        breed: "Golden Retriever", // Los nombres de razas como esta suelen mantenerse
+        age: 3,
+        weight: 30,
+        specialNeeds: ["Alergias", "Medicación"],
+      },
+      {
+        name: "Luna",
+        species: "gato",
+        breed: "Persa",
+        age: 2,
+        weight: 4,
+      },
   ]
 
-const categoryToQueryParam = {
-  "Paseo de perro": "paseo",
-  "Veterinaria": "veterinaria",
-  "Transporte": "transporte",
-  "Hoteles": "hoteles",
-  "Peluquería": "peluqueria",
-  "Entrenamiento": "entrenamiento",
-  "Cuidado en casa": "cuidado en casa",
-  "Emergencias": "emergencias",
-};
+  const categoryToQueryParam = {
+    "Paseo de perro": "paseo",
+    "Veterinaria": "veterinaria",
+    "Transporte": "transporte",
+    "Hoteles": "hotel",
+    "Peluqueria": "peluqueria",
+    "Entrenamiento": "entrenamiento",
+    "Cuidado en casa": "cuidado en casa",
+    "Emergencias": "emergencias",
+  };
+
   const handleViewDetails = (booking) => {
     const detailedBooking = {
       ...booking,
@@ -133,6 +137,10 @@ const categoryToQueryParam = {
     setPetDetailModalOpen(true)
   }
 
+  const handleCreateNewPet = () => {
+    setSelectedPet(null)
+    setCreatePetModalOpen(true)
+  }
 
   const handleMessageSent = () => {
     setDetailModalOpen(false);
@@ -165,7 +173,7 @@ const categoryToQueryParam = {
                 disableRipple
                 onClick={() => setShowServices(!showServices)}
               >
-                Ver más
+                {showServices ? 'Ver menos' : 'Ver más'}
               </Button>
             </div>
 
@@ -184,7 +192,8 @@ const categoryToQueryParam = {
               </Link>
               <Transition
                 show={showServices}
-                as="div"
+                as={Link}
+                to={`/client/search?type=${categoryToQueryParam["Peluqueria"]}`}
                 className="col-span-3 lg:col-span-3 xl:col-span-3"
 
                 enter="transition ease-out duration-300"
@@ -288,11 +297,12 @@ const categoryToQueryParam = {
                   </div>
                   <div className='space-y-4'>
                     {myPets.map((pet) => (
-                      <div key={pet.name} onClick={() => handlePetClick(pet)} className='w-full bg-transparent hover:bg-accent/10'>
-                        <PetCard {...pet} />
+                      <div>
+                        <PetCard {...pet} key={pet.name} onClick={() => handlePetClick(pet)} />
                       </div>
                     ))}
-                    <NavLink to={"/pets/new"}><Button
+                    <Button
+                    onClick={handleCreateNewPet}
                     sx={{
                       textTransform: 'none' ,
                       borderColor: '#ccc',
@@ -305,7 +315,7 @@ const categoryToQueryParam = {
                         borderColor: '#f7ae26ff',
                       }
                     }} variant='outlined' className='w-full bg-transparent'>
-                      Agregar nueva mascota</Button></NavLink>
+                      Agregar nueva mascota</Button>
                   </div>
               </div>
             </div>
@@ -334,6 +344,11 @@ const categoryToQueryParam = {
             {selectedPet && (
               <PetDetailModal open={petDetailModalOpen} onOpenChange={setPetDetailModalOpen} pet={selectedPet} />
             )}
+            <EditPetModal
+            open={createPetModalOpen}
+            onOpenChange={setCreatePetModalOpen}
+            pet={null}
+            />
             <Snackbar
               open={snackbar.open}
               autoHideDuration={6000}

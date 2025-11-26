@@ -35,6 +35,10 @@ import HowWorks from './Footers/HowWorks';
 // Errores
 import Error404 from './Pages/Error404';
 import ForgotPassword from './Pages/ForgotPassword';
+import ProfileClient from './Pages/Client/ProfileClient';
+import SettingsClient from './Pages/Client/SettingsClient';
+import ProfileProvider from './Pages/Provider/ProfileProvider';
+import SettingsProvider from './Pages/Provider/SettingsProvider';
 
 
 
@@ -64,6 +68,8 @@ function App() {
           <Route path="bookings" element={<DashboardBookings />} />
           <Route path="pets" element={<DashboardPets />} />
           <Route path="messages" element={<DashboardMessages />} />
+          <Route path="profile" element={<ProfileClient />} />
+          <Route path="settings" element={<SettingsClient />} />
         </Route>
 
         <Route path="/provider" element={<LayoutProvider />}>
@@ -72,6 +78,8 @@ function App() {
           <Route path="bookings" element={<DashboardBookingsProvider />} />
           <Route path="earnings" element={<DashboardEarnings />} />
           <Route path="messages" element={<DashboardMessagesProvider />} />
+          <Route path="profile" element={<ProfileProvider />} />
+          <Route path="settings" element={<SettingsProvider />} />
         </Route>
 
         <Route path="*" element={<Error404/>} />

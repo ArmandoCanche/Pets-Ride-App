@@ -1,7 +1,4 @@
 import React, { useState } from 'react'; // Added React import
-// import { NavigationHeader } from "@/components/navigation-header"; // Keep custom component
-// import { ServiceCard } from "@/components/service-card"; // Keep custom component
-// import { ServiceDetailModal } from "@/components/service-detail-modal"; // Keep custom componentç
 import { Transition } from '@headlessui/react';
 import { useSearchParams } from 'react-router-dom';
 
@@ -23,11 +20,8 @@ import {
 // Icon Imports (Keeping lucide-react as used)
 import { Search, SlidersHorizontal, MapPin, Sparkles } from "lucide-react";
 import SearchCard from '../../Components/SearchCard';
-// Can also use MUI Icons if preferred:
-// import SearchIcon from '@mui/icons-material/Search';
-// import FilterListIcon from '@mui/icons-material/FilterList';
-// import LocationOnIcon from '@mui/icons-material/LocationOn';
-// import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
+import ServiceDetailModal from '../../Components/ServiceDetailModal';
+
 
 export default function SearchServicesPage() {
 
@@ -40,7 +34,7 @@ export default function SearchServicesPage() {
   const [location, setLocation] = useState("");
   const [sortBy, setSortBy] = useState("rating");
   const [showFilters, setShowFilters] = useState(hasInitialFilter);
-  const [selectedService, setSelectedService] = useState(null); // Removed <any>
+  const [selectedService, setSelectedService] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
 const services = [
@@ -54,6 +48,12 @@ const services = [
     location: "Área de Central Park",
     availability: "Disponible hoy",
     verified: true,
+    description: "Amante de los perros con experiencia...",
+    servicesOffered: ['Paseos en grupo', 'Paseos individuales', 'Alimentación post-paseo', 'Reportes con foto'],
+    reviews: [
+      { reviewerName: "Ana López", initials: "AL", rating: 5, date: "Hace 1 día", content: "Sarah es increíble con mi perro, Max. Vuelve súper feliz y cansado de sus paseos por Central Park. ¡Totalmente recomendada!" },
+      { reviewerName: "Carlos Gómez", initials: "CG", rating: 5, date: "Hace 3 días", content: "El mejor servicio de paseo. Sarah manda fotos y un reporte después de cada paseo. Muy profesional." }
+    ]
   },
   {
     providerName: "Walky Paws",
@@ -65,6 +65,12 @@ const services = [
     location: "Centro",
     availability: "Disponible mañana",
     verified: false,
+    description: "Servicio de paseo de perros confiable en el centro...",
+    servicesOffered: ['Paseos matutinos', 'Paseos de mediodía', 'Juegos en el parque'],
+    reviews: [
+      { reviewerName: "María Fernández", initials: "MF", rating: 4, date: "Hace 1 semana", content: "Buen servicio, mi perro parece contento. Me gusta que sean grupos pequeños. A veces son un poco impuntuales, pero nada grave." },
+      { reviewerName: "David Ruiz", initials: "DR", rating: 5, date: "Hace 2 semanas", content: "¡Walky Paws salvó mis mañanas! Son confiables y mi cachorro los adora. El seguimiento por GPS es un plus." }
+    ]
   },
   {
     providerName: "Dr. Michael Chen",
@@ -76,6 +82,12 @@ const services = [
     location: "Centro",
     availability: "Próxima disponibilidad: Mañana",
     verified: true,
+    description: "Veterinario compasivo con 10 años de experiencia...",
+    servicesOffered: ['Consultas generales', 'Vacunación', 'Desparasitación', 'Chequeos de salud'],
+    reviews: [
+      { reviewerName: "Laura Torres", initials: "LT", rating: 5, date: "Hace 5 días", content: "El Dr. Chen es el mejor. Trató a mi gato con tanta paciencia y amabilidad. Explicó todo claramente. No iría a ningún otro lado." },
+      { reviewerName: "Javier Ortiz", initials: "JO", rating: 5, date: "Hace 1 semana", content: "Excelente atención para la vacunación anual de mi perro. Rápido, profesional y se nota que le importan los animales." }
+    ]
   },
   {
     providerName: "Clínica PetCare",
@@ -87,6 +99,12 @@ const services = [
     location: "Distrito norte",
     availability: "Disponible hoy",
     verified: true,
+    description: "Clínica veterinaria de servicio completo...",
+    servicesOffered: ['Consultas', 'Vacunación', 'Cirugías menores', 'Análisis de laboratorio', 'Rayos X'],
+    reviews: [
+      { reviewerName: "Sofía Vargas", initials: "SV", rating: 5, date: "Hace 2 días", content: "Llevé a mi conejo por una emergencia menor y el personal de PetCare fue fantástico. Instalaciones muy limpias y modernas." },
+      { reviewerName: "Miguel Ángel", initials: "MA", rating: 4, date: "Hace 1 semana", content: "Muy buena clínica. Tienen todo allí mismo (Rayos X, laboratorio). Los precios son un poco altos, pero la calidad lo vale." }
+    ]
   },
   {
     providerName: "Happy Paws Resort",
@@ -98,6 +116,12 @@ const services = [
     location: "Área suburbana",
     availability: "Disponible esta semana",
     verified: true,
+    description: "Un lujoso hotel para mascotas en las afueras...",
+    servicesOffered: ['Alojamiento nocturno', 'Guardería de día', 'Tiempo de juego supervisado', 'Alimentación premium'],
+    reviews: [
+      { reviewerName: "Elena Silva", initials: "ES", rating: 5, date: "Hace 4 días", content: "¡Un verdadero resort de 5 estrellas! Dejé a mi perra por un fin de semana y recibí videos de ella jugando. Volvió feliz. Las suites son geniales." },
+      { reviewerName: "Roberto Paredes", initials: "RP", rating: 5, date: "Hace 10 días", content: "Impresionado con la supervisión 24/7. El personal es muy atento. Vale cada centavo por la tranquilidad que te da." }
+    ]
   },
   {
     providerName: "The Pet Palace",
@@ -109,10 +133,16 @@ const services = [
     location: "Lado oeste",
     availability: "Completo esta semana",
     verified: true,
+    description: "El lugar perfecto para que tu mascota se quede...",
+    servicesOffered: ['Alojamiento nocturno', 'Cuidado de día', 'Paseos diarios incluidos', 'Administración de medicamentos'],
+    reviews: [
+      { reviewerName: "Patricia Mendoza", initials: "PM", rating: 5, date: "Hace 1 semana", content: "Ambiente muy hogareño. A mi gata, que es muy tímida, le fue de maravilla. El personal le dio mucho cariño. Se nota que no la dejaron sola." },
+      { reviewerName: "Luis Cordero", initials: "LC", rating: 4, date: "Hace 3 semanas", content: "Buena opción en el Lado Oeste. Es más sencillo que otros 'hoteles', pero limpio y seguro. Mi perro estuvo bien." }
+    ]
   },
   {
     providerName: "Emma Wilson",
-    serviceType: "Peluquería de mascotas",
+    serviceType: "Peluqueria de mascotas",
     rating: 4.9,
     reviewCount: 203,
     price: 45,
@@ -120,10 +150,16 @@ const services = [
     location: "Lado oeste",
     availability: "Disponible hoy",
     verified: true,
+    description: "Estilista canina profesional con un toque suave...",
+    servicesOffered: ['Baño y secado', 'Corte de pelo completo', 'Corte de uñas', 'Limpieza de oídos'],
+    reviews: [
+      { reviewerName: "Gabriela Ríos", initials: "GR", rating: 5, date: "Hace 2 días", content: "Emma es una artista. Dejó a mi Poodle espectacular, el corte de raza fue perfecto. Además, fue muy dulce con él." },
+      { reviewerName: "Diego Núñez", initials: "DN", rating: 5, date: "Hace 1 semana", content: "¡El mejor baño y corte de uñas! Mi perro suele odiar la peluquería, pero con Emma estuvo tranquilo. Súper recomendada." }
+    ]
   },
   {
     providerName: "Grooming by Alice",
-    serviceType: "Peluquería de mascotas",
+    serviceType: "Peluqueria de mascotas",
     rating: 4.8,
     reviewCount: 180,
     price: 50,
@@ -131,6 +167,12 @@ const services = [
     location: "Centro",
     availability: "Disponible la próxima semana",
     verified: true,
+    description: "Salón de peluquería en el centro que utiliza solo productos orgánicos...",
+    servicesOffered: ['Baño hipoalergénico', 'Corte de raza', 'Corte de uñas y limado', 'Tratamiento anti-pulgas'],
+    reviews: [
+      { reviewerName: "Valentina Mora", initials: "VM", rating: 5, date: "Hace 6 días", content: "Me encanta que usen productos orgánicos. Mi perra tiene la piel sensible y salió perfecta, sin irritación. Alice es muy profesional." },
+      { reviewerName: "Santiago Gil", initials: "SG", rating: 4, date: "Hace 2 semanas", content: "Muy buen servicio. El lugar es relajante. La única pega es que es difícil conseguir cita, hay que reservar con mucha antelación." }
+    ]
   },
   {
     providerName: "Quick Ride Pets",
@@ -142,6 +184,12 @@ const services = [
     location: "Toda la ciudad",
     availability: "Disponible 24/7",
     verified: false,
+    description: "Servicio de transporte de mascotas rápido y seguro...",
+    servicesOffered: ['Transporte a citas veterinarias', 'Traslados al aeropuerto', 'Transporte de emergencia', 'Servicio puerta a puerta'],
+    reviews: [
+      { reviewerName: "Jimena Castro", initials: "JC", rating: 4, date: "Hace 1 semana", content: "Servicio muy útil. Los usé para llevar a mi gato al veterinario y todo bien. El conductor fue amable. No es verificado, pero fue confiable." },
+      { reviewerName: "Andrés Rojas", initials: "AR", rating: 5, date: "Hace 2 semanas", content: "¡Disponibles 24/7! Me salvaron de una emergencia nocturna para ir al hospital veterinario. Respuesta rápida." }
+    ]
   },
   {
     providerName: "Pet-Taxi Express",
@@ -153,6 +201,12 @@ const services = [
     location: "Toda la ciudad",
     availability: "Bajo demanda",
     verified: true,
+    description: "Transporte express bajo demanda para tu mascota...",
+    servicesOffered: ['Transporte bajo demanda', 'Viajes locales', 'Vehículos con aire acondicionado'],
+    reviews: [
+      { reviewerName: "Lucía Soto", initials: "LS", rating: 5, date: "Hace 3 días", content: "¡Excelente! El vehículo estaba impecable y climatizado. Mi perro, que es grande, cupo perfectamente. Muy profesional y verificado." },
+      { reviewerName: "Mateo León", initials: "ML", rating: 5, date: "Hace 1 semana", content: "Puntuales y muy cuidadosos con la jaula de mi gata. El servicio bajo demanda funciona de maravilla. Lo volveré a usar." }
+    ]
   },
   {
     providerName: "Pawsitive Training",
@@ -164,6 +218,12 @@ const services = [
     location: "Distrito norte",
     availability: "Disponible los fines de semana",
     verified: false,
+    description: "Entrenamiento basado en refuerzo positivo...",
+    servicesOffered: ['Clases de obediencia básica', 'Entrenamiento para cachorros', 'Modificación de conducta', 'Clases privadas'],
+    reviews: [
+      { reviewerName: "Daniela Solís", initials: "DS", rating: 5, date: "Hace 1 semana", content: "Las clases de obediencia básica cambiaron a mi cachorro. El método de refuerzo positivo funciona. ¡Muy recomendado!" },
+      { reviewerName: "Ricardo Ponce", initials: "RP", rating: 4, date: "Hace 3 semanas", content: "Buen entrenador. Vemos progreso. Sería genial si tuvieran más horarios entre semana, no solo los fines de semana." }
+    ]
   },
   {
     providerName: "Good Boy Academy",
@@ -175,6 +235,12 @@ const services = [
     location: "Área suburbana",
     availability: "Clases grupales disponibles",
     verified: true,
+    description: "Academia de entrenamiento canino de primer nivel...",
+    servicesOffered: ['Clases grupales', 'Entrenamiento de agilidad (Agility)', 'Socialización de cachorros'],
+    reviews: [
+      { reviewerName: "Camila Díaz", initials: "CD", rating: 5, date: "Hace 1 semana", content: "¡Las clases de agilidad son lo máximo! Mi Border Collie las disfruta muchísimo. El ambiente es genial y muy profesional." },
+      { reviewerName: "Jorge Vega", initials: "JV", rating: 5, date: "Hace 2 semanas", content: "Llevamos a nuestro cachorro para socialización y fue la mejor decisión. Aprendió a jugar con otros perros de forma segura." }
+    ]
   },
   {
     providerName: "Home Pet Sitters",
@@ -186,6 +252,12 @@ const services = [
     location: "Lado oeste",
     availability: "Disponible la próxima semana",
     verified: true,
+    description: "Cuidamos a tu mascota en la comodidad de su propio hogar...",
+    servicesOffered: ['Cuidado en casa por día', 'Visitas diarias', 'Alimentación y agua fresca', 'Paseos y juego'],
+    reviews: [
+      { reviewerName: "Fernanda Luna", initials: "FL", rating: 5, date: "Hace 1 semana", content: "Increíble servicio. Dejé a mis dos gatos por 4 días y me mandaban fotos y updates diarios. Volví y estaban súper relajados." },
+      { reviewerName: "Esteban Mora", initials: "EM", rating: 5, date: "Hace 3 semanas", content: "Prefiero mil veces esto a un hotel. Mi perro es muy ansioso y en casa estuvo perfecto. El cuidador siguió todas mis instrucciones." }
+    ]
   },
   {
     providerName: "Jane's Home Care",
@@ -197,6 +269,12 @@ const services = [
     location: "Centro",
     availability: "Disponible hoy",
     verified: false,
+    description: "Servicio de cuidado en casa personalizado...",
+    servicesOffered: ['Cuidado en casa', 'Administración de medicamentos', 'Paseos cortos', 'Compañía'],
+    reviews: [
+      { reviewerName: "Isabela Reyes", initials: "IR", rating: 5, date: "Hace 1 día", content: "Jane es un amor. Cuidó a mi perro viejito y le dio sus medicinas sin problema. Es muy responsable y cariñosa." },
+      { reviewerName: "Bruno Acosta", initials: "BA", rating: 4, date: "Hace 1 semana", content: "Buen servicio de cuidado en casa. Confiable y a buen precio. Perfecto para visitas de mediodía." }
+    ]
   },
   {
     providerName: "24/7 Vet Emergency",
@@ -208,6 +286,12 @@ const services = [
     location: "Toda la ciudad",
     availability: "Disponible 24/7",
     verified: true,
+    description: "Hospital de emergencia veterinaria totalmente equipado...",
+    servicesOffered: ['Atención de urgencias 24/7', 'Cirugía de emergencia', 'Cuidados intensivos', 'Hospitalización'],
+    reviews: [
+      { reviewerName: "Mónica Salas", initials: "MS", rating: 5, date: "Hace 1 semana", content: "Llegamos a las 3 AM con mi perro y nos atendieron de inmediato. El equipo fue increíblemente profesional y nos salvaron la vida." },
+      { reviewerName: "Raúl Jiménez", initials: "RJ", rating: 5, date: "Hace 2 semanas", content: "Nadie quiere ir a emergencias, pero si tienes que ir, este es el lugar. Tienen de todo y el personal es de primera. Muy agradecido." }
+    ]
   },
   {
     providerName: "Pet-ER",
@@ -219,9 +303,14 @@ const services = [
     location: "Distrito norte",
     availability: "Disponible 24/7",
     verified: true,
+    description: "Clínica de emergencias en el Distrito Norte...",
+    servicesOffered: ['Atención de emergencias', 'Diagnóstico rápido (Rayos X, Ultrasonido)', 'Cirugías urgentes', 'Transfusiones de sangre'],
+    reviews: [
+      { reviewerName: "Adriana Peña", initials: "AP", rating: 5, date: "Hace 1 semana", content: "Atención rápida y diagnósticos certeros. Tuvieron que hacerle una cirugía urgente a mi gata y todo salió perfecto. Los recomiendo." },
+      { reviewerName: "Óscar Fuentes", initials: "OF", rating: 4, date: "Hace 3 semanas", content: "Muy buen servicio de emergencia en el Distrito Norte. Los costos son elevados, como en toda emergencia, pero el servicio es excelente." }
+    ]
   },
 ];
-
   const filteredServices = services.filter((service) => {
     const matchesSearch =
       service.providerName.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -328,7 +417,7 @@ const services = [
                     <MenuItem value="veterinaria">Atención veterinaria</MenuItem>
                     <MenuItem value="transporte">Transporte</MenuItem>
                     <MenuItem value="hotel">Hoteles</MenuItem>
-                    <MenuItem value="peluqueria">Peluquería</MenuItem>
+                    <MenuItem value="peluqueria">Peluqueria</MenuItem>
                     <MenuItem value="entrenamiento">Entrenamiento</MenuItem>
                     <MenuItem value="cuidado en casa">Cuidado en casa</MenuItem>
                     <MenuItem value="emergencias">Emergencias</MenuItem>
@@ -386,7 +475,7 @@ const services = [
         {sortedServices.length > 0 ? (
           <div className="grid grid-cols-12 gap-6">
             {sortedServices.map((service, index) => (
-              <SearchCard key={index} {...service} onClick={() => handleViewDetails(service)}/>
+              <SearchCard key={index} {...service} onViewDetails={() => handleViewDetails(service)}/>
             ))}
           </div>
         ) : (

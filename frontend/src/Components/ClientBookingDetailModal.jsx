@@ -18,17 +18,14 @@ import {
   Phone,
   Mail,
 } from "lucide-react";
-// CAMBIO: Import 'useNavigate' de 'react-router-dom' en lugar de 'useRouter' de Next.js
 import { useNavigate } from "react-router-dom";
 
-// CAMBIO: Se eliminó la 'interface' de TypeScript
 export default function ClientBookingDetailModal({
   open,
   onOpenChange,
   booking,
   onMessage,
 }) {
-  // CAMBIO: Se usa 'useNavigate'
   const navigate = useNavigate();
 
   const handleMessage = () => {
@@ -59,12 +56,13 @@ export default function ClientBookingDetailModal({
   return (
     <Dialog
       open={open}
-      onOpenChange={() => onOpenChange(false)}
+      onClose={() => onOpenChange(false)}
       slotProps={{
         paper: {
           sx: {
             borderRadius: "1rem",
             maxWidth: "600px",
+            width:"600px",
             padding: 3
           },
         },
@@ -97,8 +95,8 @@ export default function ClientBookingDetailModal({
 
               {/* seccion2 */}
 
-              <div className="flex flex-col justify-between ">
-                <div className="flex flex-col justify-between items-center xs:flex-col  md:flex-row lg:flex-row xl:flex-row">
+              <div className="flex flex-col justify-between w-full ">
+                <div className="flex flex-col justify-between items-center  md:flex-row lg:flex-row xl:flex-row">
                   <h4 className="font-semibold text-lg">{booking.providerName}</h4>
                   <Chip
                   {...getStatusChipProps(booking.status)}
