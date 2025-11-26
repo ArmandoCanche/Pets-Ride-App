@@ -6,15 +6,14 @@ import AccessTimeOutlinedIcon from '@mui/icons-material/AccessTimeOutlined';
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import LocalPhoneOutlinedIcon from '@mui/icons-material/LocalPhoneOutlined';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
-import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import DoneIcon from '@mui/icons-material/Done';
 import CancelIcon from '@mui/icons-material/Cancel';
-import EditCalendarIcon from '@mui/icons-material/EditCalendar'; // Icono para reprogramar
 import StarRateIcon from '@mui/icons-material/StarRate';
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'; // Icono para cancelar cita confirmada
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import EditCalendarIcon from '@mui/icons-material/EditCalendar';
 
 export default function BookingCardProvider({
-    clientImage, // 1. Corregido nombre (antes clientImagen)
+    clientImage, 
     client,
     service,
     pet,
@@ -29,9 +28,9 @@ export default function BookingCardProvider({
     email,
     rating,
     onViewDetails,
-    onReschedule, // 2. Nueva prop recibida
-    onCancel,     // 3. Nueva prop recibida
-    onAccept      // 4. Nueva prop para aceptar pendientes
+    onReschedule, 
+    onCancel,     
+    onAccept      
 }) {
     
     const statusColors = {
@@ -42,182 +41,187 @@ export default function BookingCardProvider({
     };
 
     return (
-        <div>
-            <div className="flex flex-col gap-6 border p-6 rounded-2xl shadow-sm border-1 border-gray-300 bg-white">
-                {/* --- Primera Sección: Header --- */}
-                <div>
-                    <div className="flex items-start justify-between">
-                        <div className="flex items-center gap-4">
-                            {/* Usamos clientImage corregido */}
-                            <Avatar src={clientImage || "/placeholder.svg"} alt={`${client}`}>{client?.charAt(0)}</Avatar>
-                            <div className="">
-                                <h2 className="text-lg font-semibold">{service}</h2>
-                                <p className="text-sm text-gray-500">{client} • {pet} ({petType})</p>
-                            </div>
-                        </div>
-                        <div className={`flex px-2 py-1 rounded-2xl ${statusColors[status] || statusColors.pendiente}`}>
-                            <p className="text-xs font-medium">
-                                {status ? status.charAt(0).toUpperCase() + status.slice(1) : 'Estado'}
-                            </p>
-                        </div>
+        <div className="flex flex-col h-full border border-gray-200 rounded-2xl p-6 gap-5 bg-white  justify-between">
+            
+            {/* HEADER */}
+            <div className="flex items-start justify-between">
+                <div className="flex items-center gap-4">
+                    <Avatar 
+                        src={clientImage || "/placeholder.svg"} 
+                        alt={`${client}`}
+                        sx={{ width: 50, height: 50 }}
+                    >
+                        {client?.charAt(0)}
+                    </Avatar>
+                    <div>
+                        <h2 className="text-lg font-bold text-gray-800">{service}</h2>
+                        <p className="text-sm text-gray-500 font-medium">
+                            {client} • <span className="text-gray-700">{pet} ({petType})</span>
+                        </p>
                     </div>
                 </div>
+                <div className={`flex px-3 py-1 rounded-full ${statusColors[status] || statusColors.pendiente}`}>
+                    <p className="text-xs font-bold uppercase tracking-wide">
+                        {status ? status : 'Estado'}
+                    </p>
+                </div>
+            </div>
 
-                {/* --- Segunda Sección: Detalles --- */}
-                <div className="flex flex-col gap-2">
-                    <div className="grid md:grid-cols-2 gap-4">
-                        <div className="flex items-center gap-2 text-sm text-gray-600">
-                            <CalendarTodayOutlinedIcon sx={{ fontSize: '1.2rem', color: '#969696' }} />
-                            <span>{date}</span>
-                        </div>
-                        <div className="flex items-center gap-2 text-sm text-gray-600">
-                            <AccessTimeOutlinedIcon sx={{ fontSize: '1.2rem', color: '#969696' }} />
-                            <span>{time} • {duration}</span>
-                        </div>
-                        <div className="flex items-center gap-2 text-sm text-gray-600">
-                            <LocationOnOutlinedIcon sx={{ fontSize: '1.2rem', color: '#969696' }} />
-                            <span className="truncate">{location}</span>
-                        </div>
-                        <div className="flex items-center gap-2 text-sm font-semibold">
-                            <span className="text-base text-[#175a69]">{typeof price === 'number' ? `$${price}` : price}</span>
-                        </div>
+            {/* DETALLES */}
+            <div className="flex flex-col gap-3 text-sm text-gray-600">
+                <div className="grid md:grid-cols-2 gap-x-4 gap-y-2">
+                    <div className="flex items-center gap-2">
+                        <CalendarTodayOutlinedIcon sx={{ fontSize: '1.2rem', color: '#9ca3af' }} />
+                        <span>{date}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <AccessTimeOutlinedIcon sx={{ fontSize: '1.2rem', color: '#9ca3af' }} />
+                        <span>{time} • {duration}</span>
+                    </div>
+                    <div className="flex items-center gap-2 col-span-2">
+                        <LocationOnOutlinedIcon sx={{ fontSize: '1.2rem', color: '#9ca3af' }} />
+                        <span className="truncate">{location}</span>
+                    </div>
+                </div>
+                
+                <Divider sx={{ my: 0.5 }} />
+
+                <div className="flex items-center justify-between">
+                    <div className="flex items-center text-green-700 font-bold text-lg">
+                        <span>${price}</span>
                     </div>
                     
-                    <Divider sx={{ my: 1 }} />
-
-                    {/* --- Lógica de Botones según Estado --- */}
-                    
-                    {/* CASO 1: COMPLETADO */}
-                    {status === 'completado' && (
-                        <div className="flex items-center gap-1">
-                            <span className="text-sm font-medium">Calificación:</span>
+                    {/* Si está completado mostramos rating aquí, si no, mostramos contacto rápido */}
+                    {status === 'completado' ? (
+                        <div className="flex items-center gap-0.5">
                             {[...Array(rating || 0)].map((_, i) => (
                                 <StarRateIcon key={i} sx={{ color: '#FFD700', fontSize: '1.2rem' }} />
                             ))}
                         </div>
-                    )}
-
-                    {/* CASO 2 y 3: PENDIENTE O CONFIRMADO */}
-                    {status !== 'completado' && (
-                        <div className="flex flex-col gap-3">
-                            {/* Datos de contacto (siempre visibles si no está completado) */}
-                            <div className="flex items-center flex-wrap gap-3 text-sm text-gray-600">
-                                <div className="flex items-center gap-1">
-                                    <LocalPhoneOutlinedIcon sx={{ fontSize: '1.1rem' }} />
-                                    <span>{phone}</span>
-                                </div>
-                                <span className="hidden md:inline">•</span>
-                                <div className="flex items-center gap-1">
-                                    <EmailOutlinedIcon sx={{ fontSize: '1.1rem' }} />
-                                    <span className="truncate max-w-[150px]">{email}</span>
-                                </div>
+                    ) : (
+                        <div className="flex items-center gap-3 text-xs text-gray-400">
+                            <div className="flex items-center gap-1">
+                                <LocalPhoneOutlinedIcon sx={{ fontSize: '1rem' }} />
+                                <span>{phone}</span>
                             </div>
-
-                            {/* Botones para PENDIENTE */}
-                            {status === 'pendiente' && (
-                                <div className="flex w-full gap-2 mt-2">
-                                    <Button
-                                        onClick={onAccept}
-                                        variant="contained"
-                                        startIcon={<DoneIcon />}
-                                        sx={{
-                                            flex: 1,
-                                            textTransform: 'none',
-                                            bgcolor: '#209129',
-                                            borderRadius: 3,
-                                            boxShadow: 'none',
-                                            '&:hover': { bgcolor: '#1a7a22' }
-                                        }}
-                                    >
-                                        Aceptar
-                                    </Button>
-                                    <Button
-                                        onClick={onCancel} // Aquí usamos onCancel para rechazar
-                                        variant="outlined"
-                                        startIcon={<CancelIcon />}
-                                        sx={{
-                                            flex: 1,
-                                            textTransform: 'none',
-                                            color: '#d32f2f',
-                                            borderColor: '#d32f2f',
-                                            borderRadius: 3,
-                                            '&:hover': { bgcolor: '#ffebee', borderColor: '#c62828' },
-                                        }}
-                                        
-                                    >
-                                        Rechazar
-                                    </Button>
-                                </div>
-                            )}
-
-                            {/* Botones para CONFIRMADO */}
-                            {status === 'confirmado' && (
-                                <div className="flex flex-col gap-2 mt-1">
-                                    <div className="flex gap-2">
-                                        <Button
-                                        variant="outlined"
-                                        sx={{
-                                            textTransform: 'none' ,fontFamily:'Poppins, sans-serif',
-                                            color: '#000',
-                                            background:'#fff',
-                                            borderColor:'#ccc',
-                                            fontWeight:500,
-                                            borderRadius:3,
-                                            '&:hover':{
-                                                backgroundColor: '#eb9902ff',
-                                                color: '#fff',
-                                                borderColor: '#f7ae26ff',
-                                            },
-                                            flex:1
-                                        }}
-                                        onClick={onViewDetails}
-                                        >
-                                        Detalles
-                                        </Button>
-                                        <Button 
-                                        variant="outlined"
-                                        sx={{
-                                            textTransform: 'none' ,fontFamily:'Poppins, sans-serif',
-                                            color: '#000',
-                                            background:'#fff',
-                                            borderColor:'#ccc',
-                                            fontWeight:500,
-                                            borderRadius:3,
-                                            '&:hover':{
-                                                backgroundColor: '#eb9902ff',
-                                                color: '#fff',
-                                                borderColor: '#f7ae26ff',
-                                            },
-                                            flex: 1,
-                                        }}
-                                        onClick={onReschedule}
-                                    >
-                                    Reprogramar
-                                    </Button>
-                                    <Button
-                                        variant="contained"
-                                        sx={{
-                                            textTransform: 'none' ,fontFamily:'Poppins, sans-serif',
-                                            color: '#ffffffff',
-                                            background:'#cf0c0cff',
-                                            fontWeight:500,
-                                            borderRadius:3,
-                                            '&:hover':{
-                                                backgroundColor: '#af3200ff',
-                                                color: '#fff'
-                                            },
-                                            flex: 1,
-                                        }}
-                                        onClick={onCancel}
-                                    >
-                                    Cancelar
-                                    </Button>
-                                    </div>
-                                </div>
-                            )}
                         </div>
                     )}
                 </div>
+            </div>
+
+            {/* BOTONES DE ACCIÓN (Lógica Intacta, Estilos Mejorados) */}
+            <div className="flex flex-col gap-2 mt-auto">
+                
+                {/* CASO: PENDIENTE */}
+                {status === 'pendiente' && (
+                    <div className="flex w-full gap-2">
+                        <Button
+                            onClick={onAccept}
+                            variant="contained"
+                            startIcon={<DoneIcon />}
+                            sx={{
+                                flex: 1,
+                                bgcolor: '#209129',
+                                borderRadius: 3,
+                                boxShadow: 'none',
+                                fontWeight: 500,
+                                '&:hover': { bgcolor: '#1a7a22',scale: '1.02',
+                                    transition: 'all 0.3s ease-in-out', }
+                            }}
+                        >
+                            Aceptar
+                        </Button>
+                        <Button
+                            onClick={onCancel}
+                            variant="outlined"
+                            startIcon={<CancelIcon />}
+                            sx={{
+                                flex: 1,
+                                color: '#d32f2f',
+                                borderColor: '#d32f2f',
+                                borderRadius: 3,
+                                fontWeight: 500,
+                                '&:hover': { bgcolor: '#ffebee', borderColor: '#c62828',scale: '1.02',
+                                    transition: 'all 0.3s ease-in-out', }
+                            }}
+                        >
+                            Rechazar
+                        </Button>
+                    </div>
+                )}
+
+                {/* CASO: CONFIRMADO */}
+                {status === 'confirmado' && (
+                    <div className="flex gap-2 w-full">
+                        <Button
+                            variant="outlined"
+                            onClick={onViewDetails}
+                            startIcon={<VisibilityIcon />}
+                            sx={{
+                                flex: 1,
+                                fontFamily: 'Poppins, sans-serif',
+                                color: '#000',
+                                background: '#ffffffff',
+                                border:2,
+                                borderColor: '#cececeff',
+                                fontWeight: 500,
+                                borderRadius: 3,
+                                '&:hover': {
+                                    borderColor: '#005c71',
+                                    scale: '1.02',
+                                    transition: 'all 0.3s ease-in-out',
+                                },
+                            }}
+                        >
+                            Detalles
+                        </Button>
+
+                        <Button
+                            variant="outlined"
+                            onClick={onReschedule}
+                            startIcon={<EditCalendarIcon fontSize="small" />}
+                            sx={{
+                                flex: 1,
+                                fontFamily: 'Poppins, sans-serif',
+                                color: '#ffffffff',
+                                background: '#005c71',
+                                border:2,
+                                borderColor: '#005c71',
+                                fontWeight: 500,
+                                borderRadius: 3,
+                                '&:hover': {
+                                    borderColor: '#005c71',
+                                    scale: '1.02',
+                                    transition: 'all 0.3s ease-in-out',
+                                },
+                            }}
+                        >
+                            Reprogramar
+                        </Button>
+
+                        <Button
+                            variant="contained"
+                            onClick={onCancel}
+                            startIcon={<CancelIcon />}
+                            sx={{
+                                flex: 1,
+                                fontFamily: 'Poppins, sans-serif',
+                                color: '#fff',
+                                background: '#cf0c0c',
+                                fontWeight: 500,
+                                borderRadius: 3,
+                                '&:hover': {
+                                    backgroundColor: '#af3200',
+                                    borderColor: '#005c71',
+                                    scale: '1.02',
+                                    transition: 'all 0.3s ease-in-out',
+                                },
+                            }}
+                        >
+                            Cancelar
+                        </Button>
+                    </div>
+                )}
             </div>
         </div>
     );
