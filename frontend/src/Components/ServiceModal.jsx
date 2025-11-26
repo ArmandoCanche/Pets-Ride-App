@@ -1,13 +1,18 @@
-import { Button, createTheme, Dialog, DialogContent, FormControl, InputLabel, Menu, MenuItem, Select, TextField, ThemeProvider, Chip, Box, OutlinedInput, IconButton, InputAdornment, Divider} from "@mui/material"
+import { 
+    Button, createTheme, Dialog, DialogContent, FormControl, InputLabel, 
+    Menu, MenuItem, Select, TextField, ThemeProvider, Chip, Box, 
+    OutlinedInput, IconButton, InputAdornment, Divider, Typography 
+} from "@mui/material"
 import { useEffect, useState } from "react"
 
-import CloseIcon from '@mui/icons-material/Close';  
+import CloseIcon from '@mui/icons-material/Close'; 
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import PetsIcon from '@mui/icons-material/Pets';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 
+// ... (TUS CONSTANTES INITIAL_STATE, PET_TYPES_LIST, DAYS_LIST SIGUEN IGUAL) ...
 const INITIAL_STATE = {
     name: "",
     description: "",
@@ -21,31 +26,12 @@ const INITIAL_STATE = {
     availability: [],
 }
 
-const PET_TYPES_LIST = [
-    "Perros",
-    "Gatos",
-    "Aves",
-    "Roedores",
-    "Reptiles",
-    "Exóticos"
-];
-
-const DAYS_LIST = [
-    "Lunes",
-    "Martes",
-    "Miércoles",
-    "Jueves",
-    "Viernes",
-    "Sábado",
-    "Domingo"
-];
-
-
+const PET_TYPES_LIST = ["Perros", "Gatos", "Aves", "Roedores", "Reptiles", "Exóticos"];
+const DAYS_LIST = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"];
 
 export default function ServiceModal({open, onOpenChange, service, onSave}) {
 
     const isEditing = !!service;
-
     const [formData, setFormData] = useState(INITIAL_STATE);
 
     useEffect(() => {
@@ -62,49 +48,29 @@ export default function ServiceModal({open, onOpenChange, service, onSave}) {
                 availability: service.availability || [],
                 durationUnit: service.durationUnit || "minutos",
             })
-        }
-        else{
+        } else {
             setFormData(INITIAL_STATE);
         }
-    },[service, open])
+    }, [service, open])
 
     const theme = createTheme({
-        typography:{
-            fontFamily: 'Poppins, sans-serif',
-        },
+        typography: { fontFamily: 'Poppins, sans-serif' },
         components: {
-            // 1. Configuración del Menú (Ya la tenías)
             MuiMenuItem: {
                 styleOverrides: {
                     root: {
-                        '&.Mui-selected': {
-                            backgroundColor: '#005c71',
-                            color: '#ffffffff',
-                            fontWeight: 600,
-                            '&:hover': { backgroundColor: '#005c71' },
-                        },
+                        '&.Mui-selected': { backgroundColor: '#005c71', color: '#fff', fontWeight: 600, '&:hover': { backgroundColor: '#005c71' } },
                         '&:hover': { backgroundColor: '#d7f2faff' },
                     },
                 },
             },
-            // 2. NUEVO: Configuración global para los Chips
             MuiChip: {
                 styleOverrides: {
-                    root: {
-                        backgroundColor: '#005c71', // Fondo Teal
-                        color: '#ffffff',           // Letra blanca
-                        fontWeight: 500,
-                        // Opcional: estilo para el botón de borrar si lo usaras
-                        '& .MuiChip-deleteIcon': {
-                            color: '#ffffff',
-                        }
-                    }
+                    root: { backgroundColor: '#005c71', color: '#ffffff', fontWeight: 500, '& .MuiChip-deleteIcon': { color: '#ffffff' } }
                 }
             },
             MuiOutlinedInput: {
-                styleOverrides: {
-                    root: { borderRadius: '12px' }
-                }
+                styleOverrides: { root: { borderRadius: '12px' } }
             }
         }
     })
@@ -121,60 +87,48 @@ export default function ServiceModal({open, onOpenChange, service, onSave}) {
 
     const handleMultiSelectChange = (prop) => (event) => {
         const { target: { value } } = event;
-        setFormData({
-            ...formData,
-            [prop]: typeof value === 'string' ? value.split(',') : value,
-        });
+        setFormData({ ...formData, [prop]: typeof value === 'string' ? value.split(',') : value });
     };
-
-
 
     return (
         <ThemeProvider theme={theme}>
-            <Dialog
-            open={open}
-            onClose={() => onOpenChange(false)}
-            slotProps={{
-                paper:{
-                    sx:{
-                        borderRadius:"1rem",
-                        maxWidth:"100%",
-                        width:"800px",
-                        padding:3
-                    }
-                }
-            }}
-            >
-                <DialogContent
-                sx={{
-                    display:"flex",
-                    flexDirection:"column",
-                    gap:"1.5rem"
+            <Dialog 
+                open={open} 
+                onClose={() => onOpenChange(false)}
+                maxWidth="md"
+                fullWidth
+                slotProps={{
+                    paper: { sx: { borderRadius: "1.5rem", padding: 3 } }
                 }}
-                >
-                    <div className="flex flex-row justify-between">
-                        <h3 className="text-3xl font-semibold">{isEditing ? "Editar servicio" : "Crear servicio"}</h3>
-                        <IconButton onClick={() => onOpenChange(false)} sx={{color:"#000000", background:"none", ":hover":{background:"#grey"}}} >
-                            <CloseIcon />
-                        </IconButton>
-                    </div>
-                    <Divider />
-                    <form onSubmit={handleSubmit}>
-                        <div className="flex flex-col gap-5">
+            >
+                {/* HEADER MÁS LIMPIO */}
+                <div className="flex flex-row justify-between items-center px-6 pt-4 pb-2">
+                    <h3 className="text-2xl font-bold text-gray-800">
+                        {isEditing ? "Editar servicio" : "Nuevo servicio"}
+                    </h3>
+                    <IconButton onClick={() => onOpenChange(false)}>
+                        <CloseIcon />
+                    </IconButton>
+                </div>
+                
+                <DialogContent>
+                    <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+                        
+                        {/* 1. INFORMACIÓN BÁSICA (Lado a Lado) */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                             <TextField
-                                label="Nombre"
+                                label="Nombre del servicio"
                                 value={formData.name}
-                                onChange={(e) => setFormData({...formData, name: e.target.value})}
+                                onChange={handleChange('name')}
                                 fullWidth
+                                placeholder="Ej. Paseo premium en parque"
                             />
                             <FormControl fullWidth required>
                                 <InputLabel>Categoría</InputLabel>
                                 <Select
-                                labelId="category-label"
-                                name="category"
-                                value={formData.category}
-                                label="Categoría"
-                                onChange={(e) => setFormData({...formData, category: e.target.value})}
+                                    value={formData.category}
+                                    label="Categoría"
+                                    onChange={handleChange('category')}
                                 >
                                     <MenuItem value="paseo">Paseo de perros</MenuItem>
                                     <MenuItem value="veterinaria">Veterinaria</MenuItem>
@@ -186,119 +140,126 @@ export default function ServiceModal({open, onOpenChange, service, onSave}) {
                                     <MenuItem value="emergencias">Emergencias</MenuItem>
                                 </Select>
                             </FormControl>
-                            <TextField
-                                label="Descripción"
-                                value={formData.description}
-                                onChange={(e) => setFormData({...formData, description: e.target.value})}
-                                fullWidth
-                                multiline
-                                rows={4}
-                            />
+                        </div>
 
-                            <Divider />
-                            <div className="flex flex-col gap-5 grid grid-cols-2">
-                                <TextField
-                                    label="Precio"
-                                    type="number"
-                                    value={formData.price}
-                                    onChange={(e) => setFormData({...formData, price: parseFloat(e.target.value)})}
-                                    fullWidth
-                                    slotProps={{ input: {startAdornment: <InputAdornment position="start"><AttachMoneyIcon fontSize="small"/></InputAdornment>} }}
-                                />
-                                <FormControl fullWidth required>
-                                    <InputLabel>Unidad de precio</InputLabel>
-                                    <Select
-                                    labelId="price-unit-label"
-                                    name="priceUnit"
-                                    value={formData.priceUnit}
-                                    label="Unidad de precio"
-                                    onChange={(e) => setFormData({...formData, priceUnit: e.target.value})}
-                                    >
-                                        <MenuItem value="hora">Por hora</MenuItem>
-                                        <MenuItem value="sesion">Por sesion</MenuItem>
-                                        <MenuItem value="dia">Por día</MenuItem>
-                                        <MenuItem value="semana">Por semana</MenuItem>
-                                    </Select>
-                                </FormControl>
-                            </div>
-                            <div className="flex flex-col gap-5 grid grid-cols-2">
-                                <TextField
-                                    label="Duración"
-                                    type="number"
-                                    value={formData.duration}
-                                    onChange={(e) => setFormData({...formData, duration: parseFloat(e.target.value)})}
-                                    fullWidth
-                                    slotProps={{ input: {startAdornment: <InputAdornment position="start"><AccessTimeIcon fontSize="small"/></InputAdornment>} }}
-                                />
-                                <FormControl fullWidth required>
-                                    <InputLabel>Unidad de tiempo</InputLabel>
-                                    <Select
-                                        value={formData.durationUnit}
-                                        label="Unidad de tiempo"
-                                        onChange={handleChange('durationUnit')}
-                                    >
-                                        <MenuItem value="minutos">Minutos</MenuItem>
-                                        <MenuItem value="horas">Horas</MenuItem>
-                                        <MenuItem value="dias">Días</MenuItem>
-                                    </Select>
-                                </FormControl>
-                            </div>
-
-                            <Divider />
-
-                            <FormControl fullWidth required>
-                                <InputLabel id="pet-type-label">Tipo de mascotas</InputLabel>
-                                <Select
-                                multiple
-                                labelId="pet-type-label"
-                                value={formData.petType}
-                                input={<OutlinedInput label="Tipos de mascotas" startAdornment={<InputAdornment position="start"><PetsIcon fontSize="small"/></InputAdornment>} />}
-                                onChange={handleMultiSelectChange('petType')}
-                                renderValue={(selected) =>(
-                                    <Box sx={{display:'flex', flexWrap:'wrap', gap:0.5}}>
-                                        {selected.map((value) => (
-                                            <Chip key={value} label={value} size="small" sx={{color:"#ffff", background:"#005c71"}}/>
-                                        ))}
-                                    </Box>
-                                )}
-                                >
-                                    {PET_TYPES_LIST.map((type) => (
-                                        <MenuItem key={type} value={type}>
-                                            {type}
-                                        </MenuItem>
-                                    ))}
-                                </Select>
-                            </FormControl>
-                            <TextField
-                            label="Area de servicio (ciudad o región)"
-                            value={formData.serviceArea}
-                            onChange={(e) => setFormData({...formData, serviceArea: e.target.value})}
+                        <TextField
+                            label="Descripción detallada"
+                            value={formData.description}
+                            onChange={handleChange('description')}
                             fullWidth
-                            InputProps={{ startAdornment: <InputAdornment position="start"><LocationOnIcon fontSize="small"/></InputAdornment> }}
-                            />
-                            <FormControl fullWidth>
-                                <InputLabel id="availability-label">Disponibilidad (Días)</InputLabel>
+                            multiline
+                            rows={3}
+                            placeholder="Describe qué incluye tu servicio para atraer más clientes..."
+                        />
+
+                        {/* 2. BLOQUE LOGÍSTICO (Destacado con fondo gris) */}
+                        <div className="bg-gray-50 p-5 rounded-xl border border-gray-200">
+                            <span className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4 block">Tarifas y Tiempo</span>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                {/* PRECIO */}
+                                <div className="flex gap-2">
+                                    <TextField
+                                        label="Precio"
+                                        type="number"
+                                        value={formData.price}
+                                        onChange={(e) => setFormData({...formData, price: parseFloat(e.target.value)})}
+                                        fullWidth
+                                        InputProps={{ startAdornment: <InputAdornment position="start"><AttachMoneyIcon fontSize="small" color="action"/></InputAdornment> }}
+                                    />
+                                    <FormControl fullWidth>
+                                        <InputLabel>Cobro</InputLabel>
+                                        <Select
+                                            value={formData.priceUnit}
+                                            label="Cobro"
+                                            onChange={handleChange('priceUnit')}
+                                        >
+                                            <MenuItem value="hora">Por Hora</MenuItem>
+                                            <MenuItem value="sesion">Por Sesión</MenuItem>
+                                            <MenuItem value="dia">Por Día</MenuItem>
+                                            <MenuItem value="semana">Por Semana</MenuItem>
+                                        </Select>
+                                    </FormControl>
+                                </div>
+
+                                {/* DURACIÓN */}
+                                <div className="flex gap-2">
+                                    <TextField
+                                        label="Duración"
+                                        type="number"
+                                        value={formData.duration}
+                                        onChange={(e) => setFormData({...formData, duration: parseFloat(e.target.value)})}
+                                        fullWidth
+                                        InputProps={{ startAdornment: <InputAdornment position="start"><AccessTimeIcon fontSize="small" color="action"/></InputAdornment> }}
+                                    />
+                                    <FormControl fullWidth>
+                                        <InputLabel>Unidad</InputLabel>
+                                        <Select
+                                            value={formData.durationUnit}
+                                            label="Unidad"
+                                            onChange={handleChange('durationUnit')}
+                                        >
+                                            <MenuItem value="minutos">Minutos</MenuItem>
+                                            <MenuItem value="horas">Horas</MenuItem>
+                                            <MenuItem value="dias">Días</MenuItem>
+                                        </Select>
+                                    </FormControl>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* 3. ALCANCE Y DISPONIBILIDAD */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                            <FormControl fullWidth required>
+                                <InputLabel id="pet-type-label">Mascotas aceptadas</InputLabel>
                                 <Select
-                                    labelId="availability-label"
+                                    labelId="pet-type-label"
                                     multiple
-                                    value={formData.availability}
-                                    onChange={handleMultiSelectChange('availability')}
-                                    input={<OutlinedInput label="Disponibilidad (Días)" startAdornment={<InputAdornment position="start"><CalendarTodayIcon fontSize="small"/></InputAdornment>} />}
+                                    value={formData.petType}
+                                    onChange={handleMultiSelectChange('petType')}
+                                    input={<OutlinedInput label="Mascotas aceptadas" startAdornment={<InputAdornment position="start"><PetsIcon fontSize="small" color="action"/></InputAdornment>} />}
                                     renderValue={(selected) => (
                                         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                                            {selected.map((value) => (
-                                                <Chip key={value} label={value} size="small"/>
-                                            ))}
+                                            {selected.map((value) => <Chip key={value} label={value} size="small" />)}
                                         </Box>
                                     )}
                                 >
-                                    {DAYS_LIST.map((day) => (
-                                        <MenuItem key={day} value={day}>{day}</MenuItem>
+                                    {PET_TYPES_LIST.map((type) => (
+                                        <MenuItem key={type} value={type}>{type}</MenuItem>
                                     ))}
                                 </Select>
                             </FormControl>
-                            <Divider />
-                            <div className="flex gap-2">
+
+                            <TextField
+                                label="Zona de cobertura"
+                                value={formData.serviceArea}
+                                onChange={handleChange('serviceArea')}
+                                fullWidth
+                                InputProps={{ startAdornment: <InputAdornment position="start"><LocationOnIcon fontSize="small" color="action"/></InputAdornment> }}
+                            />
+                        </div>
+
+                        <FormControl fullWidth>
+                            <InputLabel id="availability-label">Días disponibles</InputLabel>
+                            <Select
+                                labelId="availability-label"
+                                multiple
+                                value={formData.availability}
+                                onChange={handleMultiSelectChange('availability')}
+                                input={<OutlinedInput label="Días disponibles" startAdornment={<InputAdornment position="start"><CalendarTodayIcon fontSize="small" color="action"/></InputAdornment>} />}
+                                renderValue={(selected) => (
+                                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                                        {selected.map((value) => <Chip key={value} label={value} size="small" />)}
+                                    </Box>
+                                )}
+                            >
+                                {DAYS_LIST.map((day) => (
+                                    <MenuItem key={day} value={day}>{day}</MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+
+                        {/* BOTONES */}
+                        <div className="flex gap-3 pt-4 border-t border-gray-100 mt-2">
                                 <Button
                                 variant="outlined"
                                 onClick={() => onOpenChange(false)}
@@ -309,7 +270,7 @@ export default function ServiceModal({open, onOpenChange, service, onSave}) {
                                     alignSelf: { xs: 'stretch', sm: 'center' },
                                     color: '#000', background:'#fff', borderColor:'#ccc', fontWeight:500, borderRadius:3,
                                     '&:hover':{
-                                        backgroundColor: '#eb9902ff',
+                                        backgroundColor: '#eb0202ff',
                                         color: '#fff',
                                         borderColor: '#f7ae26ff',
                                     }
@@ -334,14 +295,9 @@ export default function ServiceModal({open, onOpenChange, service, onSave}) {
                                 >
                                     {isEditing ? "Guardar cambios" : "Crear servicio"}
                                 </Button>
-
-                            </div>
                         </div>
                     </form>
-
                 </DialogContent>
-
-
             </Dialog>
         </ThemeProvider>
     )
