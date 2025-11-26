@@ -89,4 +89,77 @@ const getProviderServices = async (req, res) => {
     }
 };
 
-module.exports = { createService, getProviderServices };
+// 1. EDITAR SERVICIO
+const updateService = async (req, res) => {
+  try {
+    const { id } = req.params; // ID del servicio
+    const { name, description, price, duration, category } = req.body;
+
+    // Buscar category_id si viene el nombre (igual que en create)
+    let category_id;
+    if (category) {
+       const catResult = await db.query("SELECT category_id FROM Service_Categories WHERE name ILIKE $1", [category]);
+       if (catResult.rows.length > 0) category_id = catResult.rows[0].category_id;
+    }
+
+    const query = `
+      UPDATE Services 
+      SET name = $1, description = $2, price = $3, duration_minutes = $4, category_id = COALESCE($5, category_id)
+      WHERE service_id = $6
+      RETURNING *;
+    `;
+    
+    const result = await db.query(query, [name, description, price, duration, category_id, id]);
+
+    if (result.rows.length === 0) return res.status(404).json({ message: "Servicio no encontrado" });
+
+    res.json({ success: true, service: result.rows[0] });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Error al actualizar servicio" });
+  }
+};
+
+// 2. CAMBIAR ESTADO (ACTIVAR/DESACTIVAR)
+const toggleServiceStatus = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const query = `
+      UPDATE Services 
+      SET is_active = NOT is_active 
+      WHERE service_id = $1 
+      RETURNING is_active, service_id;
+    `;
+    const result = await db.query(query, [id]);
+    
+    if (result.rows.length === 0) return res.status(404).json({ message: "Servicio no encontrado" });
+
+    res.json({ success: true, is_active: result.rows[0].is_active });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Error al cambiar estado" });
+  }
+};
+
+// 3. ELIMINAR SERVICIO
+const deleteService = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await db.query("DELETE FROM Services WHERE service_id = $1 RETURNING *", [id]);
+
+    if (result.rows.length === 0) return res.status(404).json({ message: "Servicio no encontrado" });
+
+    res.json({ success: true, message: "Servicio eliminado correctamente" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Error al eliminar servicio" });
+  }
+};
+
+module.exports = { 
+    createService, 
+    getProviderServices, 
+    updateService,     
+    toggleServiceStatus, 
+    deleteService      
+};

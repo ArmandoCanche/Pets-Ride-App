@@ -1,12 +1,18 @@
 
 const express = require('express');
 const router = express.Router();
-const { createService, getProviderServices } = require('../controllers/services.controller');
+const { createService, 
+    getProviderServices, 
+    updateService, 
+    toggleServiceStatus, 
+    deleteService } = require('../controllers/services.controller');
 
-// POST /api/services -> Crear nuevo servicio
+// RUTAS
 router.post('/', createService);
-
-// GET /api/services/provider/:providerId -> Ver servicios del proveedor
 router.get('/provider/:providerId', getProviderServices);
+
+router.put('/:id', updateService);         // Editar info completa
+router.patch('/:id/status', toggleServiceStatus); // Solo cambiar activo/inactivo
+router.delete('/:id', deleteService);      // Eliminar
 
 module.exports = router;

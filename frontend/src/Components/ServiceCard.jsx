@@ -8,7 +8,7 @@ import ToggleOffIcon from '@mui/icons-material/ToggleOff';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 
 
-export default function ServiceCard({ active, name, description, price, priceUnit, duration, bookings, revenue, nextBooking, handleEdit, toggleServiceStatus }) {
+export default function ServiceCard({ active, name, description, price, priceUnit, duration, bookings, revenue, nextBooking, handleEdit,handleDelete, toggleServiceStatus }) {
     return (
         <div className={`flex flex-col p-6 gap-6 border-2 rounded-xl shadow-lg border-gray-300 bg-white hover:shadow-xl ${active ? "opacity-100" : "opacity-50"}`}>
             <div className="flex items-start justify-between gap-2">
@@ -92,6 +92,7 @@ export default function ServiceCard({ active, name, description, price, priceUni
                     <Button
                     variant="destructive"
                     size="sm"
+                    onClick={handleDelete}
                     sx={{
                     textTransform: 'none' ,fontFamily:'Poppins, sans-serif',
                     color: '#ffffffff',
