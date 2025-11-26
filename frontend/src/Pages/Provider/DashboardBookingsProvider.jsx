@@ -2,8 +2,11 @@ import React, { useState } from 'react';
 
 import { Box, Tabs, Tab } from '@mui/material';
 import BookingCardProvider from '../../Components/BookingCardProvider';
+import ProviderBookingDetailModal from '../../Components/ProviderBookingDetailModal';
+import ProviderRescheduleModal from '../../Components/ProviderRescheduleModal';
 export default function DashboardBookingsProvider() {
 
+  const [rescheduleModalOpen, setRescheduleModalOpen] = useState(false);
   const [detailModalOpen, setDetailModalOpen] = useState(false)
   const [messageModalOpen, setMessageModalOpen] = useState(false)
   const [selectedBooking, setSelectedBooking] = useState(null)
@@ -18,7 +21,7 @@ export default function DashboardBookingsProvider() {
     pet: "Max",
     petType: "Golden Retriever",
     petAge: "3 años",
-    petWeight: "65 lbs", // O puedes poner "30 kg" si prefieres conversión
+    petWeight: "65 lbs",
     date: "2025-01-25",
     time: "10:00 AM",
     duration: "1 hora",
@@ -123,6 +126,15 @@ export default function DashboardBookingsProvider() {
   const handleTabChange = (event, newValue) => {
     setCurrentTab(newValue);
   };
+
+
+  const handleReschedule = (booking) => {
+    console.log("Reprogramando:", booking);
+    setSelectedBooking(booking);
+    setRescheduleModalOpen(true);
+  };
+
+  
   return (
         <main className='flex  py-10 px-10 md:px-5 lg:px-10 xl:px-25 bg-gray-100 min-h-screen flex-col gap-6'>
             <div className='w-full h-auto  flex flex-col gap-6'>
@@ -223,6 +235,7 @@ export default function DashboardBookingsProvider() {
                                   <BookingCardProvider
                                   key={booking.id}
                                   {...booking}
+                                  onReschedule={() => handleReschedule(booking)}
                                   onViewDetails={() => handleViewDetails(booking)}
                                   onMessageClient={() => handleMessageClient(booking)}
                                   />
@@ -287,11 +300,16 @@ export default function DashboardBookingsProvider() {
                         )}
               </div>
             </div>
-            {selectedBooking && (
-              <>
-              {/* Aquí van los Modal */}
-              </>
-            )}
+            <ProviderBookingDetailModal 
+            open={detailModalOpen}
+            onOpenChange={setDetailModalOpen}
+            booking={selectedBooking}
+            />
+            <ProviderRescheduleModal
+              open={rescheduleModalOpen}
+              onOpenChange={setRescheduleModalOpen}
+              booking={selectedBooking}
+            />
         </main>
   );
 }

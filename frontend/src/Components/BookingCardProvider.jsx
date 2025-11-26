@@ -1,4 +1,4 @@
-import { Avatar, Button, Divider } from "@mui/material";
+import { Avatar, Button, Divider, IconButton, Tooltip } from "@mui/material";
 
 // Iconos MUI
 import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined';
@@ -9,11 +9,12 @@ import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import DoneIcon from '@mui/icons-material/Done';
 import CancelIcon from '@mui/icons-material/Cancel';
-import { Chat } from "@mui/icons-material";
+import EditCalendarIcon from '@mui/icons-material/EditCalendar'; // Icono para reprogramar
 import StarRateIcon from '@mui/icons-material/StarRate';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'; // Icono para cancelar cita confirmada
 
 export default function BookingCardProvider({
-    clientImagen,
+    clientImage, // 1. Corregido nombre (antes clientImagen)
     client,
     service,
     pet,
@@ -27,170 +28,195 @@ export default function BookingCardProvider({
     phone,
     email,
     rating,
-    onMessageClient,
     onViewDetails,
-}
-    ){
+    onReschedule, // 2. Nueva prop recibida
+    onCancel,     // 3. Nueva prop recibida
+    onAccept      // 4. Nueva prop para aceptar pendientes
+}) {
+    
     const statusColors = {
-    pendiente:  "bg-yellow-500/10 text-yellow-600 dark:text-yellow-600 border border-yellow-500/20",
-    confirmado: "bg-blue-500/10   text-blue-800   dark:text-blue-600   border border-blue-500/20",
-    completado: "bg-green-500/10  text-green-800  dark:text-green-600  border border-green-500/20",
-    cancelado:  "bg-red-500/10    text-red-800    dark:text-red-600    border border-red-500/20",
+        pendiente:  "bg-yellow-500/10 text-yellow-600 border border-yellow-500/20",
+        confirmado: "bg-blue-500/10 text-blue-800 border border-blue-500/20",
+        completado: "bg-green-500/10 text-green-800 border border-green-500/20",
+        cancelado:  "bg-red-500/10 text-red-800 border border-red-500/20",
     };
 
     return (
         <div>
-            <div className="flex flex-col gap-6 hover:shadow-lg border p-6 rounded-2xl shadow-sm border-3 border-gray-300 bg-white">
-                {/* primera seccion */}
+            <div className="flex flex-col gap-6 border p-6 rounded-2xl shadow-sm border-1 border-gray-300 bg-white">
+                {/* --- Primera Sección: Header --- */}
                 <div>
                     <div className="flex items-start justify-between">
                         <div className="flex items-center gap-4">
-                            <Avatar src={clientImagen || "/placeholder.svg"} alt={`${client}`} >U</Avatar>
+                            {/* Usamos clientImage corregido */}
+                            <Avatar src={clientImage || "/placeholder.svg"} alt={`${client}`}>{client?.charAt(0)}</Avatar>
                             <div className="">
                                 <h2 className="text-lg font-semibold">{service}</h2>
                                 <p className="text-sm text-gray-500">{client} • {pet} ({petType})</p>
                             </div>
                         </div>
-                        <div className={`flex px-2 py-1 rounded-2xl ${statusColors[status]}`}>
-                            <p className="text-xs">
-                                {status.charAt(0).toUpperCase() + status.slice(1)}
+                        <div className={`flex px-2 py-1 rounded-2xl ${statusColors[status] || statusColors.pendiente}`}>
+                            <p className="text-xs font-medium">
+                                {status ? status.charAt(0).toUpperCase() + status.slice(1) : 'Estado'}
                             </p>
                         </div>
                     </div>
                 </div>
 
-                {/* segunda seccion */}
+                {/* --- Segunda Sección: Detalles --- */}
                 <div className="flex flex-col gap-2">
                     <div className="grid md:grid-cols-2 gap-4">
-                        <div className="flex items-center gap-2 text-sm">
-                            <CalendarTodayOutlinedIcon sx={{color:'#969696ff', fontSize:'1.2rem'}} />
+                        <div className="flex items-center gap-2 text-sm text-gray-600">
+                            <CalendarTodayOutlinedIcon sx={{ fontSize: '1.2rem', color: '#969696' }} />
                             <span>{date}</span>
                         </div>
-                        <div className="flex items-center gap-2 text-sm">
-                            <AccessTimeOutlinedIcon sx={{color:'#969696ff', fontSize:'1.2rem'}} />
+                        <div className="flex items-center gap-2 text-sm text-gray-600">
+                            <AccessTimeOutlinedIcon sx={{ fontSize: '1.2rem', color: '#969696' }} />
                             <span>{time} • {duration}</span>
                         </div>
-                        <div className="flex items-center gap-2 text-sm">
-                            <LocationOnOutlinedIcon sx={{color:'#969696ff', fontSize:'1.2rem'}} />
-                            <span className="text-sm">{location}</span>
+                        <div className="flex items-center gap-2 text-sm text-gray-600">
+                            <LocationOnOutlinedIcon sx={{ fontSize: '1.2rem', color: '#969696' }} />
+                            <span className="truncate">{location}</span>
                         </div>
                         <div className="flex items-center gap-2 text-sm font-semibold">
-                            <span className="text-base text-[#175a69ff]">{price}</span>
+                            <span className="text-base text-[#175a69]">{typeof price === 'number' ? `$${price}` : price}</span>
                         </div>
                     </div>
-                    <Divider />
-                    {status === 'completado' ? (
-                        <div className="flex items-center gap-1 ">
-                            <span className="text-sm">Calificación:</span>
-                            {[...Array(rating)].map((_, i) => (
-                                <span key={i}> <StarRateIcon sx={{color:'#FFD700'}} /></span>
+                    
+                    <Divider sx={{ my: 1 }} />
+
+                    {/* --- Lógica de Botones según Estado --- */}
+                    
+                    {/* CASO 1: COMPLETADO */}
+                    {status === 'completado' && (
+                        <div className="flex items-center gap-1">
+                            <span className="text-sm font-medium">Calificación:</span>
+                            {[...Array(rating || 0)].map((_, i) => (
+                                <StarRateIcon key={i} sx={{ color: '#FFD700', fontSize: '1.2rem' }} />
                             ))}
                         </div>
-                    ):(
-                    <div className="flex flex-col items-start gap-3 ">
-                        <div className="flex items-center gap-3">
-                            <LocalPhoneOutlinedIcon sx={{color:'#969696ff', fontSize:'1.2rem'}} />
-                            <span className="text-sm text-black">{phone}</span>
-                            <span>•</span>
-                            <EmailOutlinedIcon sx={{color:'#969696ff', fontSize:'1.2rem'}} />
-                            <span className="text-sm">{email}</span>
-                        </div>
-                        {status === 'pendiente' ? (
-                            <div className="flex w-full gap-2 mt-3">
-                                <Button
-                                variant="outlined"
-                                startIcon={<DoneIcon sx={{marginRight:'0.5rem'}}/>}
-                                sx={{
-                                    flex:1,
-                                    textTransform: 'none' ,fontFamily:'Poppins, sans-serif',
-                                    color: '#ffffffff',
-                                    background:'#209129ff',
-                                    borderColor:'none',
-                                    fontWeight:500,
-                                    borderRadius:3,
-                                    '&:hover':{
-                                        backgroundColor: 'rgba(46, 202, 59, 1)',
-                                    }
-                                }}
-                                >
-                                    aceptar
-                                </Button>
-                                <Button
-                                variant="outlined"
-                                startIcon={<CancelIcon sx={{marginRight:'0.5rem'}}/>}
-                                sx={{
-                                    flex:1,
-                                    textTransform: 'none' ,fontFamily:'Poppins, sans-serif',
-                                    color: '#ff2e2eff', 
-                                    background:'#fff', 
-                                    borderColor:'#ccc', 
-                                    fontWeight:500, 
-                                    borderRadius:3,
-                                    '&:hover':{
-                                        backgroundColor: '#df1111ff',
-                                        color: '#fff',
-                                    },
-                                    gridColumn: { xs: 'span 12', lg: 'span 4' }
-                                }} 
-                                >
-                                    Rechazar
-                                </Button>
-                            </div>   
-                        ) : (
-                            <div className="flex gap-2 mt-3 w-full">
-                                <Button
-                                startIcon={<ChatBubbleOutlineIcon sx={{marginRight:'0.5rem'}}/>}
-                                variant="outlined"
-                                onClick={onMessageClient}
-                                sx={{
-                                        flex: 1,
-                                        textTransform: 'none',
-                                        fontFamily: 'Poppins, sans-serif',
-                                        color: '#000', // <-- Color de TEXTO por defecto (Negro)
-                                        background: '#fff',
-                                        borderColor: '#ccc',
-                                        fontWeight: 500,
-                                        borderRadius: 3,
-                                        gridColumn: { xs: 'span 12', lg: 'span 4' },
-                                        '& .MuiButton-startIcon > svg': {
-                                            color: '#b8b8b8ff',
-                                        },
-                                        '&:hover': {
-                                            backgroundColor: '#eb9902ff',
-                                            color: '#fff',
-                                            borderColor: '#f7ae26ff',
-                                            '& .MuiButton-startIcon > svg': {
-                                                color: '#fff',
-                                            }
-                                        },
-                                    }}
-                                >
-                                    Mensaje
-                                </Button>
-                                <Button
-                                variant="outlined"
-                                sx={{
-                                    flex:1,
-                                    textTransform: 'none' ,fontFamily:'Poppins, sans-serif',
-                                    color: '#ffffffff',
-                                    background:'#175a69ff',
-                                    borderColor:'none',
-                                    fontWeight:500,
-                                    borderRadius:3,
-                                    '&:hover':{
-                                        backgroundColor: '#186c7e',
-                                    }
-                                }}
-                                onClick={onViewDetails}
-                                >
-                                    Ver detalles
-                                </Button>
-                            </div>   
-                        )}
-                    </div>
                     )}
 
-                        
+                    {/* CASO 2 y 3: PENDIENTE O CONFIRMADO */}
+                    {status !== 'completado' && (
+                        <div className="flex flex-col gap-3">
+                            {/* Datos de contacto (siempre visibles si no está completado) */}
+                            <div className="flex items-center flex-wrap gap-3 text-sm text-gray-600">
+                                <div className="flex items-center gap-1">
+                                    <LocalPhoneOutlinedIcon sx={{ fontSize: '1.1rem' }} />
+                                    <span>{phone}</span>
+                                </div>
+                                <span className="hidden md:inline">•</span>
+                                <div className="flex items-center gap-1">
+                                    <EmailOutlinedIcon sx={{ fontSize: '1.1rem' }} />
+                                    <span className="truncate max-w-[150px]">{email}</span>
+                                </div>
+                            </div>
+
+                            {/* Botones para PENDIENTE */}
+                            {status === 'pendiente' && (
+                                <div className="flex w-full gap-2 mt-2">
+                                    <Button
+                                        onClick={onAccept}
+                                        variant="contained"
+                                        startIcon={<DoneIcon />}
+                                        sx={{
+                                            flex: 1,
+                                            textTransform: 'none',
+                                            bgcolor: '#209129',
+                                            borderRadius: 3,
+                                            boxShadow: 'none',
+                                            '&:hover': { bgcolor: '#1a7a22' }
+                                        }}
+                                    >
+                                        Aceptar
+                                    </Button>
+                                    <Button
+                                        onClick={onCancel} // Aquí usamos onCancel para rechazar
+                                        variant="outlined"
+                                        startIcon={<CancelIcon />}
+                                        sx={{
+                                            flex: 1,
+                                            textTransform: 'none',
+                                            color: '#d32f2f',
+                                            borderColor: '#d32f2f',
+                                            borderRadius: 3,
+                                            '&:hover': { bgcolor: '#ffebee', borderColor: '#c62828' },
+                                        }}
+                                        
+                                    >
+                                        Rechazar
+                                    </Button>
+                                </div>
+                            )}
+
+                            {/* Botones para CONFIRMADO */}
+                            {status === 'confirmado' && (
+                                <div className="flex flex-col gap-2 mt-1">
+                                    <div className="flex gap-2">
+                                        <Button
+                                        variant="outlined"
+                                        sx={{
+                                            textTransform: 'none' ,fontFamily:'Poppins, sans-serif',
+                                            color: '#000',
+                                            background:'#fff',
+                                            borderColor:'#ccc',
+                                            fontWeight:500,
+                                            borderRadius:3,
+                                            '&:hover':{
+                                                backgroundColor: '#eb9902ff',
+                                                color: '#fff',
+                                                borderColor: '#f7ae26ff',
+                                            },
+                                            flex:1
+                                        }}
+                                        onClick={onViewDetails}
+                                        >
+                                        Detalles
+                                        </Button>
+                                        <Button 
+                                        variant="outlined"
+                                        sx={{
+                                            textTransform: 'none' ,fontFamily:'Poppins, sans-serif',
+                                            color: '#000',
+                                            background:'#fff',
+                                            borderColor:'#ccc',
+                                            fontWeight:500,
+                                            borderRadius:3,
+                                            '&:hover':{
+                                                backgroundColor: '#eb9902ff',
+                                                color: '#fff',
+                                                borderColor: '#f7ae26ff',
+                                            },
+                                            flex: 1,
+                                        }}
+                                        onClick={onReschedule}
+                                    >
+                                    Reprogramar
+                                    </Button>
+                                    <Button
+                                        variant="contained"
+                                        sx={{
+                                            textTransform: 'none' ,fontFamily:'Poppins, sans-serif',
+                                            color: '#ffffffff',
+                                            background:'#cf0c0cff',
+                                            fontWeight:500,
+                                            borderRadius:3,
+                                            '&:hover':{
+                                                backgroundColor: '#af3200ff',
+                                                color: '#fff'
+                                            },
+                                            flex: 1,
+                                        }}
+                                        onClick={onCancel}
+                                    >
+                                    Cancelar
+                                    </Button>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

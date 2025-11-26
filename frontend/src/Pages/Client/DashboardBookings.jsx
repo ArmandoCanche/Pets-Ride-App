@@ -148,57 +148,56 @@ export default function DashboardBookings(){
               </div>
 
               <div className='flex flex-col  gap-6 h-full  rounded-lg p-0  align-items-center justify-center col-span-12'>
-                        <Box sx={{ 
+                        <Box sx={{
                             width: 'fit-content',
                             bgcolor: '#ebebebff',
-                            borderRadius: 3, 
+                            borderRadius: 3,
                             padding: 0.5,
                         }}>
-                            <Tabs 
-                                value={currentTab} 
-                                onChange={handleTabChange} 
-                                aria-label="Booking Tabs" 
-                                // 2. Quita el indicador (la línea azul/primaria de abajo)
-                                slotProps={{ 
-                                    indicator: { style: { display: "none"} } 
+                            <Tabs
+                                value={currentTab}
+                                onChange={handleTabChange}
+                                aria-label="Booking Tabs"
+                                slotProps={{
+                                    indicator: { style: { display: "none"} }
                                 }}
                                 sx={{
                                     minHeight:'auto'
                                 }}
                             >
-                                <Tab 
+                                <Tab
                                     label={`Próxima (${upcomingBookings.length})`}
                                     value={"upcoming"}
-                                    sx={{ 
+                                    sx={{
                                         fontFamily: 'Poppins, sans-serif',
                                         fontWeight: 500,
                                         width: '10rem',
-                                        textTransform: 'none', 
-                                        borderRadius: 3, 
+                                        textTransform: 'none',
+                                        borderRadius: 3,
                                         minHeight:'auto',
                                         paddingY:1,
-                                        '&.Mui-selected': { 
-                                            bgcolor: '#fff', 
+                                        '&.Mui-selected': {
+                                            bgcolor: '#fff',
                                             color: 'text.primary'
                                         },
                                         '&:not(.Mui-selected)': {
                                             color: 'text.secondary'
                                         }
-                                    }} 
+                                    }}
                                 />
-                                <Tab 
-                                    label={`Pasada (${pastBookings.length})`} 
-                                    value={"past"} 
-                                    sx={{ 
+                                <Tab
+                                    label={`Pasada (${pastBookings.length})`}
+                                    value={"past"}
+                                    sx={{
                                         fontFamily: 'Poppins, sans-serif',
                                         fontWeight: 500,
                                         width: '10rem',
-                                        textTransform: 'none', 
-                                        borderRadius: 3, 
+                                        textTransform: 'none',
+                                        borderRadius: 3,
                                         minHeight:'auto',
                                         paddingY:1,
-                                        '&.Mui-selected': { 
-                                            bgcolor: '#fff', 
+                                        '&.Mui-selected': {
+                                            bgcolor: '#fff',
                                             color: 'text.primary',
                                             fontWeight: 500
                                         },
@@ -207,26 +206,26 @@ export default function DashboardBookings(){
                                         }
                                     }} 
                                 />
-                                <Tab 
-                                    label={`Cancelada (${cancelledBookings.length})`} 
-                                    value={"cancelled"} 
-                                    sx={{ 
+                                <Tab
+                                    label={`Cancelada (${cancelledBookings.length})`}
+                                    value={"cancelled"}
+                                    sx={{
                                         fontFamily: 'Poppins, sans-serif',
                                         fontWeight: 500,
                                         width: '10rem',
-                                        textTransform: 'none', 
-                                        borderRadius: 3, 
+                                        textTransform: 'none',
+                                        borderRadius: 3,
                                         minHeight:'auto',
                                         paddingY:1,
-                                        '&.Mui-selected': { 
-                                            bgcolor: '#fff', 
+                                        '&.Mui-selected': {
+                                            bgcolor: '#fff',
                                             color: 'text.primary',
                                             fontWeight: 500
                                         },
                                         '&:not(.Mui-selected)': {
                                             color: 'text.secondary'
                                         }
-                                    }} 
+                                    }}
                                 />
                             </Tabs>
                         </Box>
