@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 // MUI Icons
 import MovingIcon from '@mui/icons-material/Moving';
@@ -14,51 +14,58 @@ import { Button } from '@mui/material';
 import ServiceCard from '../../Components/serviceCard';
 import ServiceModal from '../../Components/ServiceModal';
 
+// <--- FUNCIÓN AUXILIAR FUERA DEL COMPONENTE
+const getUserIdFromToken = () => {
+  const token = localStorage.getItem('token');
+  if (!token) return null;
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    return payload.user.id; 
+  } catch (e) {
+    console.error("Error al obtener ID:", e);
+    return null;
+  }
+};
+
 export default function DashboardMyServices() {
 
 
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [selectedService, setSelectedService] = useState(null);
-  const [services, setServices] = useState([
-  {
-    id: "1",
-    name: "Paseo de Perros",
-    description: "Servicio profesional de paseo de perros en el área de Central Park. Con experiencia en todas las razas y tamaños.",
-    price: 25,
-    priceUnit: "hora",
-    duration: "30-60 minutos",
-    active: true,
-    bookings: 127,
-    revenue: 3175,
-    nextBooking: "Hoy a las 10:00 AM",
-  },
-  {
-    id: "2",
-    name: "Paseo de Perros Extendido",
-    description: "Paseos más largos para perros con mucha energía. Incluye tiempo de juego y ejercicios de entrenamiento.",
-    price: 40,
-    priceUnit: "sesión",
-    duration: "90 minutos",
-    active: true,
-    bookings: 45,
-    revenue: 1800,
-    nextBooking: "Mañana a las 2:00 PM",
-  },
-  {
-    id: "3",
-    name: "Cuidado de Mascotas",
-    description: "Servicio de cuidado de mascotas a domicilio. Perfecto para cuando estás fuera todo el día.",
-    price: 50,
-    priceUnit: "día",
-    duration: "Día completo",
-    active: false,
-    bookings: 23,
-    revenue: 1150,
-    nextBooking: "Ninguna reserva próxima",
-  },
-])
+  // <--- CAMBIO: Inicializar vacío, los datos vendrán del backend
+  const [services, setServices] = useState([]); 
 
+  // <---CARGAR DATOS AL INICIO
+  useEffect(() => {
+    const fetchServices = async () => {
+      const providerId = getUserIdFromToken();
+      if (!providerId) return;
 
+      try {
+        const response = await fetch(`http://localhost:3001/api/services/provider/${providerId}`);
+        if (response.ok) {
+          const dbServices = await response.json();
+          // Transformar datos de BD (snake_case) al formato de tu Frontend (camelCase)
+          const formattedServices = dbServices.map(s => ({
+            id: s.service_id,
+            name: s.name,
+            description: s.description,
+            price: parseFloat(s.price),
+            priceUnit: "sesión", // O ajustarlo según tu lógica
+            duration: s.duration_minutes + " min",
+            active: s.is_active,
+            bookings: 0,
+            revenue: 0,
+            nextBooking: "Pendiente"
+          }));
+          setServices(formattedServices);
+        }
+      } catch (error) {
+        console.error("Error cargando servicios:", error);
+      }
+    };
+    fetchServices();
+  }, []);
 
   const toggleServiceStatus = (id) => {
     setServices(services.map((service) => (service.id === id ? { ...service, active: !service.active } : service)))
@@ -74,24 +81,63 @@ export default function DashboardMyServices() {
     setEditModalOpen(true)
   }
 
-  const handleSaveService = (dataFromModal) => {
-    if (selectedService) {
-      const updatedServices = services.map((service) =>
-        service.id === selectedService.id ? { ...service, ...dataFromModal } : service
-      );
-      setServices(updatedServices);
-    } else {
-      const newService = {
-        id: Date.now().toString(),
-        active: true,
-        bookings: 0,
-        revenue: 0,
-        nextBooking: "Sin reservas",
-        ...dataFromModal
-      };
-      setServices([...services, newService]);
+  // <--- 3. REEMPLAZAR COMPLETAMENTE LA FUNCIÓN handleSaveService
+  const handleSaveService = async (dataFromModal) => {
+    const providerId = getUserIdFromToken();
+    if (!providerId) {
+      alert("Error de sesión. Vuelve a ingresar.");
+      return;
+    }
+
+    // Preparamos el objeto para enviar al backend
+    const newServicePayload = {
+      provider_id: providerId,
+      name: dataFromModal.name,
+      description: dataFromModal.description,
+      price: dataFromModal.price,
+      duration: dataFromModal.duration, 
+      category: dataFromModal.category
+    };
+
+    try {
+      const response = await fetch('http://localhost:3001/api/services', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        body: JSON.stringify(newServicePayload)
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Si se guardó en BD, actualizamos la lista visualmente
+        const newServiceForList = {
+          id: data.service.service_id, // ID real de la base de datos
+          name: data.service.name,
+          description: data.service.description,
+          price: parseFloat(data.service.price),
+          priceUnit: "sesión",
+          duration: data.service.duration_minutes + " min",
+          active: data.service.is_active,
+          bookings: 0,
+          revenue: 0,
+          nextBooking: "Sin reservas",
+        };
+
+        setServices([...services, newServiceForList]);
+        setEditModalOpen(false);
+        alert("Servicio guardado correctamente");
+      } else {
+        alert(`Error: ${data.message}`);
+      }
+    } catch (error) {
+      console.error("Error de conexión:", error);
+      alert("No se pudo conectar con el servidor.");
     }
   }
+
   const totalRevenue = services.reduce((sum, service) => sum + service.revenue, 0)
   const totalBookings = services.reduce((sum, service) => sum + service.bookings, 0)
   const activeServices = services.filter((s) => s.active).length

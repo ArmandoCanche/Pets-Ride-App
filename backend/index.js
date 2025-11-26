@@ -4,6 +4,7 @@ const petsRoutes = require('./routes/pets.routes');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const db = require('./db'); // Importamos nuestra conexión a la BD
+const servicesRoutes = require('./routes/services.routes');
 require('dotenv').config();
 
 const app = express();
@@ -184,6 +185,7 @@ app.get('/api/providers/:providerId/reviews', async (req, res) => {
 });
 
 app.use('/api/pets', petsRoutes);
+app.use('/api/services', servicesRoutes);
 
 app.listen(PORT, () => {
   console.log(`Servidor backend corriendo en http://localhost:${PORT}`);
