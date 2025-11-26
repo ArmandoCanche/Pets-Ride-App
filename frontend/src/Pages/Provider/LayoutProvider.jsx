@@ -6,7 +6,7 @@ export default function LayoutProvider() {
   return (
     <div>
       <NavigationHeader userType="provider" />
-      <main>
+      <main className="flex-1 pt-24">
         <Outlet />
       </main>
     </div>
