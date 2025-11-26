@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const petsRoutes = require('./routes/pets.routes');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const db = require('./db'); // Importamos nuestra conexión a la BD
@@ -181,6 +182,8 @@ app.get('/api/providers/:providerId/reviews', async (req, res) => {
     return res.status(500).json({ message: 'Error en el servidor' });
   }
 });
+
+app.use('/api/pets', petsRoutes);
 
 app.listen(PORT, () => {
   console.log(`Servidor backend corriendo en http://localhost:${PORT}`);

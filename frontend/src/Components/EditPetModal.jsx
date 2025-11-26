@@ -38,10 +38,43 @@ export default function EditPetModal({open, onOpenChange, pet}) {
     }
 
 
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        onOpenChange(false);
-    }
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        try {
+            const response = await fetch("http://localhost:3001/api/pets", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    owner_id: 1,  // 👈 O el ID real del usuario logueado
+                    name: formData.name,
+                    species: formData.species,
+                    breed: formData.breed,
+                    age: formData.age,
+                    weight: formData.weight,
+                    special_needs: formData.specialNeeds,
+                    medical_history: formData.medicalHistory,
+                    gender: formData.gender,
+                    birth_date: "2025-01-01", // o el campo real que tengas
+                    medical_notes: "" // si no lo usas
+                }),
+            });
+
+            const data = await response.json();
+            console.log("Mascota creada:", data);
+
+            if (data.success) {
+                alert("Mascota registrada con éxito");
+            }
+
+            onOpenChange(false);
+
+        } catch (error) {
+            console.error("Error al enviar datos:", error);
+        }
+    };
 
     useEffect(() => {
         if (open) {
