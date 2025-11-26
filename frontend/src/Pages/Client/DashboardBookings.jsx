@@ -17,8 +17,8 @@ export default function DashboardBookings(){
         {
             id: "1",
             serviceType: "Paseo de perros",
-            providerName: "Carlos López", // Coherencia: Este es el usuario del otro dashboard
-            providerImage: "/man-2.jpg", // Imagen de Carlos
+            providerName: "Carlos López",
+            providerImage: "/man-2.jpg",
             providerRating: 4.9,
             providerPhone: "+1 (555) 123-4567",
             providerEmail: "carlos.paseos@petcare.com",

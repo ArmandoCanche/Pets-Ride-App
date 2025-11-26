@@ -35,8 +35,7 @@ export default function BookingCard({
 
     return (
         <div className='flex flex-col h-full border border-gray-200 rounded-2xl p-6 gap-5 bg-white transition-shadow justify-between'>
-            
-            {/* HEADER */}
+
             <div className='flex flex-row justify-between items-start'>
                 <div>
                     <h1 className='text-lg font-bold text-gray-800'>{serviceType}</h1>
@@ -49,7 +48,6 @@ export default function BookingCard({
                 </div>
             </div>
 
-            {/* DETALLES */}
             <div className='flex flex-col gap-3 text-sm text-gray-600'>
                 <div className='flex items-center'>
                     <PetsIcon sx={{ fontSize: '1.2rem', marginRight: '0.5rem', color: '#9ca3af' }} />
@@ -77,7 +75,6 @@ export default function BookingCard({
                 </div>
             </div>
 
-            {/* BOTONES DE ACCIÓN */}
             <div className='flex flex-col gap-2 mt-auto'>
                 {status === "confirmado" && (
                     <div className="flex gap-2">
@@ -105,7 +102,7 @@ export default function BookingCard({
                         </Button>
                         <Button
                             onClick={onReschedule}
-                            variant="contained" // COLOR DE VUELTA (Contained)
+                            variant="contained"
                             startIcon={<EditCalendarIcon fontSize="small" />}
                             sx={{
                                 flex: 1,
@@ -150,7 +147,6 @@ export default function BookingCard({
                     </div>
                 )}
 
-                {/* 2. CASO: PENDIENTE */}
                 {status === "pendiente" && (
                     <div className="flex gap-2">
                         <Button
@@ -200,7 +196,6 @@ export default function BookingCard({
                     </div>
                 )}
 
-                {/* 3. CASO: COMPLETADO O CANCELADO */}
                 {(status === "completado" || status === "cancelado") && (
                     <Button
                         onClick={onViewDetails}

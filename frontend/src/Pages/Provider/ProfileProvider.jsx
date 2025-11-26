@@ -89,7 +89,6 @@ export default function ProfileProvider() {
 
                     {/* --- COLUMNA IZQUIERDA: TARJETA DE PRESENTACIÓN --- */}
                     <div className="flex flex-col border border-gray-200 bg-white rounded-xl p-6 gap-6 h-fit">
-                        
                         <div className="flex flex-col gap-1 text-center">
                             <h2 className="text-lg font-semibold">Foto de perfil</h2>
                             <span className="text-gray-500 text-sm">Debe ser clara y profesional</span>
@@ -99,7 +98,7 @@ export default function ProfileProvider() {
                             <div className="relative">
                                 <Avatar
                                     alt="Provider Picture"
-                                    src="/static/images/avatar/2.jpg" // Asumiendo otra imagen
+                                    src="/static/images/avatar/2.jpg"
                                     sx={{ width: 100, height: 100}}
                                 />
                                 {isEditing && (
@@ -121,8 +120,6 @@ export default function ProfileProvider() {
                                 <h2 className="text-xl font-bold text-gray-800">{formData.displayName}</h2>
                                 <p className="text-gray-500 text-sm">{formData.location}</p>
                             </div>
-
-                            {/* ESTADÍSTICAS DEL PRESTADOR */}
                             <div className="flex justify-center gap-3 w-full">
                                 <div className="flex flex-col items-center bg-orange-50 px-3 py-2 rounded-lg border border-orange-100 flex-1">
                                     <div className="flex items-center gap-1">

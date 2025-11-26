@@ -44,7 +44,6 @@ export default function ProviderRescheduleModal({ open, onOpenChange, booking })
             gap: '1rem'
           }}
         >
-          {/* Título adaptado para Prestador */}
           <h1 className="text-2xl font-semibold">Proponer nuevo horario</h1>
           <div className="flex flex-col">
             <h2 className="text-base font-semibold text-gray-500 mb-2">ACTUAL RESERVA</h2>
@@ -105,14 +104,14 @@ export default function ProviderRescheduleModal({ open, onOpenChange, booking })
             <label className="text-sm font-medium">
               Motivo del cambio (Importante para el cliente)
             </label>
-            <TextareaAutosize 
-              minRows={3} 
+            <TextareaAutosize
+              minRows={3}
               value={reason}
               onChange={(e) => setReason(e.target.value)}
               rows={3}
               placeholder="Hola, necesito mover la cita debido a..."
               style={{
-                fontSize: '0.9rem', 
+                fontSize: '0.9rem',
                 border: '1px solid #ccc',
                 borderRadius: '8px',
                 padding: '8px',
@@ -183,7 +182,6 @@ export default function ProviderRescheduleModal({ open, onOpenChange, booking })
               Enviar Propuesta
             </Button>
           </div>
-          
         </DialogContent>
       </Dialog>
     </LocalizationProvider>

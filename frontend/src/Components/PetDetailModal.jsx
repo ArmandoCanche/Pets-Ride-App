@@ -22,7 +22,7 @@ export default function PetDetailModal({open, onOpenChange, pet}) {
 
   return (
     <>
-      <Dialog 
+      <Dialog
       open={open}
       onClose={()=> onOpenChange(false)}
       slotProps={{
@@ -49,18 +49,18 @@ export default function PetDetailModal({open, onOpenChange, pet}) {
                   <h3 className="text-2xl font-semibold">Detalles de la mascota</h3>
                   <span className="text-sm text-gray-500">Ficha técnica completa</span>
               </div>
-              <Chip 
-                label={pet.species.charAt(0).toUpperCase() + pet.species.slice(1)} 
+              <Chip
+                label={pet.species.charAt(0).toUpperCase() + pet.species.slice(1)}
                 sx={{color:'white', background:'black', fontWeight: 600}}
               />
           </div>
 
           {/* TARJETA PRINCIPAL */}
           <div className="flex items-center p-4 gap-5 rounded-xl bg-gray-50 border border-gray-200">
-            <Avatar 
+            <Avatar
                 sx={{
-                    height: 80, 
-                    width: 80, 
+                    height: 80,
+                    width: 80,
                     fontSize: '2.5rem',
                     bgcolor: 'white',
                     border: '2px solid #e5e7eb'
@@ -175,7 +175,6 @@ export default function PetDetailModal({open, onOpenChange, pet}) {
           </div>
         </DialogContent>
       </Dialog>
-      
       <EditPetModal
       open={editModalOpen}
       onOpenChange={handleEditModalClose}

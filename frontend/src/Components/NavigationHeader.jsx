@@ -63,10 +63,10 @@ export default function NavigationHeader({ userType }) {
   const baseClasses = "text-md font-medium py-2 px-4 rounded-full border-2 transition-all";
 
   return (
-    <header 
+    <header
       className={`flex flex-col w-full fixed top-0 z-50 transition-all duration-300 ${
-        isScrolled 
-          ? 'bg-white/30 backdrop-blur-md shadow-sm border-b border-gray-200' 
+        isScrolled
+          ? 'bg-white/30 backdrop-blur-md shadow-sm border-b border-gray-200'
           : 'bg-white border-b border-gray-200'
       }`}
     >
@@ -78,22 +78,22 @@ export default function NavigationHeader({ userType }) {
           <nav className="hidden md:flex items-center justify-text-center md:text-sm md:gap-0 lg:text-sm lg:gap-6 xl:text-sm xl:gap-12">
             {!userType && (
               <div className="xs:font-size-sm ">
-                <NavLink 
-                  to="/services" 
+                <NavLink
+                  to="/services"
                   onClick={handleLinkClick}
                   className={({isActive}) => isActive ? `${baseClasses} text-purple-600 border-purple-600` : `${baseClasses} border-transparent hover:bg-gray-50`}
                 >
                   Servicios
                 </NavLink>
-                <NavLink 
-                  to="/how-it-works" 
+                <NavLink
+                  to="/how-it-works"
                   onClick={handleLinkClick}
                   className={({isActive}) => isActive ? `${baseClasses} text-purple-600 border-purple-600` : `${baseClasses} border-transparent hover:bg-gray-50`}
                 >
                   Cómo funciona
                 </NavLink>
-                <NavLink 
-                  to="/about" 
+                <NavLink
+                  to="/about"
                   onClick={handleLinkClick}
                   className={({isActive}) => isActive ? `${baseClasses} text-purple-600 border-purple-600` : `${baseClasses} border-transparent hover:bg-gray-50`}
                 >
@@ -148,15 +148,15 @@ export default function NavigationHeader({ userType }) {
                   </Avatar>
                 </Button>
                 <Menu anchorEl={anchorEl} open={menuOpen} onClose={handleMenuClose}>
-                  <MenuItem 
-                  component={Link} 
+                  <MenuItem
+                  component={Link}
                   to={`/${userType}/profile`}
                   onClick={handleMenuClose}>
                     <ListItemIcon><UserIcon fontSize="small" className="mr-2" /></ListItemIcon>
                     Perfil
                   </MenuItem>
-                  <MenuItem 
-                  component={Link} 
+                  <MenuItem
+                  component={Link}
                   to={`/${userType}/settings`}
                   onClick={handleMenuClose}>
                     <ListItemIcon><SettingsIcon fontSize="small" className="mr-2" /></ListItemIcon>

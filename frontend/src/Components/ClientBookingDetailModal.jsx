@@ -83,8 +83,6 @@ export default function ClientBookingDetailModal({
               INFORMACIÓN DEL PROVEEDOR
             </h3>
             <div className="flex items-center flex-col gap-4 p-4 bg-gray-100 rounded-lg xs:flex-row md:flex-row lg:flex-row xl:flex-row">
-
-              {/* seccion1 */}
               <Avatar
                 sx={{ height: "4rem", width: "4rem" }}
                 src={booking.providerImage || "/placeholder.svg"}
@@ -92,9 +90,6 @@ export default function ClientBookingDetailModal({
               >
                 {booking.providerName.charAt(0)}
               </Avatar>
-
-              {/* seccion2 */}
-
               <div className="flex flex-col justify-between w-full ">
                 <div className="flex flex-col justify-between items-center  md:flex-row lg:flex-row xl:flex-row">
                   <h4 className="font-semibold text-lg">{booking.providerName}</h4>
@@ -131,10 +126,7 @@ export default function ClientBookingDetailModal({
 
             </div>
           </div>
-
           <Divider />
-
-          {/* Booking Info */}
           <div className="my-2">
             <h3 className="text-base font-semibold text-gray-500 mb-3">
               DETALLES
@@ -203,8 +195,6 @@ export default function ClientBookingDetailModal({
               </div>
             </>
           )}
-
-          {/* Actions */}
           <div className="flex flex-col sm:flex-row gap-2 pt-2 w-full">
             <Button
               variant="outlined"
@@ -224,7 +214,6 @@ export default function ClientBookingDetailModal({
             >
               CERRAR
             </Button>
-
             <Button
               variant="contained"
               sx={{ 

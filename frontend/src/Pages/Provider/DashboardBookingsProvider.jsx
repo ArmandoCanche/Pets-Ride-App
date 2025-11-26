@@ -133,7 +133,7 @@ export default function DashboardBookingsProvider() {
     setSelectedBooking({
         ...booking,
         // Unificamos nombres de props para el modal
-        serviceType: booking.service, 
+        serviceType: booking.service,
         petName: booking.pet
     });
     setDetailModalOpen(true);
@@ -147,7 +147,7 @@ export default function DashboardBookingsProvider() {
   const handleReschedule = (booking) => {
     setSelectedBooking({
         ...booking,
-        serviceType: booking.service, 
+        serviceType: booking.service,
         petName: booking.pet
     });
     setRescheduleModalOpen(true);
@@ -179,7 +179,6 @@ export default function DashboardBookingsProvider() {
                 {...booking}
                 // Mapeo importante: Card espera 'client', datos tienen 'clientName'
                 client={booking.clientName}
-                
                 // Funciones
                 onViewDetails={() => handleViewDetails(booking)}
                 onReschedule={() => handleReschedule(booking)}
