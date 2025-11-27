@@ -62,8 +62,8 @@ const [createPetModalOpen, setCreatePetModalOpen] = useState(false)
         {
             id: "1",
             serviceType: "Paseo de perros",
-            providerName: "Carlos López", // Coherencia: Este es el usuario del otro dashboard
-            providerImage: "/man-2.jpg", // Imagen de Carlos
+            providerName: "Carlos López",
+            providerImage: "/man-2.jpg",
             providerRating: 4.9,
             providerPhone: "+1 (555) 123-4567",
             providerEmail: "carlos.paseos@petcare.com",
@@ -193,7 +193,7 @@ const [createPetModalOpen, setCreatePetModalOpen] = useState(false)
               <h1 className='text-2xl font-semibold'>SUGERENCIAS</h1>
               <Button
               sx={{textTransform: 'none' , fontFamily:'Poppins, sans-serif',color: '#000000ff', borderColor:'#ccc','&:hover': { bgcolor: 'transparent',
-                textDecoration:'underline',    
+                textDecoration:'underline',
                 color: '#005c71',
                 borderColor: '#f37556',
                    } }}

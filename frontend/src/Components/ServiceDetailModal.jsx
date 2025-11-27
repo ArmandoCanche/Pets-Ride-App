@@ -125,7 +125,7 @@ export default function ServiceDetailModal({open, onOpenChange, service}) {
                                     <span>/ {service.priceUnit}</span>
                                 </div>
                             </div>
-                            <p className="text-xs text-gray-400">Final price may vary based on specific requirements</p>
+                            <p className="text-xs text-gray-400">El precio puede variar según los requisitos específicos</p>
                         </div>
 
                         {/* Reviews */}

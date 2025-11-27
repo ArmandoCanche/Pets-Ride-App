@@ -8,6 +8,7 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import EditCalendarIcon from '@mui/icons-material/EditCalendar';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import StarRateIcon from '@mui/icons-material/StarRate';
 
 // Importación de componentes MUI
 import { Button, Divider } from '@mui/material';
@@ -24,6 +25,7 @@ export default function BookingCard({
     onCancel,
     onReschedule,
     onViewDetails,
+    onRate,
 }) {
 
     const statusColors = {
@@ -35,8 +37,7 @@ export default function BookingCard({
 
     return (
         <div className='flex flex-col h-full border border-gray-200 rounded-2xl p-6 gap-5 bg-white transition-shadow justify-between'>
-            
-            {/* HEADER */}
+
             <div className='flex flex-row justify-between items-start'>
                 <div>
                     <h1 className='text-lg font-bold text-gray-800'>{serviceType}</h1>
@@ -49,7 +50,6 @@ export default function BookingCard({
                 </div>
             </div>
 
-            {/* DETALLES */}
             <div className='flex flex-col gap-3 text-sm text-gray-600'>
                 <div className='flex items-center'>
                     <PetsIcon sx={{ fontSize: '1.2rem', marginRight: '0.5rem', color: '#9ca3af' }} />
@@ -77,7 +77,6 @@ export default function BookingCard({
                 </div>
             </div>
 
-            {/* BOTONES DE ACCIÓN */}
             <div className='flex flex-col gap-2 mt-auto'>
                 {status === "confirmado" && (
                     <div className="flex gap-2">
@@ -105,7 +104,7 @@ export default function BookingCard({
                         </Button>
                         <Button
                             onClick={onReschedule}
-                            variant="contained" // COLOR DE VUELTA (Contained)
+                            variant="contained"
                             startIcon={<EditCalendarIcon fontSize="small" />}
                             sx={{
                                 flex: 1,
@@ -150,7 +149,6 @@ export default function BookingCard({
                     </div>
                 )}
 
-                {/* 2. CASO: PENDIENTE */}
                 {status === "pendiente" && (
                     <div className="flex gap-2">
                         <Button
@@ -200,31 +198,51 @@ export default function BookingCard({
                     </div>
                 )}
 
-                {/* 3. CASO: COMPLETADO O CANCELADO */}
                 {(status === "completado" || status === "cancelado") && (
-                    <Button
-                        onClick={onViewDetails}
-                        variant="outlined"
-                        fullWidth
-                        startIcon={<VisibilityIcon />}
-                        sx={{
+                    <div className="flex gap-2">
+                        <Button
+                            onClick={onViewDetails}
+                            variant="outlined"
+                            fullWidth
+                            startIcon={<VisibilityIcon />}
+                            sx={{
+                                    flex: 1,
+                                    fontFamily: 'Poppins, sans-serif',
+                                    color: '#000',
+                                    background: '#ffffffff',
+                                    border:2,
+                                    borderColor: '#cececeff',
+                                    fontWeight: 500,
+                                    borderRadius: 3,
+                                    '&:hover': {
+                                        borderColor: '#005c71',
+                                        scale: '1.02',
+                                        transition: 'all 0.3s ease-in-out',
+                                    },
+                                }}
+                        >
+                            Ver Detalles
+                        </Button>
+                        <Button
+                            onClick={onRate}
+                            variant="contained"
+                            startIcon={<StarRateIcon />}
+                            sx={{
                                 flex: 1,
-                                fontFamily: 'Poppins, sans-serif',
-                                color: '#000',
-                                background: '#ffffffff',
-                                border:2,
-                                borderColor: '#cececeff',
-                                fontWeight: 500,
                                 borderRadius: 3,
-                                '&:hover': {
-                                    borderColor: '#005c71',
-                                    scale: '1.02',
-                                    transition: 'all 0.3s ease-in-out',
-                                },
+                                textTransform: 'none',
+                                bgcolor: '#faaf00',
+                                color: '#fff',
+                                fontWeight: 600,
+                                '&:hover': { bgcolor: '#ffb004ff',
+                                        scale: '1.02',
+                                        transition: 'all 0.3s ease-in-out',
+                                 }
                             }}
-                    >
-                        Ver Detalles
-                    </Button>
+                        >
+                            Calificar
+                        </Button>
+                    </div>
                 )}
 
             </div>

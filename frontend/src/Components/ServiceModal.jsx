@@ -92,8 +92,8 @@ export default function ServiceModal({open, onOpenChange, service, onSave}) {
 
     return (
         <ThemeProvider theme={theme}>
-            <Dialog 
-                open={open} 
+            <Dialog
+                open={open}
                 onClose={() => onOpenChange(false)}
                 maxWidth="md"
                 fullWidth
@@ -110,10 +110,8 @@ export default function ServiceModal({open, onOpenChange, service, onSave}) {
                         <CloseIcon />
                     </IconButton>
                 </div>
-                
                 <DialogContent>
                     <form onSubmit={handleSubmit} className="flex flex-col gap-6">
-                        
                         {/* 1. INFORMACIÓN BÁSICA (Lado a Lado) */}
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                             <TextField
@@ -152,7 +150,7 @@ export default function ServiceModal({open, onOpenChange, service, onSave}) {
                             placeholder="Describe qué incluye tu servicio para atraer más clientes..."
                         />
 
-                        {/* 2. BLOQUE LOGÍSTICO (Destacado con fondo gris) */}
+                        {/* 2. BLOQUE LOGÍSTICO */}
                         <div className="bg-gray-50 p-5 rounded-xl border border-gray-200">
                             <span className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4 block">Tarifas y Tiempo</span>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

@@ -36,7 +36,6 @@ export default function Team() {
           Nuestro equipo directivo
         </h2>
 
-        {/* Centramos los elementos dentro del grid */}
         <div className="flex flex-wrap justify-center gap-10">
         {team.map((person, index) => (
             <div key={index} className="flex flex-col items-center text-center">
