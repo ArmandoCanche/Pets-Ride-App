@@ -171,7 +171,8 @@ const getAllServices = async (req, res) => {
         u.first_name,
         u.last_name,
         u.address as location,
-        u.is_verified
+        u.is_verified,
+        u.profile_picture_url
       FROM Services s
       JOIN Users u ON s.provider_id = u.user_id
       JOIN Service_Categories c ON s.category_id = c.category_id
