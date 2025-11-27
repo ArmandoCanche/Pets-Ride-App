@@ -16,11 +16,15 @@ const verifyToken = (req, res, next) => {
   const token = parts[1];
 
   try {
-    const secret = process.env.JWT_SECRET || 'mi_secreto_temporal';
+    const secret = process.env.JWT_SECRET; 
+    if (!secret) {
+        console.error("FATAL ERROR: JWT_SECRET no está definido en las variables de entorno.");
+        return res.status(500).json({ message: 'Error de configuración del servidor' });
+    }
+
     const decoded = jwt.verify(token, secret);
-    
     req.user = decoded.user; 
-    
+  
     next();
   } catch (err) {
     return res.status(403).json({ message: 'Token inválido o expirado' });

@@ -2,10 +2,6 @@
 const db = require('../db'); // Tu pool de conexión
 const { addMinutes, parseISO, isValid, isBefore, format } = require('date-fns');
 
-/**
- * CREAR UNA NUEVA RESERVA
- * Nivel de Ingeniería: Producción (ACID, Validaciones, UTC)
- */
 const createBooking = async (req, res) => {
   // 1. Obtener cliente del token (Seguridad)
   const clientId = req.user.id; 
