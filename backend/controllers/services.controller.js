@@ -156,10 +156,41 @@ const deleteService = async (req, res) => {
   }
 };
 
+// 4. OBTENER TODOS LOS SERVICIOS (PÚBLICO/CLIENTE)
+const getAllServices = async (req, res) => {
+  try {
+    // Hacemos JOIN para obtener datos del proveedor y la categoría
+    const query = `
+      SELECT 
+        s.service_id,
+        s.name as service_title,
+        s.description,
+        s.price,
+        s.duration_minutes,
+        c.name as category_name,
+        u.first_name,
+        u.last_name,
+        u.address as location,
+        u.is_verified
+      FROM Services s
+      JOIN Users u ON s.provider_id = u.user_id
+      JOIN Service_Categories c ON s.category_id = c.category_id
+      WHERE s.is_active = true
+    `;
+    
+    const result = await db.query(query);
+    res.json(result.rows);
+  } catch (err) {
+    console.error("Error getting all services:", err);
+    res.status(500).json({ message: "Error al obtener servicios" });
+  }
+};
+
 module.exports = { 
     createService, 
     getProviderServices, 
     updateService,     
     toggleServiceStatus, 
-    deleteService      
+    deleteService,
+    getAllServices
 };
