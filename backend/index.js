@@ -24,6 +24,7 @@ app.use('/api', authRoutes);
 // 2. Mascotas
 // Habilita rutas como: GET /api/pets, POST /api/pets
 app.use('/api/pets', petsRoutes);
+app.use('/api/services', servicesRoutes);
 
 // 3. Reservas
 // Habilita rutas como: POST /api/bookings
