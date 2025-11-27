@@ -1,4 +1,4 @@
-import { Avatar, Button, Divider } from "@mui/material";
+import { Avatar, Button, Divider, IconButton, Tooltip } from "@mui/material";
 
 // Iconos MUI
 import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined';
@@ -6,14 +6,14 @@ import AccessTimeOutlinedIcon from '@mui/icons-material/AccessTimeOutlined';
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import LocalPhoneOutlinedIcon from '@mui/icons-material/LocalPhoneOutlined';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
-import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import DoneIcon from '@mui/icons-material/Done';
 import CancelIcon from '@mui/icons-material/Cancel';
-import { Chat } from "@mui/icons-material";
 import StarRateIcon from '@mui/icons-material/StarRate';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import EditCalendarIcon from '@mui/icons-material/EditCalendar';
 
 export default function BookingCardProvider({
-    clientImagen,
+    clientImage,
     client,
     service,
     pet,
@@ -27,171 +27,192 @@ export default function BookingCardProvider({
     phone,
     email,
     rating,
-    onMessageClient,
     onViewDetails,
-}
-    ){
+    onReschedule,
+    onCancel,
+    onAccept
+}) {
+
     const statusColors = {
-    pendiente:  "bg-yellow-500/10 text-yellow-600 dark:text-yellow-600 border border-yellow-500/20",
-    confirmado: "bg-blue-500/10   text-blue-800   dark:text-blue-600   border border-blue-500/20",
-    completado: "bg-green-500/10  text-green-800  dark:text-green-600  border border-green-500/20",
-    cancelado:  "bg-red-500/10    text-red-800    dark:text-red-600    border border-red-500/20",
+        pendiente:  "bg-yellow-500/10 text-yellow-600 border border-yellow-500/20",
+        confirmado: "bg-blue-500/10 text-blue-800 border border-blue-500/20",
+        completado: "bg-green-500/10 text-green-800 border border-green-500/20",
+        cancelado:  "bg-red-500/10 text-red-800 border border-red-500/20",
     };
 
     return (
-        <div>
-            <div className="flex flex-col gap-6 hover:shadow-lg border p-6 rounded-2xl shadow-sm border-3 border-gray-300 bg-white">
-                {/* primera seccion */}
-                <div>
-                    <div className="flex items-start justify-between">
-                        <div className="flex items-center gap-4">
-                            <Avatar src={clientImagen || "/placeholder.svg"} alt={`${client}`} >U</Avatar>
-                            <div className="">
-                                <h2 className="text-lg font-semibold">{service}</h2>
-                                <p className="text-sm text-gray-500">{client} • {pet} ({petType})</p>
-                            </div>
-                        </div>
-                        <div className={`flex px-2 py-1 rounded-2xl ${statusColors[status]}`}>
-                            <p className="text-xs">
-                                {status.charAt(0).toUpperCase() + status.slice(1)}
-                            </p>
-                        </div>
+        <div className="flex flex-col h-full border border-gray-200 rounded-2xl p-6 gap-5 bg-white  justify-between">
+            {/* HEADER */}
+            <div className="flex items-start justify-between">
+                <div className="flex items-center gap-4">
+                    <Avatar 
+                        src={clientImage || "/placeholder.svg"} 
+                        alt={`${client}`}
+                        sx={{ width: 50, height: 50 }}
+                    >
+                        {client?.charAt(0)}
+                    </Avatar>
+                    <div>
+                        <h2 className="text-lg font-bold text-gray-800">{service}</h2>
+                        <p className="text-sm text-gray-500 font-medium">
+                            {client} • <span className="text-gray-700">{pet} ({petType})</span>
+                        </p>
                     </div>
                 </div>
-
-                {/* segunda seccion */}
-                <div className="flex flex-col gap-2">
-                    <div className="grid md:grid-cols-2 gap-4">
-                        <div className="flex items-center gap-2 text-sm">
-                            <CalendarTodayOutlinedIcon sx={{color:'#969696ff', fontSize:'1.2rem'}} />
-                            <span>{date}</span>
-                        </div>
-                        <div className="flex items-center gap-2 text-sm">
-                            <AccessTimeOutlinedIcon sx={{color:'#969696ff', fontSize:'1.2rem'}} />
-                            <span>{time} • {duration}</span>
-                        </div>
-                        <div className="flex items-center gap-2 text-sm">
-                            <LocationOnOutlinedIcon sx={{color:'#969696ff', fontSize:'1.2rem'}} />
-                            <span className="text-sm">{location}</span>
-                        </div>
-                        <div className="flex items-center gap-2 text-sm font-semibold">
-                            <span className="text-base text-[#175a69ff]">{price}</span>
-                        </div>
+                <div className={`flex px-3 py-1 rounded-full ${statusColors[status] || statusColors.pendiente}`}>
+                    <p className="text-xs font-bold uppercase tracking-wide">
+                        {status ? status : 'Estado'}
+                    </p>
+                </div>
+            </div>
+            <div className="flex flex-col gap-3 text-sm text-gray-600">
+                <div className="grid md:grid-cols-2 gap-x-4 gap-y-2">
+                    <div className="flex items-center gap-2">
+                        <CalendarTodayOutlinedIcon sx={{ fontSize: '1.2rem', color: '#9ca3af' }} />
+                        <span>{date}</span>
                     </div>
-                    <Divider />
+                    <div className="flex items-center gap-2">
+                        <AccessTimeOutlinedIcon sx={{ fontSize: '1.2rem', color: '#9ca3af' }} />
+                        <span>{time} • {duration}</span>
+                    </div>
+                    <div className="flex items-center gap-2 col-span-2">
+                        <LocationOnOutlinedIcon sx={{ fontSize: '1.2rem', color: '#9ca3af' }} />
+                        <span className="truncate">{location}</span>
+                    </div>
+                </div>
+                <Divider sx={{ my: 0.5 }} />
+
+                <div className="flex items-center justify-between">
+                    <div className="flex items-center text-green-700 font-bold text-lg">
+                        <span>${price}</span>
+                    </div>
                     {status === 'completado' ? (
-                        <div className="flex items-center gap-1 ">
-                            <span className="text-sm">Calificación:</span>
-                            {[...Array(rating)].map((_, i) => (
-                                <span key={i}> <StarRateIcon sx={{color:'#FFD700'}} /></span>
+                        <div className="flex items-center gap-0.5">
+                            {[...Array(rating || 0)].map((_, i) => (
+                                <StarRateIcon key={i} sx={{ color: '#FFD700', fontSize: '1.2rem' }} />
                             ))}
                         </div>
-                    ):(
-                    <div className="flex flex-col items-start gap-3 ">
-                        <div className="flex items-center gap-3">
-                            <LocalPhoneOutlinedIcon sx={{color:'#969696ff', fontSize:'1.2rem'}} />
-                            <span className="text-sm text-black">{phone}</span>
-                            <span>•</span>
-                            <EmailOutlinedIcon sx={{color:'#969696ff', fontSize:'1.2rem'}} />
-                            <span className="text-sm">{email}</span>
+                    ) : (
+                        <div className="flex items-center gap-3 text-xs text-gray-400">
+                            <div className="flex items-center gap-1">
+                                <LocalPhoneOutlinedIcon sx={{ fontSize: '1rem' }} />
+                                <span>{phone}</span>
+                            </div>
                         </div>
-                        {status === 'pendiente' ? (
-                            <div className="flex w-full gap-2 mt-3">
-                                <Button
-                                variant="outlined"
-                                startIcon={<DoneIcon sx={{marginRight:'0.5rem'}}/>}
-                                sx={{
-                                    flex:1,
-                                    textTransform: 'none' ,fontFamily:'Poppins, sans-serif',
-                                    color: '#ffffffff',
-                                    background:'#209129ff',
-                                    borderColor:'none',
-                                    fontWeight:500,
-                                    borderRadius:3,
-                                    '&:hover':{
-                                        backgroundColor: 'rgba(46, 202, 59, 1)',
-                                    }
-                                }}
-                                >
-                                    aceptar
-                                </Button>
-                                <Button
-                                variant="outlined"
-                                startIcon={<CancelIcon sx={{marginRight:'0.5rem'}}/>}
-                                sx={{
-                                    flex:1,
-                                    textTransform: 'none' ,fontFamily:'Poppins, sans-serif',
-                                    color: '#ff2e2eff', 
-                                    background:'#fff', 
-                                    borderColor:'#ccc', 
-                                    fontWeight:500, 
-                                    borderRadius:3,
-                                    '&:hover':{
-                                        backgroundColor: '#df1111ff',
-                                        color: '#fff',
-                                    },
-                                    gridColumn: { xs: 'span 12', lg: 'span 4' }
-                                }} 
-                                >
-                                    Rechazar
-                                </Button>
-                            </div>   
-                        ) : (
-                            <div className="flex gap-2 mt-3 w-full">
-                                <Button
-                                startIcon={<ChatBubbleOutlineIcon sx={{marginRight:'0.5rem'}}/>}
-                                variant="outlined"
-                                onClick={onMessageClient}
-                                sx={{
-                                        flex: 1,
-                                        textTransform: 'none',
-                                        fontFamily: 'Poppins, sans-serif',
-                                        color: '#000', // <-- Color de TEXTO por defecto (Negro)
-                                        background: '#fff',
-                                        borderColor: '#ccc',
-                                        fontWeight: 500,
-                                        borderRadius: 3,
-                                        gridColumn: { xs: 'span 12', lg: 'span 4' },
-                                        '& .MuiButton-startIcon > svg': {
-                                            color: '#b8b8b8ff',
-                                        },
-                                        '&:hover': {
-                                            backgroundColor: '#eb9902ff',
-                                            color: '#fff',
-                                            borderColor: '#f7ae26ff',
-                                            '& .MuiButton-startIcon > svg': {
-                                                color: '#fff',
-                                            }
-                                        },
-                                    }}
-                                >
-                                    Mensaje
-                                </Button>
-                                <Button
-                                variant="outlined"
-                                sx={{
-                                    flex:1,
-                                    textTransform: 'none' ,fontFamily:'Poppins, sans-serif',
-                                    color: '#ffffffff',
-                                    background:'#175a69ff',
-                                    borderColor:'none',
-                                    fontWeight:500,
-                                    borderRadius:3,
-                                    '&:hover':{
-                                        backgroundColor: '#186c7e',
-                                    }
-                                }}
-                                onClick={onViewDetails}
-                                >
-                                    Ver detalles
-                                </Button>
-                            </div>   
-                        )}
-                    </div>
                     )}
-
-                        
                 </div>
+            </div>
+
+            <div className="flex flex-col gap-2 mt-auto">
+                {status === 'pendiente' && (
+                    <div className="flex w-full gap-2">
+                        <Button
+                            onClick={onAccept}
+                            variant="contained"
+                            startIcon={<DoneIcon />}
+                            sx={{
+                                flex: 1,
+                                bgcolor: '#209129',
+                                borderRadius: 3,
+                                boxShadow: 'none',
+                                fontWeight: 500,
+                                '&:hover': { bgcolor: '#1a7a22',scale: '1.02',
+                                    transition: 'all 0.3s ease-in-out', }
+                            }}
+                        >
+                            Aceptar
+                        </Button>
+                        <Button
+                            onClick={onCancel}
+                            variant="outlined"
+                            startIcon={<CancelIcon />}
+                            sx={{
+                                flex: 1,
+                                color: '#d32f2f',
+                                borderColor: '#d32f2f',
+                                borderRadius: 3,
+                                fontWeight: 500,
+                                '&:hover': { bgcolor: '#ffebee', borderColor: '#c62828',scale: '1.02',
+                                    transition: 'all 0.3s ease-in-out', }
+                            }}
+                        >
+                            Rechazar
+                        </Button>
+                    </div>
+                )}
+
+                {/* CASO: CONFIRMADO */}
+                {status === 'confirmado' && (
+                    <div className="flex gap-2 w-full">
+                        <Button
+                            variant="outlined"
+                            onClick={onViewDetails}
+                            startIcon={<VisibilityIcon />}
+                            sx={{
+                                flex: 1,
+                                fontFamily: 'Poppins, sans-serif',
+                                color: '#000',
+                                background: '#ffffffff',
+                                border:2,
+                                borderColor: '#cececeff',
+                                fontWeight: 500,
+                                borderRadius: 3,
+                                '&:hover': {
+                                    borderColor: '#005c71',
+                                    scale: '1.02',
+                                    transition: 'all 0.3s ease-in-out',
+                                },
+                            }}
+                        >
+                            Detalles
+                        </Button>
+
+                        <Button
+                            variant="outlined"
+                            onClick={onReschedule}
+                            startIcon={<EditCalendarIcon fontSize="small" />}
+                            sx={{
+                                flex: 1,
+                                fontFamily: 'Poppins, sans-serif',
+                                color: '#ffffffff',
+                                background: '#005c71',
+                                border:2,
+                                borderColor: '#005c71',
+                                fontWeight: 500,
+                                borderRadius: 3,
+                                '&:hover': {
+                                    borderColor: '#005c71',
+                                    scale: '1.02',
+                                    transition: 'all 0.3s ease-in-out',
+                                },
+                            }}
+                        >
+                            Reprogramar
+                        </Button>
+
+                        <Button
+                            variant="contained"
+                            onClick={onCancel}
+                            startIcon={<CancelIcon />}
+                            sx={{
+                                flex: 1,
+                                fontFamily: 'Poppins, sans-serif',
+                                color: '#fff',
+                                background: '#cf0c0c',
+                                fontWeight: 500,
+                                borderRadius: 3,
+                                '&:hover': {
+                                    backgroundColor: '#af3200',
+                                    borderColor: '#005c71',
+                                    scale: '1.02',
+                                    transition: 'all 0.3s ease-in-out',
+                                },
+                            }}
+                        >
+                            Cancelar
+                        </Button>
+                    </div>
+                )}
             </div>
         </div>
     );

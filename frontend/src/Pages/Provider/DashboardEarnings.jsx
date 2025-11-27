@@ -7,7 +7,7 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 
 
-//IMPORTACIONES DE LAS GRÁFICAS 
+//IMPORTACIONES DE LAS GRÁFICAS
 
 import { BarChart } from '@mui/x-charts/BarChart';
 import { animated, useSpring } from '@react-spring/web';
@@ -85,16 +85,16 @@ export default function DashboardEarnings() {
   const totalReservas = [45, 52, 60, 58, 70, 85];
 
 
-  
+
   const AnimatedPieChart = animated(PieChart);
-  const { angle } = useSpring({ 
+  const { angle } = useSpring({
     from: { angle: 0 },
     to: { angle: 360 },
     config: { duration: 1000, tension: 170, friction: 26 },
   });
 
   // --- 6. Gráfica 6 (Fila 2, Col 2 - BarChart Vertical Servicios/Mes) ---
-  const [key, animate] = React.useReducer((v) => v + 1, 0); 
+  const [key, animate] = React.useReducer((v) => v + 1, 0);
 
 
 

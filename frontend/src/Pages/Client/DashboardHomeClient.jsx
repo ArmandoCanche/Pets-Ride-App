@@ -58,37 +58,64 @@ const [createPetModalOpen, setCreatePetModalOpen] = useState(false)
     favoriteProviders: 5,
   }
 
-  const upcomingBookings = [
-    {
-      id: "1",
-      serviceType: "Paseo de perros",
-      providerName: "Sarah Johnson",
-      petName: "Max",
-      date: "Marzo 15, 2025",
-      time: "10:00 AM - 11:00 AM",
-      location: "Área de Central Park",
-      price: 25,
-      status: "confirmado",
-    },
-    {
-      id: "2",
-      serviceType: "Chequeo veterinario",
-      providerName: "Dr. Michael Chen",
-      petName: "Luna",
-      date: "Marzo 18, 2025",
-      time: "2:00 PM - 3:00 PM",
-      location: "Pet Care Clinic",
-      price: 75,
-      status: "confirmado",
-    },
-  ]
+      const upcomingBookings = [
+        {
+            id: "1",
+            serviceType: "Paseo de perros",
+            providerName: "Carlos López",
+            providerImage: "/man-2.jpg",
+            providerRating: 4.9,
+            providerPhone: "+1 (555) 123-4567",
+            providerEmail: "carlos.paseos@petcare.com",
+            petName: "Max",
+            date: "Marzo 15, 2025",
+            time: "10:00 AM - 11:00 AM",
+            location: "Parque Central",
+            price: 25,
+            status: "confirmado",
+            bookingId: "BK-2025-001",
+            notes: "Por favor, usa la entrada norte, hay menos gente.",
+        },
+        {
+            id: "2",
+            serviceType: "Chequeo veterinario",
+            providerName: "Dr. Michael Chen",
+            providerImage: "/man.jpg",
+            providerRating: 5.0,
+            providerPhone: "+1 (555) 987-6543",
+            providerEmail: "m.chen@petcare.com",
+            petName: "Luna",
+            date: "Marzo 18, 2025",
+            time: "2:00 PM - 3:00 PM",
+            location: "Pet Care Clinic",
+            price: 75,
+            status: "confirmado",
+            bookingId: "BK-2025-002",
+        },
+        {
+            id: "3",
+            serviceType: "Peluquería de mascotas",
+            providerName: "Emma Wilson",
+            providerImage: "/woman-2.jpg",
+            providerRating: 4.8,
+            providerPhone: "+1 (555) 456-7890",
+            providerEmail: "emma@pawsclaws.com",
+            petName: "Charlie",
+            date: "Marzo 20, 2025",
+            time: "11:00 AM - 12:30 PM",
+            location: "Paws & Claws Salon",
+            price: 50,
+            status: "pendiente",
+            bookingId: "BK-2025-003",
+        },
+    ]
 
   const myPets = [
       {
         name: "Max",
         species: "perro",
         gender: "macho",
-        breed: "Golden Retriever", // Los nombres de razas como esta suelen mantenerse
+        breed: "Golden Retriever",
         age: 3,
         weight: 30,
         specialNeeds: ["Alergias", "Medicación"],
@@ -166,7 +193,7 @@ const [createPetModalOpen, setCreatePetModalOpen] = useState(false)
               <h1 className='text-2xl font-semibold'>SUGERENCIAS</h1>
               <Button
               sx={{textTransform: 'none' , fontFamily:'Poppins, sans-serif',color: '#000000ff', borderColor:'#ccc','&:hover': { bgcolor: 'transparent',
-                textDecoration:'underline',    
+                textDecoration:'underline',
                 color: '#005c71',
                 borderColor: '#f37556',
                    } }}

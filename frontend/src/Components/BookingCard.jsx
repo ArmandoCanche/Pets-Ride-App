@@ -4,12 +4,14 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import PetsIcon from '@mui/icons-material/Pets';
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import AttachMoneyOutlinedIcon from '@mui/icons-material/AttachMoneyOutlined';
-
-import DoneIcon from '@mui/icons-material/Done';
 import CancelIcon from '@mui/icons-material/Cancel';
+import EditCalendarIcon from '@mui/icons-material/EditCalendar';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import StarRateIcon from '@mui/icons-material/StarRate';
 
 // Importación de componentes MUI
-import { Button } from '@mui/material';
+import { Button, Divider } from '@mui/material';
 
 export default function BookingCard({
     serviceType,
@@ -20,167 +22,230 @@ export default function BookingCard({
     location,
     price,
     status,
-    onCancel, // No se le pasa ningúna función actualmente
+    onCancel,
     onReschedule,
     onViewDetails,
+    onRate,
 }) {
 
     const statusColors = {
-    pendiente:  "bg-yellow-500/10 text-yellow-600 dark:text-yellow-600 border border-yellow-500/20",
-    confirmado: "bg-blue-500/10   text-blue-800   dark:text-blue-600   border border-blue-500/20",
-    completado: "bg-green-500/10  text-green-800  dark:text-green-600  border border-green-500/20",
-    cancelado:  "bg-red-500/10    text-red-800    dark:text-red-600    border border-red-500/20",
+        pendiente:  "bg-yellow-500/10 text-yellow-600 border border-yellow-500/20",
+        confirmado: "bg-blue-500/10 text-blue-800 border border-blue-500/20",
+        completado: "bg-green-500/10 text-green-800 border border-green-500/20",
+        cancelado:  "bg-red-500/10 text-red-800 border border-red-500/20",
     };
 
-  return (
-    <div className='flex flex-col h-full border-2 border-gray-200 rounded-lg px-10 py-7 gap-5 bg-white  justify-between col-span-12  xl:col-span-8 '>
-        <div className='flex flex-row justify-between items-start'>
-        <div>
-            <h1 className='text-lg font-semibold'>{serviceType}</h1>
-            <p className='text-md text-gray-400 font-medium'>{providerName}</p>
-        </div>
-        <div className={`flex px-2 py-1 rounded-2xl ${statusColors[status]}`}>
-            <p className="text-xs">
-                {status.charAt(0).toUpperCase() + status.slice(1)}
-            </p>
-        </div>
-        </div>
-        <div className='flex flex-col gap-3'>
-        <div className='flex items-center'>
-            <PetsIcon sx={{color:'#000000ff', fontSize:'1.5rem', marginRight:'0.5rem'}} />
-            <span className='text-md font-medium text-gray-400'>Mascota: <span className='text-black'>{petName}</span></span>
-        </div>
-        <div className='flex items-center'>
-            <CalendarTodayIcon sx={{color:'#000000ff', fontSize:'1.5rem', marginRight:'0.5rem'}} />
-            <span className='text-md font-medium text-gray-400'>{date}</span>
-        </div>
-        <div className='flex items-center'>
-            <AccessTimeIcon sx={{color:'#000000ff', fontSize:'1.5rem', marginRight:'0.5rem'}} />
-            <span className='text-md font-medium text-gray-400'>{time}</span>
-        </div>
-        <div className='flex items-center'>
-            <LocationOnOutlinedIcon sx={{color:'#000000ff', fontSize:'1.5rem', marginRight:'0.5rem'}} />
-            <span className='text-md font-medium text-gray-400'>{location}</span>
-        </div>
-        <div className='flex items-center'>
-            <AttachMoneyOutlinedIcon sx={{color:'#000000ff', fontSize:'1.5rem', marginRight:'0.5rem'}} />
-            <span className='text-xl font-medium '>{price}</span>
-        </div>
-        </div>
-        <div className='w-full h-auto grid grid-cols-12 gap-4'>
-            <Button
-                variant="outlined"
-                sx={{
-                    textTransform: 'none' ,fontFamily:'Poppins, sans-serif',
-                    color: '#000',
-                    background:'#fff',
-                    borderColor:'#ccc',
-                    fontWeight:500,
-                    borderRadius:3,
-                    '&:hover':{
-                        backgroundColor: '#eb9902ff',
-                        color: '#fff',
-                        borderColor: '#f7ae26ff',
-                    },
-                    gridColumn: { xs: 'span 12', lg: 'span 4' }
-                }}
-                onClick={onViewDetails}
-            >
-            Detalles
-            </Button>
-            {status === "confirmado" ? (
-            <>
-                <Button 
-                    variant="outlined"
-                    sx={{
-                        textTransform: 'none' ,fontFamily:'Poppins, sans-serif',
-                        color: '#000',
-                        background:'#fff',
-                        borderColor:'#ccc',
-                        fontWeight:500,
-                        borderRadius:3,
-                        '&:hover':{
-                            backgroundColor: '#eb9902ff',
-                            color: '#fff',
-                            borderColor: '#f7ae26ff',
-                        },
-                        flex: 1,
-                        gridColumn: { xs: 'span 12', lg: 'span 4' }
-                    }}
-                    onClick={onReschedule}
-                >
-                Reprogramar
-                </Button>
-                <Button
-                    variant="contained"
-                    sx={{
-                        textTransform: 'none' ,fontFamily:'Poppins, sans-serif',
-                        color: '#ffffffff',
-                        background:'#cf0c0cff',
-                        fontWeight:500,
-                        borderRadius:3,
-                        '&:hover':{
-                            backgroundColor: '#af3200ff',
-                            color: '#fff'
-                        },
-                        flex: 1,
-                        gridColumn: { xs: 'span 12', lg: 'span 4' }
-                    }}
-                    onClick={onCancel}
-                >
-                Cancelar
-                </Button>
-            </>
-            ) :
-            <>
-            {status === "pendiente" && (
-                <>
-                    <Button
-                    variant="outlined"
-                    startIcon={<DoneIcon sx={{marginRight:'0.5rem'}}/>}
-                    sx={{
-                        flex:1,
-                        textTransform: 'none' ,fontFamily:'Poppins, sans-serif',
-                        color: '#ffffffff',
-                        background:'#209129ff',
-                        borderColor:'none',
-                        fontWeight:500,
-                        borderRadius:3,
-                        '&:hover':{
-                            borderColor:'#ffff',
-                            backgroundColor: 'rgba(41, 187, 54, 1)',
-                        },
-                        gridColumn: { xs: 'span 12', lg: 'span 4' }
-                    }}
-                    >
-                        aceptar
-                    </Button>
-                    <Button
-                    variant="outlined"
-                    startIcon={<CancelIcon sx={{marginRight:'0.5rem'}}/>}
-                    sx={{
-                        flex:1,
-                        textTransform: 'none' ,fontFamily:'Poppins, sans-serif',
-                        color: '#ff2e2eff',
-                        background:'#fff',
-                        borderColor:'#ccc',
-                        fontWeight:500,
-                        borderRadius:3,
-                        '&:hover':{
-                            backgroundColor: '#df1111ff',
-                            color: '#fff',
-                        },
-                        gridColumn: { xs: 'span 12', lg: 'span 4' }
-                    }}
-                    >
-                        Rechazar
-                    </Button>
-                </>
-            )}
-            </>
-            }
+    return (
+        <div className='flex flex-col h-full border border-gray-200 rounded-2xl p-6 gap-5 bg-white transition-shadow justify-between'>
 
+            <div className='flex flex-row justify-between items-start'>
+                <div>
+                    <h1 className='text-lg font-bold text-gray-800'>{serviceType}</h1>
+                    <p className='text-sm text-gray-500 font-medium'>Con: <span className="text-[#005c71]">{providerName}</span></p>
+                </div>
+                <div className={`flex px-3 py-1 rounded-full ${statusColors[status] || statusColors.pendiente}`}>
+                    <p className="text-xs font-bold uppercase tracking-wide">
+                        {status}
+                    </p>
+                </div>
+            </div>
+
+            <div className='flex flex-col gap-3 text-sm text-gray-600'>
+                <div className='flex items-center'>
+                    <PetsIcon sx={{ fontSize: '1.2rem', marginRight: '0.5rem', color: '#9ca3af' }} />
+                    <span>Mascota: <span className='font-semibold text-gray-800'>{petName}</span></span>
+                </div>
+                <div className='flex items-center'>
+                    <CalendarTodayIcon sx={{ fontSize: '1.2rem', marginRight: '0.5rem', color: '#9ca3af' }} />
+                    <span>{date}</span>
+                </div>
+                <div className='flex items-center'>
+                    <AccessTimeIcon sx={{ fontSize: '1.2rem', marginRight: '0.5rem', color: '#9ca3af' }} />
+                    <span>{time}</span>
+                </div>
+                <div className='flex items-center'>
+                    <LocationOnOutlinedIcon sx={{ fontSize: '1.2rem', marginRight: '0.5rem', color: '#9ca3af' }} />
+                    <span className="truncate">{location}</span>
+                </div>
+                <Divider sx={{my: 0.5}} />
+                <div className='flex items-center justify-between'>
+                    <span className="text-gray-400 font-medium">Total</span>
+                    <div className='flex items-center text-green-700 font-bold text-lg'>
+                        <AttachMoneyOutlinedIcon sx={{ fontSize: '1.2rem' }} />
+                        <span>{price}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div className='flex flex-col gap-2 mt-auto'>
+                {status === "confirmado" && (
+                    <div className="flex gap-2">
+                        <Button
+                            onClick={onViewDetails}
+                            variant="outlined"
+                            startIcon={<VisibilityIcon />}
+                            sx={{
+                                flex: 1,
+                                fontFamily: 'Poppins, sans-serif',
+                                color: '#000',
+                                background: '#ffffffff',
+                                border:2,
+                                borderColor: '#cececeff',
+                                fontWeight: 500,
+                                borderRadius: 3,
+                                '&:hover': {
+                                    borderColor: '#005c71',
+                                    scale: '1.02',
+                                    transition: 'all 0.3s ease-in-out',
+                                },
+                            }}
+                        >
+                            Detalles
+                        </Button>
+                        <Button
+                            onClick={onReschedule}
+                            variant="contained"
+                            startIcon={<EditCalendarIcon fontSize="small" />}
+                            sx={{
+                                flex: 1,
+                                fontFamily: 'Poppins, sans-serif',
+                                color: '#ffffffff',
+                                background: '#005c71',
+                                border:2,
+                                borderColor: '#005c71',
+                                fontWeight: 500,
+                                borderRadius: 3,
+                                '&:hover': {
+                                    borderColor: '#005c71',
+                                    scale: '1.02',
+                                    transition: 'all 0.3s ease-in-out',
+                                },
+                            }}
+                        >
+                            Reprogramar
+                        </Button>
+                        <Button
+                            onClick={onCancel}
+                            variant="outlined"
+                            startIcon={<CancelIcon />}
+                            sx={{
+                                flex: 1,
+                                fontFamily: 'Poppins, sans-serif',
+                                color: '#fff',
+                                background: '#cf0c0c',
+                                fontWeight: 500,
+                                borderRadius: 3,
+                                border: 'none',
+                                '&:hover': {
+                                    backgroundColor: '#af3200',
+                                    borderColor: '#005c71',
+                                    scale: '1.02',
+                                    transition: 'all 0.3s ease-in-out',
+                                },
+                            }}
+                        >
+                            Cancelar
+                        </Button>
+                    </div>
+                )}
+
+                {status === "pendiente" && (
+                    <div className="flex gap-2">
+                        <Button
+                            onClick={onViewDetails}
+                            variant="outlined"
+                            startIcon={<VisibilityIcon />}
+                            sx={{
+                                flex: 1,
+                                fontFamily: 'Poppins, sans-serif',
+                                color: '#000',
+                                background: '#ffffffff',
+                                border:2,
+                                borderColor: '#cececeff',
+                                fontWeight: 500,
+                                borderRadius: 3,
+                                '&:hover': {
+                                    borderColor: '#005c71',
+                                    scale: '1.02',
+                                    transition: 'all 0.3s ease-in-out',
+                                },
+                            }}
+                        >
+                            Ver Detalles
+                        </Button>
+                        <Button
+                            onClick={onCancel}
+                            variant="outlined"
+                            startIcon={<CancelIcon />}
+                            sx={{
+                                flex: 1,
+                                fontFamily: 'Poppins, sans-serif',
+                                color: '#fff',
+                                background: '#cf0c0c',
+                                fontWeight: 500,
+                                borderRadius: 3,
+                                border: 'none',
+                                '&:hover': {
+                                    backgroundColor: '#af3200',
+                                    borderColor: '#005c71',
+                                    scale: '1.02',
+                                    transition: 'all 0.3s ease-in-out',
+                                },
+                            }}
+                        >
+                            Cancelar
+                        </Button>
+                    </div>
+                )}
+
+                {(status === "completado" || status === "cancelado") && (
+                    <div className="flex gap-2">
+                        <Button
+                            onClick={onViewDetails}
+                            variant="outlined"
+                            fullWidth
+                            startIcon={<VisibilityIcon />}
+                            sx={{
+                                    flex: 1,
+                                    fontFamily: 'Poppins, sans-serif',
+                                    color: '#000',
+                                    background: '#ffffffff',
+                                    border:2,
+                                    borderColor: '#cececeff',
+                                    fontWeight: 500,
+                                    borderRadius: 3,
+                                    '&:hover': {
+                                        borderColor: '#005c71',
+                                        scale: '1.02',
+                                        transition: 'all 0.3s ease-in-out',
+                                    },
+                                }}
+                        >
+                            Ver Detalles
+                        </Button>
+                        <Button
+                            onClick={onRate}
+                            variant="contained"
+                            startIcon={<StarRateIcon />}
+                            sx={{
+                                flex: 1,
+                                borderRadius: 3,
+                                textTransform: 'none',
+                                bgcolor: '#faaf00',
+                                color: '#fff',
+                                fontWeight: 600,
+                                '&:hover': { bgcolor: '#ffb004ff',
+                                        scale: '1.02',
+                                        transition: 'all 0.3s ease-in-out',
+                                 }
+                            }}
+                        >
+                            Calificar
+                        </Button>
+                    </div>
+                )}
+
+            </div>
         </div>
-    </div>
-  )
+    );
 }

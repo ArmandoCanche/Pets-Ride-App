@@ -151,19 +151,19 @@ export default function SettingsClient() {
                             <form className="flex flex-col gap-4">
                                 <div className="flex flex-col gap-1">
                                     <label className="text-sm font-medium text-gray-700">Contraseña actual</label>
-                                    <TextField 
-                                        size="small" 
-                                        type="password" 
-                                        fullWidth 
+                                    <TextField
+                                        size="small"
+                                        type="password"
+                                        fullWidth
                                         sx={{ "& .MuiOutlinedInput-root": { borderRadius:"12px" } }}
                                     />
                                 </div>
                                 <div className="flex flex-col gap-1">
                                     <label className="text-sm font-medium text-gray-700">Nueva contraseña</label>
-                                    <TextField 
-                                        size="small" 
+                                    <TextField
+                                        size="small"
                                         type={showPassword ? "text" : "password"}
-                                        fullWidth 
+                                        fullWidth
                                         sx={{ "& .MuiOutlinedInput-root": { borderRadius:"12px" } }}
                                         slotProps={{
                                             input:{
