@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const petsRoutes = require('./routes/pets.routes');
+const bookingsRoutes = require('./routes/bookings.routes');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const db = require('./db'); // Importamos nuestra conexión a la BD
@@ -184,6 +185,7 @@ app.get('/api/providers/:providerId/reviews', async (req, res) => {
 });
 
 app.use('/api/pets', petsRoutes);
+app.use('/api/bookings', bookingsRoutes)
 
 app.listen(PORT, () => {
   console.log(`Servidor backend corriendo en http://localhost:${PORT}`);
