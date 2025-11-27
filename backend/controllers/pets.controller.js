@@ -11,7 +11,7 @@ const createPet = async (req, res) => {
       breed,
       birth_date,
       medical_notes,
-      weight,
+      weight_kg,
       special_needs,
       medical_history,
       gender,
@@ -25,7 +25,7 @@ const createPet = async (req, res) => {
     const query = `
       INSERT INTO pets (
         owner_id, name, species, breed, birth_date, medical_notes,
-        weight, special_needs, medical_history, gender, age
+        weight_kg, special_needs, medical_history, gender, age
       )
       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)
       RETURNING *;
@@ -38,7 +38,7 @@ const createPet = async (req, res) => {
       breed,
       birth_date,
       medical_notes,
-      weight,
+      weight_kg,
       special_needs,
       medical_history,
       gender,
