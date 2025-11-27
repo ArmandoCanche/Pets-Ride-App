@@ -6,13 +6,10 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-// --- MIDDLEWARES GLOBALES ---
 app.use(express.json());
-// Asegúrate de que el puerto del frontend sea el correcto (5173 es el default de Vite)
 app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
 
 // --- IMPORTAR RUTAS MODULARES ---
-// Nota: Verifica que existan estos archivos en tu carpeta /routes
 const authRoutes = require('./routes/auth.routes');
 const petsRoutes = require('./routes/pets.routes');
 const bookingsRoutes = require('./routes/bookings.routes');
