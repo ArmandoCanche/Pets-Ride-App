@@ -13,7 +13,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import EditCalendarIcon from '@mui/icons-material/EditCalendar';
 
 export default function BookingCardProvider({
-    clientImage, 
+    clientImage,
     client,
     service,
     pet,
@@ -28,11 +28,11 @@ export default function BookingCardProvider({
     email,
     rating,
     onViewDetails,
-    onReschedule, 
-    onCancel,     
-    onAccept      
+    onReschedule,
+    onCancel,
+    onAccept
 }) {
-    
+
     const statusColors = {
         pendiente:  "bg-yellow-500/10 text-yellow-600 border border-yellow-500/20",
         confirmado: "bg-blue-500/10 text-blue-800 border border-blue-500/20",
@@ -42,7 +42,6 @@ export default function BookingCardProvider({
 
     return (
         <div className="flex flex-col h-full border border-gray-200 rounded-2xl p-6 gap-5 bg-white  justify-between">
-            
             {/* HEADER */}
             <div className="flex items-start justify-between">
                 <div className="flex items-center gap-4">
@@ -66,8 +65,6 @@ export default function BookingCardProvider({
                     </p>
                 </div>
             </div>
-
-            {/* DETALLES */}
             <div className="flex flex-col gap-3 text-sm text-gray-600">
                 <div className="grid md:grid-cols-2 gap-x-4 gap-y-2">
                     <div className="flex items-center gap-2">
@@ -83,15 +80,12 @@ export default function BookingCardProvider({
                         <span className="truncate">{location}</span>
                     </div>
                 </div>
-                
                 <Divider sx={{ my: 0.5 }} />
 
                 <div className="flex items-center justify-between">
                     <div className="flex items-center text-green-700 font-bold text-lg">
                         <span>${price}</span>
                     </div>
-                    
-                    {/* Si está completado mostramos rating aquí, si no, mostramos contacto rápido */}
                     {status === 'completado' ? (
                         <div className="flex items-center gap-0.5">
                             {[...Array(rating || 0)].map((_, i) => (
@@ -109,10 +103,7 @@ export default function BookingCardProvider({
                 </div>
             </div>
 
-            {/* BOTONES DE ACCIÓN (Lógica Intacta, Estilos Mejorados) */}
             <div className="flex flex-col gap-2 mt-auto">
-                
-                {/* CASO: PENDIENTE */}
                 {status === 'pendiente' && (
                     <div className="flex w-full gap-2">
                         <Button

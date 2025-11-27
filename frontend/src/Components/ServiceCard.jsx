@@ -45,17 +45,17 @@ export default function ServiceCard({ active, name, description, price, priceUni
                 </div>
             </div>
                     <div className="flex gap-2">
-                    <Button 
+                    <Button
                     variant="outlined"
                     size="sm"
                     onClick={handleEdit}
                     startIcon={<EditIcon />}
                     sx={{
                     textTransform: 'none' ,fontFamily:'Poppins, sans-serif',
-                    color: '#000', 
-                    background:'#fff', 
-                    borderColor:'#ccc', 
-                    fontWeight:500, 
+                    color: '#000',
+                    background:'#fff',
+                    borderColor:'#ccc',
+                    fontWeight:500,
                     borderRadius:3,
                     '&:hover':{
                         backgroundColor: '#eb9902ff',
@@ -63,21 +63,21 @@ export default function ServiceCard({ active, name, description, price, priceUni
                         borderColor: '#f7ae26ff',
                     },
                     gridColumn: { xs: 'span 12', lg: 'span 4' }
-                }} 
+                }}
                     >
                         Editar
                     </Button>
-                    <Button 
+                    <Button
                     variant="outlined"
                     size="sm"
                     onClick={toggleServiceStatus}
                     startIcon={active ? <ToggleOnIcon /> : <ToggleOffIcon />}
                     sx={{
                     textTransform: 'none' ,fontFamily:'Poppins, sans-serif',
-                    color: '#000', 
-                    background:'#fff', 
-                    borderColor:'#ccc', 
-                    fontWeight:500, 
+                    color: '#000',
+                    background:'#fff',
+                    borderColor:'#ccc',
+                    fontWeight:500,
                     borderRadius:3,
                     '&:hover':{
                         backgroundColor: '#eb9902ff',
@@ -104,7 +104,7 @@ export default function ServiceCard({ active, name, description, price, priceUni
                         color: '#fff'
                     },
                     gridColumn: { xs: 'span 12', lg: 'span 4' }
-                }} 
+                }}
                     >
                         <DeleteOutlineIcon />
                     </Button>

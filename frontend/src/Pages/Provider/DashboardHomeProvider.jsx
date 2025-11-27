@@ -28,12 +28,11 @@ export default function DashboardHomeProvider() {
     severity: 'success',
   });
 
-  // --- DATOS CONSISTENTES (Prestador viendo a Clientes) ---
   const upcomingBookings = [
     {
       id: "1",
-      service: "Paseo de Perros", // Nota: BookingCardProvider usa 'service', no 'serviceType' a veces, lo unificamos
-      clientName: "Ana Martínez", // El cliente
+      service: "Paseo de Perros",
+      clientName: "Ana Martínez",
       clientImage: "/diverse-woman-portrait.png",
       pet: "Max",
       petType: "Golden Retriever",
@@ -97,13 +96,10 @@ export default function DashboardHomeProvider() {
     },
   ];
 
-  // --- HANDLERS (Lógica de botones) ---
 
   const handleViewDetails = (booking) => {
-    // Preparamos datos para el modal
     const detailedBooking = {
       ...booking,
-      // Mapeamos para asegurar que el modal reciba lo que espera
       serviceType: booking.service, 
       petName: booking.pet,
       bookingId: `BK-${booking.id.toString().padStart(6, "0")}`,
@@ -113,7 +109,6 @@ export default function DashboardHomeProvider() {
   };
 
   const handleReschedule = (booking) => {
-    // Preparamos datos para el modal de reprogramación
     const rescheduleBooking = {
        ...booking,
        serviceType: booking.service,
@@ -155,7 +150,6 @@ export default function DashboardHomeProvider() {
 
   return (
     <main className='flex py-6 px-10 md:px-5 lg:px-10 xl:px-25 bg-gray-100 min-h-screen flex-col gap-6'>
-      
       <div className='w-full h-auto grid grid-cols-12 gap-4'>
 
         {/* Sección PRÓXIMAS RESERVAS */}
@@ -164,7 +158,6 @@ export default function DashboardHomeProvider() {
             <h1 className='text-2xl font-semibold'>PRÓXIMAS RESERVAS</h1>
             <NavLink to='/provider/bookings' className='text-[#005c71] font-medium hover:underline text-mxs'>Ver todas</NavLink>
           </div>
-          
           {/* CARDS */}
           {upcomingBookings.length > 0 ? (
             <div className="flex flex-col gap-4">
@@ -172,10 +165,7 @@ export default function DashboardHomeProvider() {
                 <BookingCardProvider
                   key={booking.id}
                   {...booking}
-                  // Adaptación de props para BookingCardProvider
-                  client={booking.clientName} 
-                  
-                  // Pasar todas las funciones
+                  client={booking.clientName}
                   onViewDetails={() => handleViewDetails(booking)}
                   onReschedule={() => handleReschedule(booking)}
                   onCancel={() => handleCancel(booking)}
@@ -211,8 +201,6 @@ export default function DashboardHomeProvider() {
           </div>
         </div>
       </div>
-
-      {/* MODALES (Usando los componentes del Proveedor) */}
       {selectedBooking && (
         <>
           <ProviderBookingDetailModal
@@ -229,7 +217,7 @@ export default function DashboardHomeProvider() {
         </>
       )}
 
-      {/* SNACKBAR */}
+
       <Snackbar
         open={snackbar.open}
         autoHideDuration={6000}

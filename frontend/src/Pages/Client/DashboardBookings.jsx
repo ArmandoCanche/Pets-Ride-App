@@ -6,7 +6,7 @@ import { useState } from "react";
 
 import ClientBookingDetailModal from "../../Components/ClientBookingDetailModal";
 import ClientRescheduleModal from "../../Components/ClientRescheduleModal";
-
+import ClientRateModal from "../../Components/ClientRateModal";
 
 
 
@@ -17,8 +17,8 @@ export default function DashboardBookings(){
         {
             id: "1",
             serviceType: "Paseo de perros",
-            providerName: "Carlos López", // Coherencia: Este es el usuario del otro dashboard
-            providerImage: "/man-2.jpg", // Imagen de Carlos
+            providerName: "Carlos López",
+            providerImage: "/man-2.jpg",
             providerRating: 4.9,
             providerPhone: "+1 (555) 123-4567",
             providerEmail: "carlos.paseos@petcare.com",
@@ -115,9 +115,12 @@ export default function DashboardBookings(){
 
     const [detailModalOpen, setDetailModalOpen] = useState(false)
     const [rescheduleModalOpen, setRescheduleModalOpen] = useState(false)
-    const [messageModalOpen, setMessageModalOpen] = useState(false)
     const [selectedBooking, setSelectedBooking] = useState(null)
     const [currentTab, setCurrentTab] = useState('upcoming');
+
+    const [rateModalOpen, setRateModalOpen] = useState(false);
+    const [messageModalOpen, setMessageModalOpen] = useState(false);
+    const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' });
 
 
     const handleViewDetails = (booking) => {
@@ -136,6 +139,21 @@ export default function DashboardBookings(){
 
     const handleTabChange = (event, newValue) => {
         setCurrentTab(newValue);
+    };
+
+    const handleRate = (booking) => {
+        setSelectedBooking(booking);
+        setRateModalOpen(true);
+    };
+
+    const handleSubmitRating = (data) => {
+        console.log("Calificación enviada:", data);
+        setRateModalOpen(false);
+        setSnackbar({
+            open: true,
+            message: `¡Gracias por calificar a ${selectedBooking.providerName}!`,
+            severity: 'success'
+        });
     };
 
     return (
@@ -268,6 +286,7 @@ export default function DashboardBookings(){
                                         key={booking.id}
                                         {...booking}
                                         onViewDetails={() => handleViewDetails(booking)}
+                                        onRate={() => handleRate(booking)}
                                         />
                                     ))}
                                 </div>
@@ -316,6 +335,12 @@ export default function DashboardBookings(){
                         open={rescheduleModalOpen}
                         onOpenChange={setRescheduleModalOpen}
                         booking={selectedBooking}
+                    />
+                    <ClientRateModal
+                        open={rateModalOpen}
+                        onOpenChange={setRateModalOpen}
+                        booking={selectedBooking}
+                        onSubmit={handleSubmitRating}
                     />
                 </>
             )}

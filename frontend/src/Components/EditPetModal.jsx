@@ -122,7 +122,7 @@ export default function EditPetModal({open, onOpenChange, pet}) {
 
                 <DialogContent>
                     <form onSubmit={handleSubmit} className="flex flex-col gap-6">
-                        {/* SECCIÓN FOTO (Centrada y moderna) */}
+                        {/* SECCIÓN FOTO*/}
                         <div className="flex justify-center">
                             <div className="relative">
                                 <div className="h-24 w-24 rounded-full bg-gray-100 flex items-center justify-center text-5xl border-4 border-white shadow-sm">
@@ -180,7 +180,7 @@ export default function EditPetModal({open, onOpenChange, pet}) {
                             />
                         </div>
 
-                        {/* DATOS FÍSICOS (3 columnas) */}
+                        {/* DATOS (3 columnas) */}
                         <div className="grid grid-cols-3 gap-4">
                             <TextField
                                 label="Edad"
@@ -222,7 +222,7 @@ export default function EditPetModal({open, onOpenChange, pet}) {
                             </FormControl>
                         </div>
 
-                        {/* DETALLES MÉDICOS (Agrupados visualmente) */}
+                        {/* DETALLES MÉDICOS */}
                         <div className="flex flex-col gap-4 bg-gray-50 p-4 rounded-xl border border-gray-200">
                             <Typography variant="subtitle2" color="text.secondary" fontWeight={600}>
                                 Salud y Cuidados

@@ -12,9 +12,9 @@ import {
   InputLabel,
   Card,
   CardContent,
-  InputAdornment, // For icons inside TextField
-  Typography, // For text elements if needed
-  Box // Generic container for sx prop usage
+  InputAdornment,
+  Typography,
+  Box
 } from '@mui/material';
 
 // Icon Imports (Keeping lucide-react as used)
@@ -328,7 +328,7 @@ const services = [
     return 0;
   });
 
-  const handleViewDetails = (service) => { // Removed : any
+  const handleViewDetails = (service) => {
     setSelectedService(service);
     setIsModalOpen(true);
   };
@@ -362,13 +362,13 @@ const services = [
               <Box sx={{ display: 'flex', gap: 1 }}>
                 <Button
                   variant="outlined"
-                  size="medium" 
+                  size="medium"
                   onClick={() => setShowFilters(!showFilters)}
                   startIcon={<SlidersHorizontal size="1rem" />}
                   sx={{ textTransform: 'none' , height: 40, fontFamily:'Poppins, sans-serif', borderRadius: 3, bgcolor:'#fff',color: '#000000ff', borderColor:'#ccc','&:hover': { bgcolor: '#f37556',
                     color: '#fff',
                     borderColor: '#f37556',
-                   } }} 
+                   } }}
                 >
                   Filtros
                 </Button>
