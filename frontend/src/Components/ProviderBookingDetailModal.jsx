@@ -22,14 +22,12 @@ import {
 } from "lucide-react";
 
 export default function ProviderBookingDetailModal({ open, onOpenChange, booking, onMessage }) {
-  
+
   if (!booking) return null;
 
-  // Lógica de colores idéntica al Cliente (Estilo Pill)
   const getStatusChipProps = (status) => {
     const safeStatus = status || "pendiente";
-    const label = safeStatus.toUpperCase(); // Texto en mayúsculas
-    
+    const label = safeStatus.toUpperCase();
     let sx = {
         fontWeight: 700,
         fontSize: '0.7rem',
@@ -40,34 +38,34 @@ export default function ProviderBookingDetailModal({ open, onOpenChange, booking
 
     switch (safeStatus.toLowerCase()) {
       case "confirmado":
-        sx = { 
+        sx = {
             ...sx,
-            bgcolor: 'rgba(59, 130, 246, 0.1)', // Azul
-            color: '#1e40af', 
-            borderColor: 'rgba(59, 130, 246, 0.2)' 
+            bgcolor: 'rgba(59, 130, 246, 0.1)',
+            color: '#1e40af',
+            borderColor: 'rgba(59, 130, 246, 0.2)'
         };
         break;
       case "pendiente":
-        sx = { 
+        sx = {
             ...sx,
-            bgcolor: 'rgba(234, 179, 8, 0.1)',  // Amarillo
-            color: '#ca8a04', 
+            bgcolor: 'rgba(234, 179, 8, 0.1)',
+            color: '#ca8a04',
             borderColor: 'rgba(234, 179, 8, 0.2)'
         };
         break;
       case "completado":
-        sx = { 
+        sx = {
             ...sx,
-            bgcolor: 'rgba(34, 197, 94, 0.1)',  // Verde
-            color: '#166534', 
+            bgcolor: 'rgba(34, 197, 94, 0.1)',
+            color: '#166534',
             borderColor: 'rgba(34, 197, 94, 0.2)'
         };
         break;
       case "cancelado":
-        sx = { 
+        sx = {
             ...sx,
-            bgcolor: 'rgba(239, 68, 68, 0.1)',  // Rojo
-            color: '#991b1b', 
+            bgcolor: 'rgba(239, 68, 68, 0.1)',
+            color: '#991b1b',
             borderColor: 'rgba(239, 68, 68, 0.2)'
         };
         break;
@@ -87,7 +85,6 @@ export default function ProviderBookingDetailModal({ open, onOpenChange, booking
         slotProps={{ paper: { sx: { borderRadius: "1rem", padding: 3} } }}
       >
         <DialogContent sx={{ display: "flex", flexDirection: "column", gap: 2, padding: 0 }}>
-          
           {/* HEADER CON BOTÓN CERRAR */}
           <div className="flex justify-between items-start">
              <div>
@@ -109,7 +106,6 @@ export default function ProviderBookingDetailModal({ open, onOpenChange, booking
                 >
                     {booking.clientName ? booking.clientName.charAt(0) : "C"}
                 </Avatar>
-                
                 <div className="flex-1">
                     <div className="flex justify-between items-start">
                         <div>
@@ -130,13 +126,13 @@ export default function ProviderBookingDetailModal({ open, onOpenChange, booking
                     <div className="flex gap-4 mt-2 text-sm text-gray-600">
                         {booking.phone && (
                             <div className="flex items-center gap-1.5">
-                                <Phone size={14} className="text-gray-400"/> 
+                                <Phone size={14} className="text-gray-400"/>
                                 <span>{booking.phone}</span>
                             </div>
                         )}
                         {booking.email && (
                             <div className="flex items-center gap-1.5">
-                                <Mail size={14} className="text-gray-400"/> 
+                                <Mail size={14} className="text-gray-400"/>
                                 <span className="truncate max-w-[150px]">{booking.email}</span>
                             </div>
                         )}
@@ -145,21 +141,21 @@ export default function ProviderBookingDetailModal({ open, onOpenChange, booking
              </div>
 
              <div className="flex gap-2 w-full">
-                 <Button 
-                    variant="outlined" 
-                    fullWidth 
-                    size="small" 
-                    startIcon={<MessageSquare size={16}/>} 
+                 <Button
+                    variant="outlined"
+                    fullWidth
+                    size="small"
+                    startIcon={<MessageSquare size={16}/>}
                     onClick={onMessage}
                     sx={{ borderRadius: 2, textTransform:'none', borderColor: '#ccc', color: '#555' }}
                  >
                     Chat
                  </Button>
-                 <Button 
-                    variant="outlined" 
-                    fullWidth 
-                    size="small" 
-                    startIcon={<Phone size={16}/>} 
+                 <Button
+                    variant="outlined"
+                    fullWidth
+                    size="small"
+                    startIcon={<Phone size={16}/>}
                     sx={{ borderRadius: 2, textTransform:'none', borderColor: '#ccc', color: '#555' }}
                  >
                     Llamar
@@ -191,7 +187,7 @@ export default function ProviderBookingDetailModal({ open, onOpenChange, booking
              <div className="col-span-2 flex justify-between items-center">
                  <div>
                     <p className="text-xs text-gray-400 font-bold uppercase tracking-wide">Servicio</p>
-                    <p className="font-semibold text-gray-800">{booking.serviceType || booking.service}</p>
+                    <p className="font-semibold text-gray-800 ">{booking.serviceType || booking.service}</p>
                  </div>
                  <div className="text-right">
                     <p className="text-xs text-gray-400 font-bold uppercase tracking-wide">Ganancia</p>

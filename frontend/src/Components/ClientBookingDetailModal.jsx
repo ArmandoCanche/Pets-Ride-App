@@ -18,7 +18,7 @@ import {
   X // Agregamos icono de cerrar
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { IconButton } from "@mui/material"; // Necesario para el botón de cerrar
+import { IconButton } from "@mui/material";
 
 export default function ClientBookingDetailModal({
   open,
@@ -37,10 +37,9 @@ export default function ClientBookingDetailModal({
     }
   };
 
-  // Lógica de colores idéntica a las tarjetas
   const getStatusChipProps = (status) => {
     const safeStatus = status || "pendiente";
-    const label = safeStatus.toUpperCase(); // Texto en mayúsculas
+    const label = safeStatus.toUpperCase();
     
     let sx = {
         fontWeight: 700,
@@ -54,32 +53,32 @@ export default function ClientBookingDetailModal({
       case "confirmado":
         sx = { 
             ...sx,
-            bgcolor: 'rgba(59, 130, 246, 0.1)', // Azul suave (bg-blue-500/10)
-            color: '#1e40af',                   // Azul fuerte
-            borderColor: 'rgba(59, 130, 246, 0.2)' 
+            bgcolor: 'rgba(59, 130, 246, 0.1)',
+            color: '#1e40af',
+            borderColor: 'rgba(59, 130, 246, 0.2)'
         };
         break;
       case "pendiente":
         sx = { 
             ...sx,
-            bgcolor: 'rgba(234, 179, 8, 0.1)',  // Amarillo suave
-            color: '#ca8a04',                   // Amarillo fuerte
+            bgcolor: 'rgba(234, 179, 8, 0.1)',
+            color: '#ca8a04',
             borderColor: 'rgba(234, 179, 8, 0.2)'
         };
         break;
       case "completado":
         sx = { 
             ...sx,
-            bgcolor: 'rgba(34, 197, 94, 0.1)',  // Verde suave
-            color: '#166534',                   // Verde fuerte
+            bgcolor: 'rgba(34, 197, 94, 0.1)',
+            color: '#166534',
             borderColor: 'rgba(34, 197, 94, 0.2)'
         };
         break;
       case "cancelado":
         sx = { 
             ...sx,
-            bgcolor: 'rgba(239, 68, 68, 0.1)',  // Rojo suave
-            color: '#991b1b',                   // Rojo fuerte
+            bgcolor: 'rgba(239, 68, 68, 0.1)',
+            color: '#991b1b',
             borderColor: 'rgba(239, 68, 68, 0.2)'
         };
         break;
@@ -94,13 +93,13 @@ export default function ClientBookingDetailModal({
     <Dialog
       open={open}
       onClose={() => onOpenChange(false)}
-      maxWidth="sm" // Controla el ancho máximo (sm = 600px aprox)
-      fullWidth     // Ocupa todo el ancho disponible hasta maxWidth
+      maxWidth="sm"
+      fullWidth
       slotProps={{
         paper: {
           sx: {
             borderRadius: "1rem",
-            padding: 3, // Padding interno del modal
+            padding: 3,
           },
         },
       }}
@@ -109,8 +108,8 @@ export default function ClientBookingDetailModal({
         sx={{
           display: "flex",
           flexDirection: "column",
-          gap: "1.5rem", // Espaciado entre secciones
-          padding: 0     // Quitamos padding default de DialogContent
+          gap: "1.5rem",
+          padding: 0
         }}
       >
         {/* HEADER CON BOTÓN CERRAR */}
@@ -134,7 +133,6 @@ export default function ClientBookingDetailModal({
               >
                 {booking.providerName ? booking.providerName.charAt(0) : "P"}
               </Avatar>
-              
               <div className="flex-1">
                 <div className="flex justify-between items-start">
                   <div>
@@ -147,7 +145,6 @@ export default function ClientBookingDetailModal({
                         </div>
                       )}
                   </div>
-                  
                   {/* CHIP DE ESTADO */}
                   <Chip
                     {...getStatusChipProps(booking.status)}
@@ -182,7 +179,7 @@ export default function ClientBookingDetailModal({
             <div className="col-span-2 flex justify-between items-center">
                  <div>
                     <p className="text-xs text-gray-400 font-bold uppercase tracking-wide mb-0.5">Servicio</p>
-                    <p className="font-semibold text-gray-800 text-base">{booking.serviceType}</p>
+                    <p className="font-semibold text-gray-800">{booking.serviceType}</p>
                  </div>
                  <div className="text-right">
                     <p className="text-xs text-gray-400 font-bold uppercase tracking-wide mb-0.5">Total</p>
@@ -201,7 +198,7 @@ export default function ClientBookingDetailModal({
             <div>
                  <p className="text-xs text-gray-400 font-bold uppercase tracking-wide mb-1">Fecha</p>
                  <div className="flex items-center gap-2 text-gray-700 font-medium">
-                     <Calendar size={16} className="text-[#005c71]"/> 
+                     <Calendar size={16} className="text-[#005c71]"/>
                      {booking.date}
                  </div>
             </div>
@@ -209,7 +206,7 @@ export default function ClientBookingDetailModal({
             <div className="col-span-2">
                  <p className="text-xs text-gray-400 font-bold uppercase tracking-wide mb-1">Horario</p>
                  <div className="flex items-center gap-2 text-gray-700 font-medium">
-                     <Clock size={16} className="text-[#005c71]"/> 
+                     <Clock size={16} className="text-[#005c71]"/>
                      {booking.time}
                  </div>
             </div>
@@ -217,7 +214,7 @@ export default function ClientBookingDetailModal({
             <div className="col-span-2">
                  <p className="text-xs text-gray-400 font-bold uppercase tracking-wide mb-1">Ubicación</p>
                  <div className="flex items-start gap-2 text-gray-700 font-medium bg-gray-50 p-2.5 rounded-lg border border-gray-100">
-                     <MapPin size={16} className="text-[#005c71] mt-0.5 flex-shrink-0"/> 
+                     <MapPin size={16} className="text-[#005c71] mt-0.5 flex-shrink-0"/>
                      {booking.location}
                  </div>
             </div>
@@ -240,11 +237,11 @@ export default function ClientBookingDetailModal({
             <Button
               variant="outlined"
               fullWidth
-              sx={{ 
+              sx={{
                 fontFamily:'Poppins, sans-serif',
-                color: '#000', 
-                borderColor:'#ccc', 
-                fontWeight:500, 
+                color: '#000',
+                borderColor:'#ccc',
+                fontWeight:500,
                 borderRadius:3,
                 textTransform: 'none',
                 '&:hover':{
@@ -260,9 +257,9 @@ export default function ClientBookingDetailModal({
             <Button
               variant="contained"
               fullWidth
-              sx={{ 
+              sx={{
                 fontFamily:'Poppins, sans-serif',
-                color: '#ffffffff', 
+                color: '#ffffffff',
                 background:'#0b80d9ff',
                 fontWeight:500, 
                 borderRadius:3,
