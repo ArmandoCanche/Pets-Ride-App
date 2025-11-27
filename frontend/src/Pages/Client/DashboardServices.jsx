@@ -51,9 +51,10 @@ export default function SearchServicesPage() {
           // Mapeamos los datos de la BD al formato que espera tu SearchCard y Modal
           const formattedServices = data.map(item => ({
             id: item.service_id,
-            providerName: `${item.first_name} ${item.last_name}`,
+            providerName: item.service_title,
             // Usamos una imagen placeholder o aleatoria ya que la BD no tiene fotos aún
-            providerImage: `/placeholder.svg`, 
+            providerImage: item.profile_picture_url || "/placeholder.svg", 
+            realProviderName: `${item.first_name} ${item.last_name}`,
             serviceType: item.category_name, // Ej: "Paseo de perros"
             // Datos reales de la BD
             description: item.description,
