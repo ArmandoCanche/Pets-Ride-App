@@ -14,6 +14,7 @@ const authRoutes = require('./routes/auth.routes');
 const petsRoutes = require('./routes/pets.routes');
 const bookingsRoutes = require('./routes/bookings.routes');
 const reviewsRoutes = require('./routes/reviews.routes'); 
+const servicesRoutes = require('./routes/services.routes');
 
 // --- DEFINICIÓN DE ENDPOINTS ---
 
