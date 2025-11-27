@@ -56,8 +56,11 @@ CREATE TABLE Pets (
     species VARCHAR(50) NOT NULL,
     breed VARCHAR(100),
     weight_kg DECIMAL(5,2),
+    special_needs TEXT,
     birth_date DATE,
-    medical_notes TEXT,
+    medical_history TEXT,
+    gender VARCHAR,
+    age INT,
     photo_url TEXT,
     created_at TIMESTAMPTZ DEFAULT NOW(),
     updated_at TIMESTAMPTZ DEFAULT NOW()

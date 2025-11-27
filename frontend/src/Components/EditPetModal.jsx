@@ -65,8 +65,8 @@ export default function EditPetModal({open, onOpenChange, pet}) {
                     breed: formData.breed,
                     age: formData.age,
                     weight: formData.weight,
-                    special_needs: formData.specialNeeds,
-                    medical_history: formData.medicalHistory,
+                    special_needs: formData.special_needs,
+                    medical_history: formData.medical_history,
                     gender: formData.gender,
                     birth_date: "2025-01-01", // o el campo real que tengas
                     medical_notes: "" // si no lo usas
