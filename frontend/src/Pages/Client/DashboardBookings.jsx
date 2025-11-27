@@ -222,7 +222,7 @@ export default function DashboardBookings(){
                                         '&:not(.Mui-selected)': {
                                             color: 'text.secondary'
                                         }
-                                    }} 
+                                    }}
                                 />
                                 <Tab
                                     label={`Cancelada (${cancelledBookings.length})`}
@@ -292,7 +292,7 @@ export default function DashboardBookings(){
                                 </div>
                             ) : (
                                 <div className="text-center py-12 bg-white rounded-lg border-2 border-dashed border-gray-300">
-                                    <CalendarToday 
+                                    <CalendarToday
                                     sx={{fontSize: 40, marginX:'auto', marginBottom:2, color:'text.disabled'}}
                                     />
                                     <p className="text-gray-500 mb-4">Sin reservas anteriores</p>
