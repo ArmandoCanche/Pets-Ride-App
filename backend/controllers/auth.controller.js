@@ -37,7 +37,7 @@ const register = async (req, res) => {
           longitude
        )
        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
-       RETURNING user_id, email, first_name, last_name, role, photo_url`, 
+       RETURNING user_id, email, first_name, last_name, role, profile_picture_url`, 
        [
          email, 
          passwordHash, 
