@@ -223,7 +223,8 @@ export default function BookingCard({
                         >
                             Ver Detalles
                         </Button>
-                        <Button
+                        {status === "completado" && (
+                            <Button
                             onClick={onRate}
                             variant="contained"
                             startIcon={<StarRateIcon />}
@@ -239,9 +240,10 @@ export default function BookingCard({
                                         transition: 'all 0.3s ease-in-out',
                                  }
                             }}
-                        >
-                            Calificar
-                        </Button>
+                            >
+                                Calificar
+                            </Button>
+                        )}
                     </div>
                 )}
 
