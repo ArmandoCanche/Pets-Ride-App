@@ -13,39 +13,68 @@ export default function DashboardPets(){
     const [petDetailModalOpen, setPetDetailModalOpen] = useState(false)
     const [selectedPet, setSelectedPet] = useState(null)
     const [createModalOpen, setCreateModalOpen] = useState(false)
-
     const pets = [
         {
-        name: "Max",
-        species: "perro",
-        breed: "Golden Retriever",
-        age: 3,
-        weight: 30,
-        specialNeeds: ["Alergias", "Medicación"],
+          id: 1,
+          name: "Max",
+          species: "perro",
+          breed: "Golden Retriever",
+          age: 3,
+          weight: 30,
+          gender: "macho",
+          specialNeeds: ["Alergia al pollo", "Requiere cepillado diario"],
+          medicalHistory: "Vacunación completa 2024. Operado de ligamento cruzado en 2023. Toma condroprotectores.",
+          imageUrl: null
         },
         {
-        name: "Luna",
-        species: "gato",
-        breed: "Persian",
-        age: 2,
-        weight: 4,
+          id: 2,
+          name: "Luna",
+          species: "gato",
+          breed: "Persa",
+          age: 2,
+          weight: 4,
+          gender: "hembra",
+          specialNeeds: "Dieta renal, Cepillado de ojos",
+          medicalHistory: "Esterilizada. Test de leucemia negativo. Chequeo anual pendiente para Noviembre.",
+          imageUrl: "https://images.unsplash.com/photo-1574158622682-e40e69881006?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
         },
         {
-        name: "Charlie",
-        species: "perro",
-        breed: "Labrador",
-        age: 5,
-        weight: 35,
-        specialNeeds: ["Displasia de cadera"],
+          id: 3,
+          name: "Charlie",
+          species: "perro",
+          breed: "Labrador",
+          age: 5,
+          weight: 35,
+          gender: "macho",
+          specialNeeds: ["Displasia de cadera"],
+          medicalHistory: "Tratamiento actual para otitis. Historial de dermatitis en verano.",
+          imageUrl: null
         },
         {
-        name: "Bella",
-        species: "gato",
-        breed: "Siamese",
-        age: 1,
-        weight: 3,
+          id: 4,
+          name: "Bella",
+          species: "gato",
+          breed: "Siamés",
+          age: 1,
+          weight: 3,
+          gender: "hembra",
+          specialNeeds: [],
+          medicalHistory: "",
+          imageUrl: null
         },
-    ]
+        {
+          id: 5,
+          name: "Remi",
+          species: "gato",
+          breed: "Atigrado",
+          age: 4,
+          weight: 10,
+          gender: "hembra",
+          specialNeeds: "Dieta especial para sobrepeso",
+          medicalHistory: "Control de peso mensual. Vacunación al día.",
+          imageUrl: null
+        }
+      ];
 
     const filteredPets = pets.filter(
         (pet) =>
@@ -65,7 +94,6 @@ export default function DashboardPets(){
     return (
     <>
         <main className='flex  py-6 px-10 md:px-5 lg:px-10 xl:px-25 bg-gray-100 min-h-screen flex-col gap-6'>
-            {/* Buscador + Botón agregar una nueva mascota. */}
             <div className='flex flex-col sm:flex-row gap-4'>
               <div className='flex flex-row flex-1 border-2 border-gray-400 bg-white rounded-xl items-center w-full'>
                 <Search sx={{ width:20, mx:1, color: '#9ca3af', }}/>
