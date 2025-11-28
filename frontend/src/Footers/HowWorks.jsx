@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import { PawPrint, Calendar, CreditCard, Star } from "lucide-react";
 import Footer from "../Components/Footer";
 import Header from "../Components/Header";
@@ -35,7 +34,7 @@ export default function HowWorks() {
     <div>
         <Header/>
 
-        <div className="min-h-screen bg-gray-50 pt-28 pb-16 px-6 md:px-20">
+        <div className="min-h-screen bg-gray-50 pt-40 pb-16 px-6 md:px-20 ">
             <div className="max-w-5xl mx-auto text-center mb-14">
                 <h1 className="text-4xl font-bold text-gray-800 mb-4">
                 ¿Cómo funciona Pet’s Ride para los clientes?

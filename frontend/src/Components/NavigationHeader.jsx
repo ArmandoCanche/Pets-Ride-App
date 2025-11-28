@@ -66,7 +66,7 @@ export default function NavigationHeader({ userType }) {
     <header
       className={`flex flex-col w-full fixed top-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? 'bg-white/30 backdrop-blur-md shadow-sm border-b border-gray-200'
+          ? 'bg-white/30 backdrop-blur-xs shadow-sm border-b border-gray-200'
           : 'bg-white border-b border-gray-200'
       }`}
     >
