@@ -31,7 +31,7 @@ export default function HomePage() {
     <div>
       <Header/>
       <section
-          className="w-full h-screen flex items-center justify-center bg-cover bg-center relative"
+          className="w-full h-screen flex items-center justify-center bg-cover bg-center relative pt-30"
         >
           {/* Fondo */}
           <div

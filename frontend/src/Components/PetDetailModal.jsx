@@ -1,145 +1,129 @@
-import { Avatar, Button, Chip, Dialog, DialogContent, Divider } from "@mui/material";
-import { AlertCircle, Calendar, Heart, Weight, FileText,  Mars, Venus, PawPrint } from "lucide-react"; // Agregué nuevos iconos de Lucide
+import { Avatar, Button, Dialog, DialogContent, Divider, Chip } from "@mui/material";
+import { AlertCircle, Calendar, Heart, Weight, FileText, Mars, Venus, PawPrint } from "lucide-react";
 import { useState } from "react";
-import EditPetModal from "./EditPetModal";
+import EditPetModal from "./EditPetModal"; // Asumo la ruta
 
-export default function PetDetailModal({open, onOpenChange, pet}) {
+export default function PetDetailModal({ open, onOpenChange, pet }) {
+  const [editModalOpen, setEditModalOpen] = useState(false);
 
-  const [editModalOpen, setEditModalOpen] = useState(false)
+  if (!pet) return null;
 
   const handleEditClick = () => {
-    onOpenChange(false)
-    setEditModalOpen(true)
-  }
+    onOpenChange(false);
+    setEditModalOpen(true);
+  };
 
   const handleEditModalClose = () => {
     setEditModalOpen(false);
     onOpenChange(true);
-  }
+  };
 
-  // Helper para el icono de género
+
   const GenderIcon = pet.gender === 'macho' ? Mars : pet.gender === 'hembra' ? Venus : PawPrint;
+  const genderColor = pet.gender === 'macho' ? 'text-blue-600' : pet.gender === 'hembra' ? 'text-pink-600' : 'text-gray-600';
+
+  const needsArray = Array.isArray(pet.specialNeeds) 
+    ? pet.specialNeeds 
+    : pet.specialNeeds && typeof pet.specialNeeds === 'string' 
+      ? pet.specialNeeds.split(',').filter(n => n.trim() !== '') 
+      : [];
 
   return (
     <>
       <Dialog
-      open={open}
-      onClose={()=> onOpenChange(false)}
-      slotProps={{
-        paper:{
-          sx:{
-            borderRadius: "1rem",
-            maxWidth:"600px",
-            width:"500px",
-            padding:3
-          }
-        }
-      }}
-      >
-        <DialogContent
-        sx={{
-          display:"flex",
-          flexDirection:"column",
-          gap:'1.5rem'
+        open={open}
+        onClose={() => onOpenChange(false)}
+        maxWidth="sm"
+        fullWidth
+        slotProps={{
+          paper: { sx: { borderRadius: "1.5rem", padding: 1 } }
         }}
-        >
-          {/* ENCABEZADO */}
+      >
+        <DialogContent sx={{ display: "flex", flexDirection: "column", gap: '1.5rem' }}>
           <div className="flex justify-between items-start">
-              <div>
-                  <h3 className="text-2xl font-semibold">Detalles de la mascota</h3>
-                  <span className="text-sm text-gray-500">Ficha técnica completa</span>
-              </div>
-              <Chip
-                label={pet.species.charAt(0).toUpperCase() + pet.species.slice(1)}
-                sx={{color:'white', background:'black', fontWeight: 600}}
-              />
+            <div>
+                <h3 className="text-2xl font-bold text-gray-800">Expediente de Mascota</h3>
+                <span className="text-sm text-gray-500">ID: #{pet.id || 'N/A'}</span>
+            </div>
+            <Chip 
+                label={pet.species ? pet.species.toUpperCase() : 'MASCOTA'} 
+                size="small"
+                sx={{ bgcolor: 'black', color: 'white', fontWeight: 700 }} 
+            />
           </div>
 
-          {/* TARJETA PRINCIPAL */}
-          <div className="flex items-center p-4 gap-5 rounded-xl bg-gray-50 border border-gray-200">
+          <div className="flex items-center p-4 gap-5 rounded-2xl bg-slate-50 border border-slate-100 shadow-sm">
             <Avatar
-                sx={{
-                    height: 80,
-                    width: 80,
-                    fontSize: '2.5rem',
-                    bgcolor: 'white',
-                    border: '2px solid #e5e7eb'
-                }}
+              src={pet.imageUrl}
+              alt={pet.name}
+              sx={{ width: 80, height: 80, fontSize: '3rem', bgcolor: 'white', border: '1px solid #e2e8f0' }}
             >
               {pet.species === "perro" ? "🐶" : pet.species === "gato" ? "🐱" : "🐾"}
             </Avatar>
-            <div className="flex flex-col">
-              <h3 className="text-2xl font-bold text-gray-800">{pet.name}</h3>
-              <span className="text-gray-500 font-medium">{pet.breed}</span>
+            <div>
+              <h2 className="text-3xl font-extrabold text-slate-800">{pet.name}</h2>
+              <p className="text-slate-500 font-medium text-lg">{pet.breed}</p>
             </div>
           </div>
 
-          {/* GRID DE ESTADÍSTICAS (MEJORA UX: Lectura rápida horizontal) */}
-          <div className="grid grid-cols-3 gap-4">
-              <div className="flex flex-col items-center justify-center p-3 rounded-xl border border-gray-100 bg-white shadow-sm">
-                  <span className="text-xs text-gray-400 uppercase font-bold mb-1">Edad</span>
-                  <div className="flex items-center gap-2 text-gray-700">
-                      <Calendar className="h-4 w-4 text-[#005c71]"/>
-                      <span className="font-semibold">{pet.age} años</span>
-                  </div>
-              </div>
-              <div className="flex flex-col items-center justify-center p-3 rounded-xl border border-gray-100 bg-white shadow-sm">
-                  <span className="text-xs text-gray-400 uppercase font-bold mb-1">Peso</span>
-                  <div className="flex items-center gap-2 text-gray-700">
-                      <Weight className="h-4 w-4 text-[#005c71]"/>
-                      <span className="font-semibold">{pet.weight} kg</span>
-                  </div>
-              </div>
-              <div className="flex flex-col items-center justify-center p-3 rounded-xl border border-gray-100 bg-white shadow-sm">
-                  <span className="text-xs text-gray-400 uppercase font-bold mb-1">Género</span>
-                  <div className="flex items-center gap-2 text-gray-700">
-                      <GenderIcon className="h-4 w-4 text-[#005c71]"/>
-                      <span className="font-semibold capitalize">{pet.gender || "N/A"}</span>
-                  </div>
-              </div>
+          <div className="grid grid-cols-3 gap-3">
+            <StatBox icon={Calendar} label="Edad" value={`${pet.age} años`} />
+            <StatBox icon={Weight} label="Peso" value={`${pet.weight} kg`} />
+            <StatBox
+                icon={GenderIcon}
+                label="Género"
+                value={pet.gender}
+                iconColor={genderColor}
+                capitalize
+            />
           </div>
 
           <Divider />
 
-          {/* SECCIÓN CLÍNICA */}
+          {/* INFORMACIÓN CLÍNICA */}
           <div className="space-y-4">
-            <h3 className="text-base font-semibold text-gray-800 flex items-center gap-2">
-                <Heart className="h-4 w-4 text-red-500" /> Información Clínica
+            <h3 className="text-md font-bold text-gray-900 flex items-center gap-2">
+                <Heart className="w-5 h-5 text-red-500 fill-current" />
+                Información Médica
             </h3>
 
-            {/* 1. ALERTAS (Necesidades Especiales) */}
-            {pet.specialNeeds && pet.specialNeeds.length > 0 ? (
-                <div className="flex items-start gap-3 border border-orange-200 p-4 rounded-xl bg-orange-50">
-                    <AlertCircle className="text-orange-600 h-5 w-5 mt-0.5 flex-shrink-0"/>
-                    <div className="flex-1">
-                        <span className="block text-sm font-bold text-orange-800 mb-1">Necesidades Especiales</span>
-                        <ul className="list-disc list-inside text-sm text-orange-900">
-                            {pet.specialNeeds.map((need, index) => (
-                            <li key={index}>{need}</li>
-                            ))}
-                        </ul>
+            {/* Necesidades Especiales */}
+            {needsArray.length > 0 ? (
+                <div className="bg-orange-50 border border-orange-100 rounded-xl p-4">
+                    <div className="flex items-center gap-2 mb-2 text-orange-800 font-bold text-sm">
+                        <AlertCircle className="w-4 h-4" />
+                        NECESIDADES ESPECIALES
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                        {needsArray.map((need, idx) => (
+                            <span key={idx} className="bg-white text-orange-700 px-3 py-1 rounded-lg text-sm border border-orange-200 font-medium shadow-sm">
+                                {need}
+                            </span>
+                        ))}
                     </div>
                 </div>
             ) : (
-                <p className="text-sm text-gray-400 italic pl-1">Sin necesidades especiales registradas.</p>
+                <div className="text-sm text-gray-400 italic pl-2 border-l-2 border-gray-200">
+                    No se registraron necesidades especiales.
+                </div>
             )}
 
-            {/* 2. HISTORIAL MÉDICO (Nuevo Campo Agregado) */}
+            {/* Historial Médico */}
             {pet.medicalHistory && (
-                <div className="flex items-start gap-3 border border-blue-200 p-4 rounded-xl bg-blue-50">
-                    <FileText className="text-blue-600 h-5 w-5 mt-0.5 flex-shrink-0"/>
-                    <div className="flex-1">
-                        <span className="block text-sm font-bold text-blue-800 mb-1">Historial Médico / Vacunas</span>
-                        <p className="text-sm text-blue-900 whitespace-pre-line">
-                            {pet.medicalHistory}
-                        </p>
+                <div className="bg-blue-50 border border-blue-100 rounded-xl p-4">
+                     <div className="flex items-center gap-2 mb-2 text-blue-800 font-bold text-sm">
+                        <FileText className="w-4 h-4" />
+                        HISTORIAL / NOTAS
                     </div>
+                    <p className="text-sm text-blue-900 leading-relaxed whitespace-pre-wrap">
+                        {pet.medicalHistory}
+                    </p>
                 </div>
             )}
           </div>
 
-          {/* BOTONES (Tus colores originales) */}
-          <div className="flex flex-col sm:flex-row gap-2 pt-4 w-full mt-auto">
+          {/* ACCIONES */}
+          <div className="flex gap-3 pt-2">
             <Button
             variant="outlined"
             sx={{ 
@@ -173,13 +157,23 @@ export default function PetDetailModal({open, onOpenChange, pet}) {
               onClick={handleEditClick}
             >Editar mascota</Button>
           </div>
+
         </DialogContent>
       </Dialog>
-      <EditPetModal
-      open={editModalOpen}
-      onOpenChange={handleEditModalClose}
-      pet={pet}
-      />
+
+      <EditPetModal open={editModalOpen} onOpenChange={handleEditModalClose} pet={pet} />
     </>
-  )
+  );
+}
+
+function StatBox({ icon: Icon, label, value, iconColor = "text-[#005c71]", capitalize = false }) {
+    return (
+        <div className="flex flex-col items-center justify-center p-3 bg-white border border-gray-100 rounded-xl shadow-sm">
+            <span className="text-[10px] uppercase font-bold text-gray-400 mb-1 tracking-wider">{label}</span>
+            <div className={`flex items-center gap-2 ${iconColor}`}>
+                <Icon className="w-4 h-4" />
+                <span className={`text-gray-700 font-bold ${capitalize ? 'capitalize' : ''}`}>{value || '--'}</span>
+            </div>
+        </div>
+    );
 }

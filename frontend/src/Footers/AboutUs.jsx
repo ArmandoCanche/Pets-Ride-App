@@ -10,7 +10,7 @@ export default function AboutUs() {
     <div>
         <Header/>
         {/* Información sobre la empresa */}
-        <section className="w-full bg-white">
+        <section className="w-full bg-white pt-20">
             {/* Imagen de fondo */}
             <div className="relative w-full h-72 md:h-96">
                 <img

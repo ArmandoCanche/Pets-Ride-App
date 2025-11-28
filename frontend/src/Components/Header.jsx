@@ -1,15 +1,29 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BadgeQuestionMark, Heart, Menu, PawPrint, User, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
+  const [isScrolled, setIsScrolled] = useState(false)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 5) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
 
   return (
-    <header className="w-full bg-white shadow-sm">
+    <header className={`w-full bg-white shadow-sm fixed top-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-white/90 backdrop-blur-xs shadow-sm border-b border-gray-200' : 'bg-white border-b border-gray-200'}`}>
       <div className="max-w-7xl mx-auto px-6 py-2 flex items-center justify-between">
-        
         {/* Logo */}
         <div
           className="text-2xl font-bold text-[#f26644] cursor-pointer"

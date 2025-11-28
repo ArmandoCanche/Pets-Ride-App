@@ -1,5 +1,5 @@
 
-INSERT INTO Service_Categories (name, description) VALUES 
+INSERT INTO Service_Categories (name, description) VALUES
 ('baño', 'Baño'),
 ('paseo', 'Paseo de perros'),
 ('veterinaria', 'Servicios médicos'),

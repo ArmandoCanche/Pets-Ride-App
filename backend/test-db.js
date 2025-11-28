@@ -6,7 +6,6 @@ async function testConnection() {
   try {
     // 1. Ejecutar una consulta súper simple
     const result = await db.query('SELECT NOW()');
-    
     // 2. Si funciona, mostrar la hora del servidor de la BD
     console.log('✅ ¡Conexión exitosa!');
     console.log('Hora actual de la base de datos:', result.rows[0].now);
