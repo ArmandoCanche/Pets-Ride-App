@@ -1,7 +1,7 @@
 import { Avatar, Button, Dialog, DialogContent, Divider, Chip } from "@mui/material";
 import { AlertCircle, Calendar, Heart, Weight, FileText, Mars, Venus, PawPrint } from "lucide-react";
 import { useState } from "react";
-import EditPetModal from "./EditPetModal"; // Asumo la ruta
+import EditPetModal from "./EditPetModal";
 
 export default function PetDetailModal({ open, onOpenChange, pet }) {
   const [editModalOpen, setEditModalOpen] = useState(false);
@@ -22,10 +22,10 @@ export default function PetDetailModal({ open, onOpenChange, pet }) {
   const GenderIcon = pet.gender === 'macho' ? Mars : pet.gender === 'hembra' ? Venus : PawPrint;
   const genderColor = pet.gender === 'macho' ? 'text-blue-600' : pet.gender === 'hembra' ? 'text-pink-600' : 'text-gray-600';
 
-  const needsArray = Array.isArray(pet.specialNeeds) 
-    ? pet.specialNeeds 
-    : pet.specialNeeds && typeof pet.specialNeeds === 'string' 
-      ? pet.specialNeeds.split(',').filter(n => n.trim() !== '') 
+  const needsArray = Array.isArray(pet.specialNeeds)
+    ? pet.specialNeeds
+    : pet.specialNeeds && typeof pet.specialNeeds === 'string'
+      ? pet.specialNeeds.split(',').filter(n => n.trim() !== '')
       : [];
 
   return (

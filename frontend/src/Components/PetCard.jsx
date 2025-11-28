@@ -1,12 +1,12 @@
 import { Chip } from "@mui/material";
-import { Mars, Venus, PawPrint } from "lucide-react"; // Asegúrate de tener lucide-react instalado
+import { Mars, Venus, PawPrint } from "lucide-react";
 
 export default function PetCard({ name, species, breed, age, imageUrl, weight, specialNeeds, gender, onClick }) {
 
-  const needsArray = Array.isArray(specialNeeds) 
-    ? specialNeeds 
-    : specialNeeds && typeof specialNeeds === 'string' 
-      ? specialNeeds.split(',').filter(n => n.trim() !== '') 
+  const needsArray = Array.isArray(specialNeeds)
+    ? specialNeeds
+    : specialNeeds && typeof specialNeeds === 'string'
+      ? specialNeeds.split(',').filter(n => n.trim() !== '')
       : [];
 
   const GenderIcon = gender === 'macho' ? Mars : gender === 'hembra' ? Venus : PawPrint;
