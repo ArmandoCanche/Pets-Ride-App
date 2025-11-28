@@ -9,7 +9,7 @@ export default function Contact() {
       <Header />
 
       {/* Contenedor principal del contenido */}
-      <div className="relative bg-gray-50 flex flex-col items-center py-16 px-6 md:px-20">
+      <div className="relative bg-gray-50 flex flex-col items-center py-16 px-6 md:px-20 pt-35">
         {/* Fondo de huellitas solo detrás del contenido */}
         <div className="absolute inset-0 bg-[url('/bg-r.jpg')] opacity-10 bg-repeat z-0"></div>
 

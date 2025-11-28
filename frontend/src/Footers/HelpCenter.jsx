@@ -19,7 +19,7 @@ export default function HelpCenter() {
   return (
     <div>
         <Header/>
-        <div className="bg-gray-50 min-h-screen flex flex-col items-center py-16 px-6 md:px-20 relative">
+        <div className="bg-gray-50 min-h-screen flex flex-col items-center py-16 px-6 md:px-20 relative pt-40">
             {/* Fondo sutil de huellitas */}
             <div className="absolute inset-0 bg-[url('/bg-r.jpg')] opacity-10 bg-repeat z-0"></div>
 
