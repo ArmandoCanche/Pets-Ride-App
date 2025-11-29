@@ -1,9 +1,13 @@
+import React, { useEffect, useState } from "react";
 import {
     Button, Dialog, DialogContent, FormControl, InputLabel, MenuItem, Select,
     TextField, InputAdornment, IconButton, Typography, Divider
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { subYears, format } from 'date-fns'; 
+
+// Servicios
+import { petsService } from "../services/petsService";
 
 // Iconos
 import CloseIcon from '@mui/icons-material/Close';
@@ -11,7 +15,7 @@ import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import PetsIcon from '@mui/icons-material/Pets';
 
 const theme = createTheme({
-    typography:{ fontFamily: 'Poppins, sans-serif' },
+    typography: { fontFamily: 'Poppins, sans-serif' },
     palette: { primary: { main: '#005c71' } }
 });
 
@@ -20,11 +24,15 @@ const INITIAL_STATE = {
     specialNeeds: "", medicalHistory: "", gender: "",
 }
 
-export default function EditPetModal({open, onOpenChange, pet}) {
+export default function EditPetModal({ open, onOpenChange, pet, onSuccess }) {
 
     const isEditing = !!pet;
     const [formData, setFormData] = useState(INITIAL_STATE);
+    const [previewImage, setPreviewImage] = useState(null); // Para mostrar la foto
+    const [selectedFile, setSelectedFile] = useState(null); // El archivo real a subir
+    const [loading, setLoading] = useState(false);
 
+    // Cargar datos al abrir el modal
     useEffect(() => {
         if (open) {
             if (pet) {
@@ -38,62 +46,81 @@ export default function EditPetModal({open, onOpenChange, pet}) {
                     medicalHistory: pet.medicalHistory || "",
                     gender: pet.gender || "",
                 });
+                setPreviewImage(pet.imageUrl); // Mostrar foto existente
             } else {
                 setFormData(INITIAL_STATE);
+                setPreviewImage(null);
             }
+            setSelectedFile(null); // Resetear archivo nuevo
         }
     }, [open, pet]);
 
     const handleChange = (e) => {
-        const {name, value} = e.target
+        const { name, value } = e.target
         setFormData(prev => ({ ...prev, [name]: value }))
     }
 
+    // Manejar selección de nueva foto
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setSelectedFile(file);
+            setPreviewImage(URL.createObjectURL(file)); // Preview local inmediata
+        }
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true);
 
         try {
-            const response = await fetch("http://localhost:3001/api/pets", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    owner_id: 1,  // 👈 O el ID real del usuario logueado
-                    name: formData.name,
-                    species: formData.species,
-                    breed: formData.breed,
-                    age: formData.age,
-                    weight: formData.weight,
-                    special_needs: formData.special_needs,
-                    medical_history: formData.medical_history,
-                    gender: formData.gender,
-                    birth_date: "2025-01-01", // o el campo real que tengas
-                    medical_notes: "" // si no lo usas
-                }),
-            });
-
-            const data = await response.json();
-            console.log("Mascota creada:", data);
-
-            if (data.success) {
-                alert("Mascota registrada con éxito");
+            // 1. Calcular Fecha de Nacimiento desde la Edad
+            let calculatedBirthDate = null;
+            if (formData.age) {
+                const date = subYears(new Date(), Number(formData.age));
+                calculatedBirthDate = format(date, 'yyyy-MM-dd');
             }
 
+            // 2. Preparar objeto de datos
+            // El servicio se encargará de convertirlo a FormData si hay imagen
+            const payload = {
+                name: formData.name,
+                species: formData.species,
+                breed: formData.breed,
+                weight: Number(formData.weight),
+                birthDate: calculatedBirthDate, 
+                medicalNotes: formData.medicalHistory,
+                // gender: formData.gender, // (Opcional: Si agregas columna 'gender' a la DB después)
+                image: selectedFile // Enviamos el archivo
+            };
+
+            // 3. Enviar al Backend
+            if (isEditing) {
+                await petsService.update(pet.id, payload);
+            } else {
+                await petsService.create(payload);
+            }
+
+            // 4. Éxito
+            if (onSuccess) onSuccess(); // Refrescar dashboard
             onOpenChange(false);
 
         } catch (error) {
-            console.error("Error al enviar datos:", error);
+            console.error("Error al guardar mascota:", error);
+            alert("Hubo un error al guardar los datos.");
+        } finally {
+            setLoading(false);
         }
     };
 
     const getPetEmoji = () => {
-        if (formData.species === "perro") return "🐶";
-        if (formData.species === "gato") return "🐱";
+        const species = (formData.species || "").toLowerCase();
+        if (species.includes("perro")) return "🐶";
+        if (species.includes("gato")) return "🐱";
         return "🐾";
     }
 
-    return(
+    return (
         <ThemeProvider theme={theme}>
             <Dialog
                 open={open}
@@ -101,7 +128,7 @@ export default function EditPetModal({open, onOpenChange, pet}) {
                 maxWidth="sm"
                 fullWidth
                 slotProps={{
-                    paper:{ sx:{ borderRadius:"1.5rem", padding: 1 } }
+                    paper: { sx: { borderRadius: "1.5rem", padding: 1 } }
                 }}
             >
                 {/* HEADER */}
@@ -122,23 +149,46 @@ export default function EditPetModal({open, onOpenChange, pet}) {
 
                 <DialogContent>
                     <form onSubmit={handleSubmit} className="flex flex-col gap-6">
-                        {/* SECCIÓN FOTO*/}
+                        
+                        {/* SECCIÓN FOTO (Con botón de subida) */}
                         <div className="flex justify-center">
                             <div className="relative">
-                                <div className="h-24 w-24 rounded-full bg-gray-100 flex items-center justify-center text-5xl border-4 border-white shadow-sm">
-                                    {getPetEmoji()}
+                                <div className="h-28 w-28 rounded-full bg-gray-100 flex items-center justify-center text-5xl border-4 border-white shadow-sm overflow-hidden">
+                                    {previewImage ? (
+                                        <img 
+                                            src={previewImage} 
+                                            alt="Preview" 
+                                            className="w-full h-full object-cover" 
+                                        />
+                                    ) : (
+                                        getPetEmoji()
+                                    )}
                                 </div>
-                                <IconButton
-                                    sx={{
-                                        position: 'absolute', bottom: 0, right: 0,
-                                        backgroundColor: '#005c71', color: 'white',
-                                        '&:hover': { backgroundColor: '#004d61' },
-                                        boxShadow: '0 2px 8px rgba(0,0,0,0.15)'
-                                    }}
-                                    size="small"
-                                >
-                                    <CameraAltIcon fontSize="small"/>
-                                </IconButton>
+                                
+                                {/* Input de archivo oculto */}
+                                <input
+                                    accept="image/*"
+                                    style={{ display: 'none' }}
+                                    id="pet-image-upload"
+                                    type="file"
+                                    onChange={handleFileChange}
+                                />
+                                
+                                {/* Botón disparador */}
+                                <label htmlFor="pet-image-upload">
+                                    <IconButton
+                                        component="span"
+                                        sx={{
+                                            position: 'absolute', bottom: 0, right: 0,
+                                            backgroundColor: '#005c71', color: 'white',
+                                            '&:hover': { backgroundColor: '#004d61' },
+                                            boxShadow: '0 2px 8px rgba(0,0,0,0.15)'
+                                        }}
+                                        size="small"
+                                    >
+                                        <CameraAltIcon fontSize="small" />
+                                    </IconButton>
+                                </label>
                             </div>
                         </div>
 
@@ -152,7 +202,7 @@ export default function EditPetModal({open, onOpenChange, pet}) {
                             fullWidth
                             placeholder="Ej. Firulais"
                             InputProps={{
-                                startAdornment: <InputAdornment position="start"><PetsIcon color="action" fontSize="small"/></InputAdornment>,
+                                startAdornment: <InputAdornment position="start"><PetsIcon color="action" fontSize="small" /></InputAdornment>,
                             }}
                         />
 
@@ -165,9 +215,9 @@ export default function EditPetModal({open, onOpenChange, pet}) {
                                     value={formData.species}
                                     onChange={handleChange}
                                 >
-                                    <MenuItem value="perro">Perro</MenuItem>
-                                    <MenuItem value="gato">Gato</MenuItem>
-                                    <MenuItem value="otro">Otro</MenuItem>
+                                    <MenuItem value="Perro">Perro</MenuItem>
+                                    <MenuItem value="Gato">Gato</MenuItem>
+                                    <MenuItem value="Otro">Otro</MenuItem>
                                 </Select>
                             </FormControl>
                             <TextField
@@ -195,7 +245,7 @@ export default function EditPetModal({open, onOpenChange, pet}) {
                                     }
                                 }}
                             />
-                            <TextField 
+                            <TextField
                                 label="Peso"
                                 name="weight"
                                 value={formData.weight}
@@ -208,7 +258,7 @@ export default function EditPetModal({open, onOpenChange, pet}) {
                                     }
                                 }}
                             />
-                            <FormControl fullWidth required>
+                            <FormControl fullWidth>
                                 <InputLabel>Género</InputLabel>
                                 <Select
                                     label="Género"
@@ -250,37 +300,38 @@ export default function EditPetModal({open, onOpenChange, pet}) {
                         {/* BOTONES */}
                         <div className="flex gap-3 pt-2">
                             <Button
-                            variant="outlined"
-                            sx={{
-                                fontFamily:'Poppins, sans-serif',
-                                flex : {xs: 'auto', sm:'1'},
-                                width: {xs : '100%', sm: 'auto'},
-                                alignSelf: { xs: 'stretch', sm: 'center' },
-                                color: '#000', background:'#fff', borderColor:'#ccc', fontWeight:500, borderRadius:3,
-                                '&:hover':{
-                                    backgroundColor: '#eb9902ff',
-                                    color: '#fff',
-                                    borderColor: '#f7ae26ff',
-                                }
-                            }}
-                            onClick={() => onOpenChange(false)}
+                                variant="outlined"
+                                sx={{
+                                    fontFamily: 'Poppins, sans-serif',
+                                    flex: { xs: 'auto', sm: '1' },
+                                    color: '#000', background: '#fff', borderColor: '#ccc', fontWeight: 500, borderRadius: 3,
+                                    '&:hover': {
+                                        backgroundColor: '#eb9902ff',
+                                        color: '#fff',
+                                        borderColor: '#f7ae26ff',
+                                    }
+                                }}
+                                onClick={() => onOpenChange(false)}
+                                disabled={loading}
                             >Cancelar</Button>
+                            
                             <Button
-                            type="submit"
-                            variant="contained"
-                            sx={{ 
-                                fontFamily:'Poppins, sans-serif',
-                                flex : {xs: 'auto', sm:'1'},
-                                width: {xs : '100%', sm: 'auto'},
-                                alignSelf : { xs: 'stretch', sm: 'center' },
-                                color: '#ffffffff', background:'#0b80d9ff',
-                                fontWeight:500, borderRadius:3,
-                                '&:hover':{
-                                    backgroundColor: '#045a9cff',
-                                    color: '#fff'
-                                }
-                            }}
-                            >{isEditing ? "Guardar cambios" : "Agregar mascota"}</Button>
+                                type="submit"
+                                variant="contained"
+                                disabled={loading}
+                                sx={{
+                                    fontFamily: 'Poppins, sans-serif',
+                                    flex: { xs: 'auto', sm: '1' },
+                                    color: '#ffffffff', background: '#0b80d9ff',
+                                    fontWeight: 500, borderRadius: 3,
+                                    '&:hover': {
+                                        backgroundColor: '#045a9cff',
+                                        color: '#fff'
+                                    }
+                                }}
+                            >
+                                {loading ? "Guardando..." : (isEditing ? "Guardar cambios" : "Agregar mascota")}
+                            </Button>
                         </div>
                     </form>
                 </DialogContent>
