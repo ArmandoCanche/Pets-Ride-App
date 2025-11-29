@@ -21,26 +21,24 @@ const getMyPets = async (req, res) => {
 // --- CREAR MASCOTA ---
 const createPet = async (req, res) => {
   const userId = req.user.id;
-  const { name, species, breed, weight, birthDate, medicalNotes, photoUrl } = req.body;
+  const { name, species, breed, weight, birthDate, medicalNotes} = req.body;
+
+  const photoUrl = req.file ? `http://localhost:3001/uploads/${req.file.filename}` : null; 
 
   if (!name || !species) {
     return res.status(400).json({ error: 'Nombre y especie son obligatorios' });
   }
 
   try {
-    // INSERT normal (is_active es true por default en la DB)
     const result = await db.query(
-      `INSERT INTO Pets (
-          owner_id, name, species, breed, weight_kg, birth_date, medical_notes, photo_url
-       ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
-       RETURNING *`,
-      [userId, name, species, breed, weight || null, birthDate || null, medicalNotes || null, photoUrl || null]
+      `INSERT INTO Pets (owner_id, name, species, breed, weight_kg, birth_date, medical_notes, photo_url) 
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *`,
+      [userId, name, species, breed, weight || null, birthDate || null, medicalNotes || null, photoUrl]
     );
-
     res.status(201).json(result.rows[0]);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Error al registrar la mascota' });
+    res.status(500).json({ error: 'Error al crear mascota' });
   }
 };
 
@@ -70,9 +68,11 @@ const updatePet = async (req, res) => {
   const userId = req.user.id;
   const { id } = req.params;
   const { name, species, breed, weight, medicalNotes } = req.body;
+  
+  // Si Multer procesó un archivo, creamos la URL. Si no, es null.
+  const photoUrl = req.file ? `http://localhost:3001/uploads/${req.file.filename}` : null;
 
   try {
-    // Solo permitimos editar si está activa
     const result = await db.query(
       `UPDATE Pets 
        SET name = COALESCE($1, name),
@@ -80,14 +80,15 @@ const updatePet = async (req, res) => {
            breed = COALESCE($3, breed),
            weight_kg = COALESCE($4, weight_kg),
            medical_notes = COALESCE($5, medical_notes),
+           photo_url = COALESCE($6, photo_url), 
            updated_at = NOW()
-       WHERE pet_id = $6 AND owner_id = $7 AND is_active = true
+       WHERE pet_id = $7 AND owner_id = $8 AND is_active = true
        RETURNING *`,
-      [name, species, breed, weight, medicalNotes, id, userId]
+      [name, species, breed, weight, medicalNotes, photoUrl, id, userId]
     );
 
     if (result.rows.length === 0) {
-      return res.status(404).json({ error: 'Mascota no encontrada o no se puede editar (está archivada)' });
+      return res.status(404).json({ error: 'Mascota no encontrada o no se puede editar' });
     }
 
     res.json(result.rows[0]);

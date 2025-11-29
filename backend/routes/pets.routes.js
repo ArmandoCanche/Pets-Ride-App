@@ -3,16 +3,24 @@ const router = express.Router();
 const petsController = require('../controllers/pets.controller');
 const verifyToken = require('../middlewares/auth.middleware');
 
-// Todas las rutas requieren estar logueado
+const upload = require('../middlewares/upload.middleware');
+
+// Debugging: Si esto imprime "undefined", el middleware está mal exportado.
+console.log("Multer instance loaded:", !!upload.single); 
+
 router.use(verifyToken);
 
-// Rutas Base (/api/pets)
+// GET /api/pets
 router.get('/', petsController.getMyPets);
-router.post('/', petsController.createPet);
+router.post('/', upload.single('image'), petsController.createPet);
 
-// Rutas Específicas (/api/pets/:id)
+// PATCH /api/pets/:id
+router.patch('/:id', upload.single('image'), petsController.updatePet);
+
+// GET /api/pets/:id
 router.get('/:id', petsController.getPetById);
-router.patch('/:id', petsController.updatePet);
+
+// DELETE /api/pets/:id
 router.delete('/:id', petsController.deletePet);
 
 module.exports = router;
