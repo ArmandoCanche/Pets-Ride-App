@@ -1,271 +1,266 @@
-import React, { useState, useEffect } from 'react'; // Added React import
-import { Transition } from '@headlessui/react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { Transition } from '@headlessui/react';
+
+// Services
+import { servicesService } from '../../services/servicesService';
 
 // MUI Imports
 import {
-  Button,
-  TextField,
-  Select,
-  MenuItem,
-  FormControl,
-  InputLabel,
-  Card,
-  CardContent,
-  InputAdornment,
-  Typography,
-  Box
+  Button, TextField, Select, MenuItem, FormControl, InputLabel, Card, CardContent, InputAdornment, Box, CircularProgress, Dialog
 } from '@mui/material';
 
-// Icon Imports (Keeping lucide-react as used)
-import { Search, SlidersHorizontal, MapPin, Sparkles } from "lucide-react";
+// Icons
+import { Search, SlidersHorizontal, MapPin } from "lucide-react";
+
+// Componentes
 import SearchCard from '../../Components/SearchCard';
 import ServiceDetailModal from '../../Components/ServiceDetailModal';
+import BookingForm from '../../Components/BookingForm';
 
-
-export default function SearchServicesPage() {
-
+export default function DashboardServices() {
   const [searchParams] = useSearchParams();
   const initialServiceType = searchParams.get('type') || 'all';
-  const hasInitialFilter = initialServiceType !== 'all';
 
+  // Estados de Filtros
   const [searchQuery, setSearchQuery] = useState("");
   const [serviceType, setServiceType] = useState(initialServiceType);
   const [location, setLocation] = useState("");
   const [sortBy, setSortBy] = useState("rating");
-  const [showFilters, setShowFilters] = useState(hasInitialFilter);
+  const [showFilters, setShowFilters] = useState(initialServiceType !== 'all');
+
+  // Estados de Datos
+  const [services, setServices] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // Estados de Modales
   const [selectedService, setSelectedService] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDetailOpen, setIsDetailOpen] = useState(false);
+  const [isBookingOpen, setIsBookingOpen] = useState(false);
 
-// 1. ESTADO PARA LOS SERVICIOS
-  const [services, setServices] = useState([]); 
-
-  // 2. CARGAR SERVICIOS DESDE EL BACKEND
+  // --- 1. CARGA Y MAPEO CORRECTO ---
   useEffect(() => {
-    const fetchAllServices = async () => {
+    const fetchServices = async () => {
       try {
-        const response = await fetch('http://localhost:3001/api/services');
-        if (response.ok) {
-          const data = await response.json();
-          
-          // Mapeamos los datos de la BD al formato que espera tu SearchCard y Modal
-          const formattedServices = data.map(item => ({
-            id: item.service_id,
-            providerName: item.service_title,
-            // Usamos una imagen placeholder o aleatoria ya que la BD no tiene fotos aún
-            providerImage: item.profile_picture_url || "/placeholder.svg", 
-            realProviderName: `${item.first_name} ${item.last_name}`,
-            serviceType: item.category_name, // Ej: "Paseo de perros"
-            // Datos reales de la BD
-            description: item.description,
-            price: parseFloat(item.price),
-            priceUnit: "sesión", // Puedes ajustarlo si agregas unidad a la BD
-            location: item.location || "Ubicación no especificada",
-            verified: item.is_verified,
-            availability: "Disponible", // Dato mockeado por ahora
-            
-            // Datos Mockeados (necesarios para que no rompa la UI actual)
-            rating: 5.0, // Por defecto 5 hasta implementar sistema de reviews
-            reviewCount: 0,
-            servicesOffered: [item.service_title], // Usamos el nombre del servicio
-            reviews: [] 
-          }));
-
-          setServices(formattedServices);
+        setLoading(true);
+        const data = await servicesService.getAll();
+        
+        // PROTECCIÓN: Verificar que data sea un array
+        if (!Array.isArray(data)) {
+            console.error("La API no devolvió un array:", data);
+            setServices([]);
+            return;
         }
+
+        // Mapeo: Aquí corregimos el nombre de la propiedad
+        const mappedServices = data.map(item => ({
+          id: item.service_id,
+          providerId: item.provider_id,
+          
+          // --- CORRECCIÓN CRÍTICA AQUÍ ---
+          // El backend manda 'service_title', NO 'name'
+          providerName: item.service_title || "Servicio sin nombre", 
+          
+          // Subtítulo = Nombre del Proveedor
+          serviceType: `por ${item.first_name || ""} ${item.last_name || ""} • ${item.category_name || "General"}`,
+          
+          // Imagen y otros datos
+          providerImage: item.profile_picture_url || "/placeholder.svg",
+          description: item.description || "Sin descripción",
+          price: parseFloat(item.price || 0),
+          priceUnit: "sesión",
+          location: item.address || "Ubicación remota",
+          availability: "Disponible",
+          verified: item.is_verified,
+          
+          // Datos para el Modal
+          realProviderName: `${item.first_name} ${item.last_name}`,
+          categoryName: item.category_name,
+          
+          // Mocks temporales
+          rating: 5.0,
+          reviewCount: 0,
+          servicesOffered: item.category_name ? [item.category_name] : [],
+          reviews: []
+        }));
+
+        setServices(mappedServices);
       } catch (error) {
         console.error("Error cargando servicios:", error);
+      } finally {
+        setLoading(false);
       }
     };
-
-    fetchAllServices();
+    fetchServices();
   }, []);
 
-  // 3. FILTRADO (La lógica se mantiene igual, pero opera sobre el estado 'services')
-  const filteredServices = services.filter((service) => {
-    const matchesSearch =
-      service.providerName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      service.serviceType.toLowerCase().includes(searchQuery.toLowerCase());
-    
-    // Ajuste: comparar category_name (serviceType)
-    const matchesType = serviceType === "all" || 
-      service.serviceType.toLowerCase().includes(serviceType.toLowerCase()) ||
-      // Soporte para los valores del select (ej: 'paseo' vs 'Paseo de perros')
-      (serviceType === 'paseo' && service.serviceType.toLowerCase().includes('paseo')) ||
-      (serviceType === 'veterinaria' && service.serviceType.toLowerCase().includes('veterinaria'));
+  // --- 2. FILTRADO SEGURO (BLINDADO) ---
+  const sortedServices = useMemo(() => {
+    return services
+      .filter((service) => {
+        const query = searchQuery.toLowerCase();
+        
+        // --- BLINDAJE CONTRA CRASHES ---
+        // Usamos (valor || "") para asegurar que siempre sea texto antes de toLowerCase()
+        const matchesSearch = 
+          (service.providerName || "").toLowerCase().includes(query) || 
+          (service.serviceType || "").toLowerCase().includes(query);
+        
+        const matchesType = serviceType === "all" || 
+          (service.serviceType || "").toLowerCase().includes(serviceType.toLowerCase());
 
-    const matchesLocation = !location || service.location.toLowerCase().includes(location.toLowerCase());
-    return matchesSearch && matchesType && matchesLocation;
-  });
+        const matchesLocation = !location || 
+          (service.location || "").toLowerCase().includes(location.toLowerCase());
 
-  const sortedServices = [...filteredServices].sort((a, b) => {
-    if (sortBy === "rating") return b.rating - a.rating;
-    if (sortBy === "price-low") return a.price - b.price;
-    if (sortBy === "price-high") return b.price - a.price;
-    if (sortBy === "reviews") return b.reviewCount - a.reviewCount;
-    return 0;
-  });
+        return matchesSearch && matchesType && matchesLocation;
+      })
+      .sort((a, b) => {
+        if (sortBy === "rating") return b.rating - a.rating;
+        if (sortBy === "price-low") return a.price - b.price;
+        if (sortBy === "price-high") return b.price - a.price;
+        return 0;
+      });
+  }, [services, searchQuery, serviceType, location, sortBy]);
 
-  const handleViewDetails = (service) => { 
-    setSelectedService(service);
-    setIsModalOpen(true);
+  // --- HANDLERS ---
+  const handleViewDetails = (service) => {
+    const serviceForModal = {
+        ...service,
+        providerName: service.realProviderName, 
+        serviceType: service.categoryName       
+    };
+    setSelectedService(serviceForModal);
+    setIsDetailOpen(true);
   };
 
+  const handleOpenBooking = () => {
+    setIsDetailOpen(false);
+    setIsBookingOpen(true);
+  };
+
+  if (loading) return <div className="flex justify-center items-center h-screen"><CircularProgress sx={{ color: '#f26644' }} /></div>;
+
   return (
-      <main className="flex  py-6 px-10 md:px-5 lg:px-10 xl:px-25 bg-gray-100 min-h-screen flex-col gap-6">
-
-
-        <Card sx={{ border:1, borderColor:'#e1e1e1ff', borderRadius: 3 }}>
-          <CardContent sx={{ p: 3, spaceY: 2 }}>
-            <Box sx={{ display: 'flex', flexDirection: { xs: 'column', lg: 'row' }, gap: 2 }}>
-              <TextField
-                placeholder="Buscar..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+    <main className="flex py-6 px-4 md:px-10 bg-gray-100 min-h-screen flex-col gap-6">
+      
+      {/* BARRA DE FILTROS */}
+      <Card sx={{ border:1, borderColor:'#e1e1e1ff', borderRadius: 3 }}>
+        <CardContent sx={{ p: 3 }}>
+          <Box sx={{ display: 'flex', flexDirection: { xs: 'column', lg: 'row' }, gap: 2 }}>
+            <TextField
+              placeholder="Buscar servicio..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              variant="outlined"
+              size="small"
+              InputProps={{
+                startAdornment: <InputAdornment position="start"><Search size="1rem" /></InputAdornment>
+              }}
+              sx={{ flex: 1, '& .MuiOutlinedInput-root': { borderRadius: 3 } }} 
+            />
+            <Button
                 variant="outlined"
-                size="small"
-                slotProps={{
-                  input: {
-                      startAdornment: (
-                      <InputAdornment position="start">
-                        <Search size="1rem" className="text-gray-500" />
-                      </InputAdornment>
-                  ),
-                  }
-
-                }}
-                sx={{ flex: 1, '& .MuiOutlinedInput-root': { pl: 2, borderRadius: 3, gap:2 } }} 
-              />
-
-              <Box sx={{ display: 'flex', gap: 1 }}>
-                <Button
-                  variant="outlined"
-                  size="medium"
-                  onClick={() => setShowFilters(!showFilters)}
-                  startIcon={<SlidersHorizontal size="1rem" />}
-                  sx={{ textTransform: 'none' , height: 40, fontFamily:'Poppins, sans-serif', borderRadius: 3, bgcolor:'#fff',color: '#000000ff', borderColor:'#ccc','&:hover': { bgcolor: '#f37556',
-                    color: '#fff',
-                    borderColor: '#f37556',
-                   } }}
-                >
-                  Filtros
-                </Button>
-                <Button
-                  variant="contained"
-                  size="medium"
-                  startIcon={<Search size="1rem" />}
-                  sx={{textTransform: 'none' , height: 40 , fontFamily:'Poppins, sans-serif',borderRadius:3, color:'#fff', bgcolor:'#f37556', '&:hover': { bgcolor: '#f37556' } }}
-                >
-                  Buscar
-                </Button>
-              </Box>
-            </Box>
-            <Transition
-            show={showFilters}
-            as="div"
-
-            enter="transition ease-out duration-300"
-            enterFrom="opacity-0 translate-y-1"
-            enterTo="opacity-100 translate-y-0"
-            leave="transition ease-in duration-200"
-            leaveFrom="opacity-100 translate-y-0"
-            leaveTo="opacity-0 translate-y-1"
+                onClick={() => setShowFilters(!showFilters)}
+                startIcon={<SlidersHorizontal size="1rem" />}
+                sx={{ textTransform: 'none', borderRadius: 3, borderColor: '#ccc', color: '#333' }}
             >
-              <Box sx={{
-                display: 'grid',
-                gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', lg: 'repeat(4, 1fr)' },
-                gap: 2,
-                pt: 2,
-                mt: 2,
-                borderTop: 1,
-                borderColor: 'divider',
-              }}>
+                Filtros
+            </Button>
+            <Button
+                variant="contained"
+                sx={{ textTransform: 'none', borderRadius: 3, bgcolor: '#f26644', '&:hover': { bgcolor: '#d95336' } }}
+            >
+                Buscar
+            </Button>
+          </Box>
+
+          <Transition show={showFilters}>
+             <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 2, pt: 2, mt: 2, borderTop: '1px solid #eee' }}>
                 <FormControl size="small">
-                  <InputLabel id="service-type-label">Tipo de Servicio</InputLabel>
-                  <Select
-                    labelId="service-type-label"
-                    id="serviceType"
-                    value={serviceType}
-                    label="Tipo de Servicio"
-                    onChange={(e) => setServiceType(e.target.value)}
-                    sx={{borderRadius:3}}
-                  >
-                    <MenuItem value="all">Todos los Servicios</MenuItem>
-                    <MenuItem value="paseo">Paseo de Perros</MenuItem>
-                    <MenuItem value="veterinaria">Atención veterinaria</MenuItem>
-                    <MenuItem value="transporte">Transporte</MenuItem>
-                    <MenuItem value="hotel">Hoteles</MenuItem>
-                    <MenuItem value="peluqueria">Peluqueria</MenuItem>
+                  <InputLabel>Categoría</InputLabel>
+                  <Select value={serviceType} label="Categoría" onChange={(e) => setServiceType(e.target.value)} sx={{ borderRadius: 2 }}>
+                    <MenuItem value="all">Todas</MenuItem>
+                    <MenuItem value="paseo">Paseo</MenuItem>
+                    <MenuItem value="veterinaria">Veterinaria</MenuItem>
+                    <MenuItem value="hotel">Hospedaje</MenuItem>
                     <MenuItem value="entrenamiento">Entrenamiento</MenuItem>
-                    <MenuItem value="cuidado en casa">Cuidado en casa</MenuItem>
-                    <MenuItem value="emergencias">Emergencias</MenuItem>
                   </Select>
                 </FormControl>
-                 <TextField
-                    id="location"
-                    label="Ubicación"
-                    placeholder="Ingresa ubicación..."
-                    value={location}
+                
+                <TextField 
+                    label="Ubicación" 
+                    size="small" 
+                    value={location} 
                     onChange={(e) => setLocation(e.target.value)}
-                    variant="outlined"
-                    size="small"
-                    InputProps={{
-                    startAdornment: (
-                        <InputAdornment position="start">
-                            <MapPin size="1rem" className="text-gray-500" />
-                        </InputAdornment>
-                    ),
-                    }}
-                    sx={{ '& .MuiOutlinedInput-root': { pl: 1, borderRadius: 3 } }}
+                    InputProps={{ startAdornment: <InputAdornment position="start"><MapPin size={14}/></InputAdornment> }}
+                    sx={{ '& .MuiOutlinedInput-root': { borderRadius: 2 } }}
                 />
+
                 <FormControl size="small">
-                  <InputLabel id="sort-by-label">Ordenar Por</InputLabel>
-                  <Select
-                    labelId="sort-by-label"
-                    id="sortBy"
-                    value={sortBy}
-                    label="Ordenar Por"
-                    onChange={(e) => setSortBy(e.target.value)}
-                    sx={{borderRadius: 3}}
-                  >
+                  <InputLabel>Ordenar</InputLabel>
+                  <Select value={sortBy} label="Ordenar" onChange={(e) => setSortBy(e.target.value)} sx={{ borderRadius: 2 }}>
                     <MenuItem value="rating">Mejor Calificados</MenuItem>
-                    <MenuItem value="reviews">Más Reseñas</MenuItem>
                     <MenuItem value="price-low">Precio: Menor a Mayor</MenuItem>
                     <MenuItem value="price-high">Precio: Mayor a Menor</MenuItem>
                   </Select>
                 </FormControl>
-                     <Button variant="outlined" size="small" sx={{textTransform: 'none' , height: 40, borderRadius: 3, bgcolor:'#fff',color: '#000000ff', borderColor:'#ccc','&:hover': { bgcolor: '#f37556',
-                    color: '#fff',
-                    borderColor: '#f37556',}}}>
-                        Solo verificados
-                    </Button>
-              </Box>
-            </Transition>
-          </CardContent>
-        </Card>
+             </Box>
+          </Transition>
+        </CardContent>
+      </Card>
 
-        <div className="my-4 flex items-center justify-between">
-          <p className="text-sm text-gray-600 font-medium">
-            Se encontraron {sortedServices.length} {sortedServices.length === 1 ? "servicio" : "servicios"}
-          </p>
+      {/* RESULTADOS */}
+      <div className="flex justify-between items-center">
+        <p className="text-sm text-gray-600 font-medium">
+          {sortedServices.length} servicios disponibles
+        </p>
+      </div>
+
+      {sortedServices.length > 0 ? (
+        <div className="grid grid-cols-12 gap-6 w-full">
+          {sortedServices.map((service) => (
+            <SearchCard 
+                key={service.id} 
+                {...service} 
+                onViewDetails={() => handleViewDetails(service)}
+                onBook={() => {
+                    setSelectedService(service);
+                    setIsBookingOpen(true);
+                }}
+            />
+          ))}
         </div>
-
-        {sortedServices.length > 0 ? (
-          <div className="grid grid-cols-12 gap-6">
-            {sortedServices.map((service, index) => (
-              <SearchCard key={index} {...service} onViewDetails={() => handleViewDetails(service)}/>
-            ))}
-          </div>
-        ) : (
-          <div className="text-center py-16 bg-gray-100/50 rounded-2xl border-2 border-dashed border-gray-300">
-            <Search className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-            <p className="text-lg font-medium text-gray-500 mb-2">No se encontraron servicios</p>
-            <p className="text-sm text-gray-500">Intenta ajustar tu búsqueda o filtros</p>
-          </div>
-        )}
-      {selectedService && (
-        <ServiceDetailModal open={isModalOpen} onOpenChange={setIsModalOpen} service={selectedService} />
+      ) : (
+        <div className="text-center py-16 bg-white rounded-3xl border border-dashed border-gray-300">
+           <Search className="h-12 w-12 text-gray-300 mx-auto mb-3" />
+           <p className="text-gray-500">No se encontraron servicios con esos filtros.</p>
+        </div>
       )}
-      </main>
+
+      {/* MODALES */}
+      {selectedService && (
+        <>
+            <ServiceDetailModal 
+                open={isDetailOpen} 
+                onOpenChange={setIsDetailOpen} 
+                service={selectedService}
+                onBook={handleOpenBooking} 
+            />
+            
+            {isBookingOpen && (
+                <Dialog open={isBookingOpen} onClose={() => setIsBookingOpen(false)} maxWidth="sm" fullWidth>
+                    <BookingForm 
+                        providerId={selectedService.providerId}
+                        serviceId={selectedService.id}
+                        serviceName={selectedService.providerName} 
+                        price={selectedService.price}
+                        onClose={() => setIsBookingOpen(false)}
+                    />
+                </Dialog>
+            )}
+        </>
+      )}
+
+    </main>
   );
 }
