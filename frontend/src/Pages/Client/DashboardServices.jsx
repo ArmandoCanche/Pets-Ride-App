@@ -56,9 +56,7 @@ export default function DashboardServices() {
         const mappedServices = data.map(item => ({
           id: item.service_id,
           providerId: item.provider_id,
-          
-          // --- CORRECCIÓN CRÍTICA AQUÍ ---
-          // El backend manda 'service_title', NO 'name'
+
           providerName: item.service_title || "Servicio sin nombre", 
           
           // Subtítulo = Nombre del Proveedor

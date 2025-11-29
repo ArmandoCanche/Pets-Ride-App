@@ -166,6 +166,7 @@ const getAllServices = async (req, res) => {
         s.name as service_title,
         s.description,
         s.price,
+        s.provider_id,
         s.duration_minutes,
         c.name as category_name,
         u.first_name,

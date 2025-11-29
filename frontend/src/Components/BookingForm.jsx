@@ -52,6 +52,13 @@ export default function BookingForm({ providerId, serviceId, serviceName, price,
     e.preventDefault();
     setSubmitting(true);
     setError(null);
+    console.log("🔍 DATOS A ENVIAR:", {
+      providerId_prop: providerId,  // ¿Qué recibí del padre?
+      serviceId_prop: serviceId,    // ¿Qué recibí del padre?
+      petId_state: formData.petId,
+      date_state: formData.date,
+      time_state: formData.time
+  });
 
     try {
       if (!formData.date || !formData.time || !formData.petId) {
