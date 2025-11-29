@@ -66,7 +66,8 @@ export default function DashboardServices() {
           providerImage: item.profile_picture_url || "/placeholder.svg",
           description: item.description || "Sin descripción",
           price: parseFloat(item.price || 0),
-          priceUnit: "sesión",
+          priceUnit: item.price_unit || "sesión",
+          pricingUnit: item.price_unit || "sesión", // Por compatibilidad
           location: item.address || "Ubicación remota",
           availability: "Disponible",
           verified: item.is_verified,

@@ -1,19 +1,29 @@
-
 const express = require('express');
 const router = express.Router();
-const { createService, 
-    getProviderServices, 
-    updateService, 
-    toggleServiceStatus, 
-    deleteService,
-    getAllServices } = require('../controllers/services.controller');
+const servicesController = require('../controllers/services.controller');
+const verifyToken = require('../middlewares/auth.middleware');
 
-// RUTAS
-router.post('/', createService);
-router.get('/provider/:providerId', getProviderServices);
-router.put('/:id', updateService);         // Editar info completa
-router.patch('/:id/status', toggleServiceStatus); // Solo cambiar activo/inactivo
-router.delete('/:id', deleteService);      // Eliminar
-router.get('/', getAllServices); // Obtener todos los servicios activos
+// --- RUTAS PÚBLICAS (Cualquiera puede ver servicios) ---
+router.get('/', servicesController.getAllServices);
+//router.get('/:id', servicesController.getServiceById); 
+
+
+// --- RUTAS PROTEGIDAS (Requieren Token) ---
+router.use(verifyToken);
+
+// Crear Servicio
+router.post('/', servicesController.createService);
+
+// Actualizar Servicio
+router.patch('/:id', servicesController.updateService);
+
+// Toggle Estado (Activar/Desactivar)
+router.patch('/:id/toggle', servicesController.toggleServiceStatus);
+
+// Eliminar Servicio
+router.delete('/:id', servicesController.deleteService);
+
+// Obtener mis servicios (como proveedor)
+router.get('/provider/:providerId', servicesController.getProviderServices);
 
 module.exports = router;

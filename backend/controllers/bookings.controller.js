@@ -1,71 +1,106 @@
-// backend/controllers/bookings.controller.js
-const db = require('../db'); // Tu pool de conexión
-const { addMinutes, parseISO, isValid, isBefore, format } = require('date-fns');
+const db = require('../db');
+const { 
+    addMinutes, 
+    addHours, 
+    addDays, 
+    addWeeks, 
+    addMonths, 
+    parseISO, 
+    isValid, 
+    isBefore, 
+    format 
+} = require('date-fns');
 
 const createBooking = async (req, res) => {
-  // 1. Obtener cliente del token (Seguridad)
+  // 1. Obtener cliente del token
   const clientId = req.user.id; 
 
-  // 2. Input: Esperamos 'startDateTime' en formato ISO UTC (ej: "2023-11-25T14:00:00Z")
-  // Esto delega la conversión de zona horaria al Frontend (Best Practice)
-  const { providerId, serviceId, petId, startDateTime, notes } = req.body;
+  // 2. Input: Ahora recibimos 'quantity' (ej: 2 horas, 3 noches)
+  // Default quantity = 1 para evitar errores matemáticos
+  const { providerId, serviceId, petId, startDateTime, notes, quantity = 1 } = req.body;
 
   // Validación de entrada
   if (!providerId || !serviceId || !petId || !startDateTime) {
-    return res.status(400).json({ error: 'Faltan campos obligatorios: providerId, serviceId, petId, startDateTime' });
+    return res.status(400).json({ error: 'Faltan campos obligatorios' });
   }
 
   // Parsear fecha
   const bookingStart = parseISO(startDateTime);
   if (!isValid(bookingStart)) {
-    return res.status(400).json({ error: 'Formato de fecha inválido. Use ISO 8601 (YYYY-MM-DDTHH:mm:ssZ)' });
+    return res.status(400).json({ error: 'Formato de fecha inválido. Use ISO 8601' });
   }
 
-  // No permitir reservas en el pasado
   if (isBefore(bookingStart, new Date())) {
     return res.status(400).json({ error: 'No se pueden crear reservas en el pasado' });
   }
 
-  const client = await db.pool.connect(); // Obtener cliente dedicado para la transacción
+  const client = await db.pool.connect(); 
 
   try {
-    await client.query('BEGIN'); // INICIO DE TRANSACCIÓN
+    await client.query('BEGIN'); 
 
     // ---------------------------------------------------------
-    // PASO A: Obtener metadatos del servicio
+    // PASO A: Obtener metadatos del servicio + UNIDAD DE COBRO
     // ---------------------------------------------------------
     const serviceRes = await client.query(
-      'SELECT price, duration_minutes, name, provider_id FROM Services WHERE service_id = $1', 
+      'SELECT price, duration_minutes, name, provider_id, price_unit FROM Services WHERE service_id = $1', 
       [serviceId]
     );
 
     if (serviceRes.rows.length === 0) throw new Error('Servicio no encontrado');
     const service = serviceRes.rows[0];
 
-    // Validación de seguridad: Verificar que el servicio pertenezca al proveedor solicitado
+    // Validación de seguridad
     if (String(service.provider_id) !== String(providerId)) {
         throw new Error('El servicio no corresponde al proveedor seleccionado');
     }
 
     // ---------------------------------------------------------
-    // PASO B: Calcular Hora de Finalización
+    // PASO B: Cálculo Polimórfico de Tiempo (End Date)
     // ---------------------------------------------------------
-    const bookingEnd = addMinutes(bookingStart, service.duration_minutes);
+    let bookingEnd;
+    const qty = Math.max(1, Number(quantity)); // Asegurar mínimo 1 y tipo número
+
+    switch (service.price_unit) {
+        case 'hour':
+            bookingEnd = addHours(bookingStart, qty);
+            break;
+        case 'day':   
+        case 'night': // Hoteles suelen cobrar por noche (24h blocks o check-in/out logic)
+            bookingEnd = addDays(bookingStart, qty);
+            break;
+        case 'week':
+            bookingEnd = addWeeks(bookingStart, qty);
+            break;
+        case 'month':
+            bookingEnd = addMonths(bookingStart, qty);
+            break;
+        case 'session':
+        default:
+            // Si es por sesión fija, ignoramos la cantidad para el tiempo y usamos la duración base
+            bookingEnd = addMinutes(bookingStart, service.duration_minutes || 60);
+            break;
+    }
     
-    // Convertir a Strings ISO para PostgreSQL
     const startISO = bookingStart.toISOString();
     const endISO = bookingEnd.toISOString();
 
     // ---------------------------------------------------------
-    // PASO C: Validar Disponibilidad (Horario Laboral + Conflictos)
+    // PASO C: Cálculo Financiero (Snapshot del Precio Total)
+    // ---------------------------------------------------------
+    const unitPrice = Number(service.price);
+    const totalPrice = unitPrice * qty;
+
+    // ---------------------------------------------------------
+    // PASO D: Validar Disponibilidad (Provider Availability + Overlaps)
     // ---------------------------------------------------------
     
-    // 1. ¿Trabaja el proveedor ese día y a esa hora?
-    // Extraemos el día de la semana en inglés minúsculas ('monday', 'tuesday'...) para coincidir con el ENUM
+    // 1. Validar si el proveedor trabaja ese día (Lógica básica)
     const dayOfWeekQuery = `SELECT trim(to_char($1::timestamp, 'day')) as day_name`; 
     const dayRes = await client.query(dayOfWeekQuery, [startISO]);
-    const dayName = dayRes.rows[0].day_name; // ej: 'monday'
+    const dayName = dayRes.rows[0].day_name; 
 
+    // Verificamos si existe un registro activo para ese día
     const scheduleQuery = `
         SELECT * FROM Provider_Availability 
         WHERE provider_id = $1 AND day = $2::day_of_week AND is_active = true
@@ -75,24 +110,20 @@ const createBooking = async (req, res) => {
     if (scheduleRes.rows.length === 0) {
         throw new Error(`El proveedor no trabaja los días ${dayName}`);
     }
+    // Nota: Aquí podrías expandir la lógica para verificar si startISO y endISO caen dentro de start_time y end_time del horario.
 
-    const schedule = scheduleRes.rows[0];
-    // Nota: Aquí podrías agregar lógica compleja para ver si la hora está dentro de start_time y end_time
-    // Por ahora validamos que exista el día laboral.
-
-    // 2. ¿Hay choque con otra reserva? (Overlap Check)
+    // 2. Verificar Colisiones (Double Booking)
     const overlapQuery = `
       SELECT booking_id FROM Bookings 
       WHERE provider_id = $1 
-      AND status IN ('confirmed', 'pending') -- Bloqueamos incluso si está pendiente
+      AND status IN ('confirmed', 'pending') 
       AND (
-        (booking_datetime < $3 AND end_datetime > $2) -- Fórmula matemática de intersección de intervalos
+        (booking_datetime < $3 AND end_datetime > $2)
       )
     `;
     const overlapRes = await client.query(overlapQuery, [providerId, startISO, endISO]);
 
     if (overlapRes.rows.length > 0) {
-      // 409 Conflict: El recurso ya existe/está ocupado
       await client.query('ROLLBACK');
       return res.status(409).json({ 
         error: 'El horario seleccionado no está disponible (Choque con otra cita)' 
@@ -100,7 +131,7 @@ const createBooking = async (req, res) => {
     }
 
     // ---------------------------------------------------------
-    // PASO D: Insertar la Reserva (Persistencia)
+    // PASO E: Insertar la Reserva
     // ---------------------------------------------------------
     const insertQuery = `
       INSERT INTO Bookings (
@@ -115,21 +146,21 @@ const createBooking = async (req, res) => {
     const newBooking = await client.query(insertQuery, [
       clientId, providerId, serviceId, petId,
       startISO, endISO,
-      service.price, service.name,
+      totalPrice, // <--- Guardamos el total calculado (precio * cantidad)
+      service.name,
       notes || null
     ]);
 
     // ---------------------------------------------------------
-    // PASO E: (Opcional) Crear Notificación para el Proveedor
+    // PASO F: Notificación
     // ---------------------------------------------------------
     const notifQuery = `
         INSERT INTO Notifications (user_id, type, title, message)
-        VALUES ($1, 'booking_update', 'Nueva Solicitud de Reserva', 'Tienes una nueva solicitud pendiente.')
+        VALUES ($1, 'booking_update', 'Nueva Solicitud', 'Tienes una reserva pendiente de aprobar.')
     `;
     await client.query(notifQuery, [providerId]);
 
-
-    await client.query('COMMIT'); // Confirmar todo
+    await client.query('COMMIT');
     
     res.status(201).json({
       message: 'Reserva creada exitosamente',
@@ -137,43 +168,44 @@ const createBooking = async (req, res) => {
     });
 
   } catch (error) {
-    await client.query('ROLLBACK'); // Revertir cambios si algo falla
+    await client.query('ROLLBACK');
     console.error('Error en createBooking:', error);
     
-    // Diferenciar errores de negocio vs errores de sistema
     if (error.message.includes('Servicio') || error.message.includes('proveedor')) {
         return res.status(400).json({ error: error.message });
     }
     
-    res.status(500).json({ error: 'Error interno del servidor al procesar la reserva' });
+    res.status(500).json({ error: error.message || 'Error interno del servidor' });
   } finally {
-    client.release(); // IMPORTANTE: Devolver conexión al pool
+    client.release();
   }
 };
 
 /**
  * OBTENER MIS RESERVAS
- * Soporta filtros por estado y paginación básica
  */
 const getMyBookings = async (req, res) => {
-    const userId = req.user.user_id;
+    // Aseguramos consistencia: Usamos req.user.id como en el resto de la app
+    const userId = req.user.id || req.user.user_id; 
     const role = req.user.role; 
-    const { status } = req.query; // ?status=pending
+    const { status } = req.query;
 
     let query = `
         SELECT 
             b.*, 
-            s.name as service_name, 
+            s.name as service_name,
+            s.price_unit, -- Útil para mostrar en el frontend (ej: "5 noches")
             p.name as pet_name,
-            u.first_name as other_party_name,
-            u.profile_picture_url as other_party_photo
+            p.species as pet_species, -- Agregado para mejor UI
+            u.first_name || ' ' || u.last_name as other_party_name,
+            u.profile_picture_url as other_party_photo,
+            u.phone_number,
+            u.email
         FROM Bookings b
         JOIN Services s ON b.service_id = s.service_id
         JOIN Pets p ON b.pet_id = p.pet_id
     `;
 
-    // JOIN dinámico: Si soy cliente, quiero ver los datos del PROVEEDOR (u). 
-    // Si soy proveedor, quiero ver los datos del CLIENTE (u).
     if (role === 'client') {
         query += ` JOIN Users u ON b.provider_id = u.user_id WHERE b.client_id = $1`;
     } else {
@@ -182,7 +214,6 @@ const getMyBookings = async (req, res) => {
 
     const queryParams = [userId];
 
-    // Filtro opcional por estado
     if (status) {
         query += ` AND b.status = $2`;
         queryParams.push(status);
@@ -200,40 +231,33 @@ const getMyBookings = async (req, res) => {
 };
 
 /**
- * ACTUALIZAR ESTADO (Aceptar/Rechazar/Cancelar)
+ * ACTUALIZAR ESTADO
  */
 const updateBookingStatus = async (req, res) => {
-    const userId = req.user.user_id;
+    const userId = req.user.id || req.user.user_id;
     const role = req.user.role;
-    const { id } = req.params; // booking_id
-    const { status } = req.body; // 'confirmed', 'rejected', 'cancelled'
+    const { id } = req.params;
+    const { status } = req.body;
 
-    // Validar transiciones permitidas (Máquina de estados simple)
     const validStatuses = ['confirmed', 'rejected', 'cancelled', 'completed'];
     if (!validStatuses.includes(status)) {
         return res.status(400).json({ error: 'Estado no válido' });
     }
 
     try {
-        // Verificar que la reserva pertenezca al usuario que intenta modificarla
-        // Lógica: 
-        // - El Proveedor puede pasar de 'pending' a 'confirmed' o 'rejected'.
-        // - El Cliente puede pasar de 'pending' a 'cancelled'.
-        
         const bookingRes = await db.query('SELECT * FROM Bookings WHERE booking_id = $1', [id]);
         if (bookingRes.rows.length === 0) return res.status(404).json({ error: 'Reserva no encontrada' });
         
         const booking = bookingRes.rows[0];
 
-        // Validaciones de permisos (Authorization Logic)
-        if (role === 'provider' && booking.provider_id !== userId) {
-            return res.status(403).json({ error: 'No tienes permiso para modificar esta reserva' });
+        // Validaciones de permisos
+        if (role === 'provider' && String(booking.provider_id) !== String(userId)) {
+            return res.status(403).json({ error: 'No autorizado' });
         }
-        if (role === 'client' && booking.client_id !== userId) {
-            return res.status(403).json({ error: 'No tienes permiso para modificar esta reserva' });
+        if (role === 'client' && String(booking.client_id) !== String(userId)) {
+            return res.status(403).json({ error: 'No autorizado' });
         }
 
-        // Ejecutar Update
         const updateQuery = `
             UPDATE Bookings 
             SET status = $1, updated_at = NOW() 
@@ -241,8 +265,6 @@ const updateBookingStatus = async (req, res) => {
             RETURNING *
         `;
         const updatedBooking = await db.query(updateQuery, [status, id]);
-
-        // (Opcional) Aquí dispararías otra notificación al usuario afectado
         
         res.json(updatedBooking.rows[0]);
 

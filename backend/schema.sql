@@ -204,6 +204,46 @@ CREATE TRIGGER update_conversations_modtime BEFORE UPDATE ON Conversations FOR E
 ALTER TABLE Pets 
 ADD COLUMN is_active BOOLEAN DEFAULT true;
 
--- Opcional: Si quieres saber CUÁNDO se borró
 ALTER TABLE Pets 
 ADD COLUMN deleted_at TIMESTAMPTZ DEFAULT NULL;
+
+-- 1. Agregar Zona de Cobertura (Ej: "Tizimín Centro", "5km a la redonda")
+ALTER TABLE Services 
+ADD COLUMN coverage_area TEXT;
+
+-- 2. Agregar Unidad de Cobro (Ej: 'hora', 'sesión', 'día', 'noche')
+ALTER TABLE Services 
+ADD COLUMN price_unit VARCHAR(20) DEFAULT 'sesión';
+
+-- 3. Agregar Mascotas Aceptadas (Array de texto: {'perro', 'gato'})
+ALTER TABLE Services 
+ADD COLUMN accepted_species TEXT[]; 
+
+-- 4. Agregar Días Específicos del Servicio (Array: {'monday', 'friday'})
+-- Esto sirve si el proveedor trabaja toda la semana, pero ESTE servicio solo lo hace los lunes.
+ALTER TABLE Services 
+ADD COLUMN service_days TEXT[];
+
+-- 1. Crear el tipo de dato estricto (ENUM) para evitar errores de texto
+-- Esto define las reglas del juego para el sistema.
+DROP TYPE IF EXISTS pricing_unit_type CASCADE;
+CREATE TYPE pricing_unit_type AS ENUM (
+    'hour',     -- Paseos, Cuidado por horas
+    'day',      -- Guardería de día
+    'night',    -- Hotel / Hospedaje
+    'week',     -- Entrenamiento intensivo
+    'month',    -- Planes de largo plazo
+    'session'   -- Veterinaria, Peluquería (Duración fija, cantidad siempre 1)
+);
+
+-- 2. Modificar la tabla Services
+-- Eliminamos cualquier columna vieja y ponemos la nueva con el tipo estricto.
+ALTER TABLE Services 
+DROP COLUMN IF EXISTS price_unit;
+
+ALTER TABLE Services 
+ADD COLUMN pricing_unit pricing_unit_type NOT NULL DEFAULT 'session';
+
+-- 3. (Opcional pero recomendado) Actualizar datos existentes
+-- Si tienes datos de prueba, asgúrales un valor por defecto
+UPDATE Services SET pricing_unit = 'session' WHERE pricing_unit IS NULL;
