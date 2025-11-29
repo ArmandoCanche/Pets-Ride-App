@@ -1,21 +1,22 @@
-import api from '../api/axiosConfig'; 
+import api from '../api/axiosConfig';
 
 export const bookingService = {
-  // Obtener mis reservas (El backend ya filtra si soy cliente o proveedor)
+  // Obtener todas mis reservas (El backend filtra por rol automáticamente)
   getAll: async () => {
     const response = await api.get('/bookings');
     return response.data;
   },
 
-  // Crear una nueva
+  // Crear una nueva reserva
   create: async (data) => {
+    // data espera: { providerId, serviceId, petId, startDateTime, notes }
     const response = await api.post('/bookings', data);
     return response.data;
   },
 
-  // Actualizar estado (Aceptar/Rechazar/Cancelar)
+  // Actualizar estado (Aceptar/Cancelar/Rechazar)
   updateStatus: async (id, status) => {
-    // status debe ser: 'confirmed', 'rejected', 'cancelled'
+    // status: 'confirmed', 'rejected', 'cancelled'
     const response = await api.patch(`/bookings/${id}/status`, { status });
     return response.data;
   }

@@ -1,22 +1,27 @@
-import React, { useState } from 'react';
-
-// MUI Components
-import { Box, Tabs, Tab, Snackbar, Alert, Button } from '@mui/material';
+import React, { useState, useEffect, useMemo } from 'react';
+import { Box, Tabs, Tab, Snackbar, Alert, CircularProgress } from '@mui/material';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+import { format, isPast } from 'date-fns';
+import { es } from 'date-fns/locale';
+
+// Servicios
+import { bookingService } from '../../services/bookingService';
 
 // Componentes
 import BookingCardProvider from '../../Components/BookingCardProvider';
 import ProviderBookingDetailModal from '../../Components/ProviderBookingDetailModal';
 import ProviderRescheduleModal from '../../Components/ProviderRescheduleModal';
 
-// Router
-import { Link } from 'react-router-dom';
-
 export default function DashboardBookingsProvider() {
 
+  // --- 1. ESTADOS DE DATOS ---
+  const [allBookings, setAllBookings] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // --- 2. ESTADOS DE UI ---
   const [rescheduleModalOpen, setRescheduleModalOpen] = useState(false);
-  const [detailModalOpen, setDetailModalOpen] = useState(false)
-  const [selectedBooking, setSelectedBooking] = useState(null)
+  const [detailModalOpen, setDetailModalOpen] = useState(false);
+  const [selectedBooking, setSelectedBooking] = useState(null);
   const [currentTab, setCurrentTab] = useState('proximas');
   
   const [snackbar, setSnackbar] = useState({
@@ -25,144 +30,140 @@ export default function DashboardBookingsProvider() {
     severity: 'success',
   });
 
-  // --- DATOS (Prestador viendo a Clientes) ---
-  const upcomingBookings = [
-    {
-      id: "1",
-      service: "Paseo de Perros",
-      clientName: "Ana Martínez", // Cliente
-      clientImage: "/diverse-woman-portrait.png",
-      pet: "Max",
-      petType: "Golden Retriever",
-      petAge: "3 años",
-      petWeight: "30 kg",
-      date: "Marzo 15, 2025",
-      time: "10:00 AM - 11:00 AM",
-      duration: "1 hora",
-      location: "Parque Central",
-      phone: "+1 (555) 123-4567",
-      email: "ana.m@example.com",
-      price: 25,
-      status: "confirmado",
-      notes: "A Max le encanta jugar a buscar la pelota.",
-      specialRequirements: "Evitar la zona norte del parque (obras).",
-    },
-    {
-      id: "2",
-      service: "Estética Canina",
-      clientName: "Roberto Gómez",
-      clientImage: "/man.jpg",
-      pet: "Rocky",
-      petType: "Bulldog Francés",
-      petAge: "4 años",
-      petWeight: "12 kg",
-      date: "Marzo 16, 2025",
-      time: "4:00 PM - 5:30 PM",
-      duration: "1.5 horas",
-      location: "Domicilio Cliente",
-      phone: "+1 (555) 987-6543",
-      email: "r.gomez@example.com",
-      price: 50,
-      status: "confirmado",
-      notes: "Piel sensible, usar champú hipoalergénico.",
-    },
-  ];
+  // --- 3. CARGA DE DATOS (API) ---
+  const fetchBookings = async () => {
+    try {
+      setLoading(true);
+      const data = await bookingService.getAll();
+      setAllBookings(data);
+    } catch (error) {
+      console.error("Error al cargar reservas:", error);
+      showSnackbar('Error al cargar las reservas', 'error');
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  const pendingBookings = [
-    {
-      id: "3",
-      service: "Cuidado de Mascotas",
-      clientName: "Emma Wilson",
-      clientImage: "/woman-2.jpg",
-      pet: "Charlie",
-      petType: "Beagle",
-      petAge: "5 años",
-      petWeight: "11 kg",
-      date: "Marzo 20, 2025",
-      time: "9:00 AM - 1:00 PM",
-      duration: "4 horas",
-      location: "456 Oak Ave, NY",
-      phone: "+1 (555) 456-7890",
-      email: "emma.w@example.com",
-      price: 80,
-      status: "pendiente",
-      specialRequirements: "Charlie necesita su medicación a las 11 AM.",
-    },
-  ];
+  useEffect(() => {
+    fetchBookings();
+  }, []);
 
-  const completedBookings = [
-    {
-      id: "4",
-      service: "Paseo de Perros",
-      clientName: "Ana Martínez",
-      clientImage: "/diverse-woman-portrait.png",
-      pet: "Max",
-      petType: "Golden Retriever",
-      petAge: "3 años",
-      petWeight: "30 kg",
-      date: "Marzo 8, 2025",
-      time: "10:00 AM - 11:00 AM",
-      duration: "1 hora",
-      location: "Parque Central",
-      price: 25,
-      status: "completado",
-      rating: 5,
-    },
-    {
-      id: "5",
-      service: "Atención Veterinaria",
-      clientName: "Lisa Anderson",
-      clientImage: "/woman-3.jpg",
-      pet: "Milo",
-      petType: "Gato Atigrado", 
-      petAge: "6 años",
-      petWeight: "5 kg",
-      date: "Febrero 20, 2025",
-      time: "11:00 AM - 11:30 AM",
-      duration: "30 min",
-      location: "Clínica de Mascotas",
-      price: 50,
-      status: "completado",
-      rating: 5,
-    },
-  ];
+  // --- 4. MAPEO DE DATOS (Backend -> Component Props) ---
+  const mapBookingToUI = (b) => {
+    const dateObj = new Date(b.booking_datetime);
+    
+    return {
+      id: b.booking_id,
+      bookingId: `BK-${b.booking_id.toString().padStart(4, '0')}`,
+      
+      // Datos del Cliente (La "otra parte" para el proveedor)
+      clientName: b.other_party_name || "Cliente Desconocido", 
+      clientImage: b.other_party_photo, // Asegúrate que tu backend envíe esto
+      phone: b.phone_number || "No disponible",
+      email: b.email || "No disponible",
+      
+      // Datos del Servicio/Mascota
+      service: b.service_name_snapshot,
+      serviceType: b.service_name_snapshot, // Para modal
+      pet: b.pet_name,
+      petName: b.pet_name, // Para modal
+      petType: b.pet_species || "Mascota",
+      petAge: "N/A", // Dato pendiente en backend
+      petWeight: b.pet_weight ? `${b.pet_weight} kg` : "N/A",
+      
+      // Fecha y Estado
+      date: format(dateObj, "MMMM d, yyyy", { locale: es }),
+      time: format(dateObj, "h:mm a"),
+      rawDate: dateObj, // Objeto fecha real para lógica de filtrado
+      duration: '1h', // Dato pendiente en backend
+      location: b.service_location || b.address || "Ubicación del cliente",
+      
+      price: Number(b.price_at_booking),
+      status: b.status, // 'pending', 'confirmed', 'completed', 'cancelled', 'rejected'
+      notes: b.notes,
+    };
+  };
 
-  // --- HANDLERS ---
+  // --- 5. FILTRADO INTELIGENTE (MEMOIZED) ---
+  // Divide las reservas en las 3 pestañas automáticamente
+  const { upcomingBookings, pendingBookings, completedBookings } = useMemo(() => {
+    const mapped = allBookings.map(mapBookingToUI);
+
+    const upcoming = [];
+    const pending = [];
+    const completed = [];
+
+    mapped.forEach(booking => {
+      // Lógica de Negocio para las pestañas
+      if (booking.status === 'pending') {
+        pending.push(booking);
+      } 
+      else if (booking.status === 'confirmed') {
+        // Si está confirmada pero la fecha ya pasó, la movemos a completada (opcional)
+        // O si el estado explícito es 'completed'
+        if (isPast(booking.rawDate) && !booking.status === 'completed') { 
+             completed.push(booking); 
+        } else {
+             upcoming.push(booking);
+        }
+      }
+      else if (booking.status === 'completed' || booking.status === 'cancelled' || booking.status === 'rejected') {
+        completed.push(booking);
+      }
+    });
+
+    return { upcomingBookings: upcoming, pendingBookings: pending, completedBookings: completed };
+  }, [allBookings]);
+
+
+  // --- 6. HANDLERS (Acciones con API) ---
+
+  const handleStatusChange = async (bookingId, newStatus, successMessage) => {
+    try {
+        await bookingService.updateStatus(bookingId, newStatus);
+        fetchBookings(); // Recargar datos para mover la tarjeta de pestaña
+        setDetailModalOpen(false); // Cerrar modal si estaba abierto
+        showSnackbar(successMessage, 'success');
+    } catch (error) {
+        showSnackbar('No se pudo actualizar el estado de la reserva', 'error');
+    }
+  };
+
+  const handleAccept = (booking) => {
+    handleStatusChange(booking.id, 'confirmed', `¡Has aceptado la cita con ${booking.clientName}!`);
+  };
+
+  const handleCancel = (booking) => {
+    // Si está pendiente es "Rechazar" (rejected), si está confirmada es "Cancelar" (cancelled)
+    const status = booking.status === 'pending' ? 'rejected' : 'cancelled';
+    const verb = booking.status === 'pending' ? 'rechazado' : 'cancelado';
+    
+    if(!window.confirm(`¿Estás seguro de que deseas ${status === 'rejected' ? 'rechazar' : 'cancelar'} esta cita?`)) return;
+
+    handleStatusChange(booking.id, status, `Has ${verb} la cita con ${booking.clientName}.`);
+  };
 
   const handleViewDetails = (booking) => {
-    setSelectedBooking({
-        ...booking,
-        // Unificamos nombres de props para el modal
-        serviceType: booking.service,
-        petName: booking.pet
-    });
+    setSelectedBooking(booking);
     setDetailModalOpen(true);
   }
 
   const handleMessageClient = () => {
     setDetailModalOpen(false);
-    setSnackbar({ open: true, message: 'Mensaje enviado al cliente.', severity: 'success' });
+    showSnackbar('Funcionalidad de chat próximamente.', 'info');
   }
 
   const handleReschedule = (booking) => {
-    setSelectedBooking({
-        ...booking,
-        serviceType: booking.service,
-        petName: booking.pet
-    });
+    setSelectedBooking(booking);
     setRescheduleModalOpen(true);
-  };
-
-  const handleCancel = (booking) => {
-    setSnackbar({ open: true, message: `Has rechazado/cancelado la cita con ${booking.clientName}.`, severity: 'warning' });
-  };
-
-  const handleAccept = (booking) => {
-    setSnackbar({ open: true, message: `Has aceptado la cita con ${booking.clientName}.`, severity: 'success' });
   };
 
   const handleTabChange = (event, newValue) => {
     setCurrentTab(newValue);
+  };
+
+  const showSnackbar = (message, severity = 'success') => {
+    setSnackbar({ open: true, message, severity });
   };
 
   const handleSnackbarClose = (event, reason) => {
@@ -170,19 +171,19 @@ export default function DashboardBookingsProvider() {
     setSnackbar((prev) => ({ ...prev, open: false }));
   };
 
-  // Función auxiliar para renderizar grid consistente (2 columnas)
+  // --- RENDERERS ---
+
   const renderBookingList = (bookings) => (
     <div className='grid lg:grid-cols-2 gap-6'>
         {bookings.map((booking) => (
             <BookingCardProvider
                 key={booking.id}
                 {...booking}
-                // Mapeo importante: Card espera 'client', datos tienen 'clientName'
-                client={booking.clientName}
-                // Funciones
+                // Mapeo explícito para asegurar que el componente reciba lo que espera
+                client={booking.clientName} 
                 onViewDetails={() => handleViewDetails(booking)}
                 onReschedule={() => handleReschedule(booking)}
-                onCancel={() => handleCancel(booking)}
+                onCancel={() => handleCancel(booking)} // Sirve para Rechazar o Cancelar según estado
                 onAccept={() => handleAccept(booking)}
                 onMessageClient={() => handleMessageClient(booking)}
             />
@@ -197,6 +198,14 @@ export default function DashboardBookingsProvider() {
     </div>
   );
 
+  if (loading) {
+      return (
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+            <CircularProgress sx={{ color: '#005c71' }} />
+        </Box>
+      );
+  }
+
   return (
     <main className='flex py-10 px-10 md:px-5 lg:px-10 xl:px-25 bg-gray-100 min-h-screen flex-col gap-6'>
       <div className='w-full h-auto flex flex-col gap-6'>
@@ -210,12 +219,7 @@ export default function DashboardBookingsProvider() {
         {/* Tabs y Contenido */}
         <div className='flex flex-col gap-6 h-full rounded-lg p-0 align-items-center justify-center col-span-12'>
           
-          <Box sx={{ 
-            width: 'fit-content',
-            bgcolor: '#ebebeb',
-            borderRadius: 3, 
-            padding: 0.5,
-          }}>
+          <Box sx={{ width: 'fit-content', bgcolor: '#ebebeb', borderRadius: 3, padding: 0.5 }}>
             <Tabs 
                 value={currentTab} 
                 onChange={handleTabChange} 
@@ -225,20 +229,20 @@ export default function DashboardBookingsProvider() {
             >
                 <Tab label={`Próximas (${upcomingBookings.length})`} value="proximas" sx={tabStyle} />
                 <Tab label={`Pendientes (${pendingBookings.length})`} value="pendiente" sx={tabStyle} />
-                <Tab label={`Completadas (${completedBookings.length})`} value="completado" sx={tabStyle} />
+                <Tab label={`Historial (${completedBookings.length})`} value="completado" sx={tabStyle} />
             </Tabs>
           </Box>
 
           {/* Contenido de Tabs */}
           <Box sx={{width:'100%', pt:0}}>
             {currentTab === 'proximas' && (
-                upcomingBookings.length > 0 ? renderBookingList(upcomingBookings) : renderEmptyState("Sin reservas próximas")
+                upcomingBookings.length > 0 ? renderBookingList(upcomingBookings) : renderEmptyState("No tienes citas próximas confirmadas")
             )}
             {currentTab === 'pendiente' && (
-                pendingBookings.length > 0 ? renderBookingList(pendingBookings) : renderEmptyState("Sin reservas pendientes")
+                pendingBookings.length > 0 ? renderBookingList(pendingBookings) : renderEmptyState("No tienes solicitudes pendientes")
             )}
             {currentTab === 'completado' && (
-                completedBookings.length > 0 ? renderBookingList(completedBookings) : renderEmptyState("Sin reservas completadas")
+                completedBookings.length > 0 ? renderBookingList(completedBookings) : renderEmptyState("No hay historial de citas")
             )}
           </Box>
 
@@ -277,7 +281,6 @@ export default function DashboardBookingsProvider() {
   );
 }
 
-// Estilo reutilizable para Tabs
 const tabStyle = {
     fontFamily: 'Poppins, sans-serif',
     fontWeight: 500,
