@@ -197,3 +197,13 @@ CREATE TRIGGER update_bookings_modtime BEFORE UPDATE ON Bookings FOR EACH ROW EX
 CREATE TRIGGER update_services_modtime BEFORE UPDATE ON Services FOR EACH ROW EXECUTE PROCEDURE update_updated_at_column();
 CREATE TRIGGER update_pets_modtime BEFORE UPDATE ON Pets FOR EACH ROW EXECUTE PROCEDURE update_updated_at_column();
 CREATE TRIGGER update_conversations_modtime BEFORE UPDATE ON Conversations FOR EACH ROW EXECUTE PROCEDURE update_updated_at_column();
+-- ====================================================================================
+-- MIGRACIÓN: Agregar columnas para borrado lógico en tabla Pets
+-- Fecha: 2024-06-27
+-- Agregamos la columna de borrado lógico
+ALTER TABLE Pets 
+ADD COLUMN is_active BOOLEAN DEFAULT true;
+
+-- Opcional: Si quieres saber CUÁNDO se borró
+ALTER TABLE Pets 
+ADD COLUMN deleted_at TIMESTAMPTZ DEFAULT NULL;
