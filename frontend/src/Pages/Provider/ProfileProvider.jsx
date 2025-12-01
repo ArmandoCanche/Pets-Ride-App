@@ -5,11 +5,12 @@ import {
 } from "@mui/icons-material";
 import { 
     Avatar, Button, Chip, createTheme, Divider, InputAdornment, 
-    TextField, ThemeProvider, CircularProgress, IconButton 
+    TextField, ThemeProvider, CircularProgress, IconButton, Box
 } from "@mui/material";
 
-// Servicio
+// Servicios
 import { userService } from "../../services/userService";
+import { servicesService } from "../../services/servicesService"; 
 
 const theme = createTheme({
     typography: { fontFamily: 'Poppins, sans-serif' },
@@ -26,6 +27,9 @@ export default function ProfileProvider() {
     // Estado para la imagen
     const [previewImage, setPreviewImage] = useState(null);
     const [selectedFile, setSelectedFile] = useState(null);
+    
+    // NUEVO: Estado para las etiquetas de especialidad (categorías únicas)
+    const [specialties, setSpecialties] = useState([]);
 
     const [formData, setFormData] = useState({
         firstName: '',
@@ -36,15 +40,16 @@ export default function ProfileProvider() {
         email: '',
         emergencyContact: '',
         rating: 5.0, 
-        jobsCompleted: 0, // Mock (traer de API futura)
-        yearsExperience: 2 // Mock
+        jobsCompleted: 0, 
+        yearsExperience: 0
     });
 
-    // 1. CARGAR PERFIL
+    // 1. CARGAR PERFIL Y SERVICIOS
     useEffect(() => {
-        const loadProfile = async () => {
+        const loadData = async () => {
             try {
                 setLoading(true);
+                // A. Cargar Usuario
                 const user = await userService.getProfile();
                 
                 setFormData({
@@ -54,20 +59,29 @@ export default function ProfileProvider() {
                     about: user.bio || '',
                     phone: user.phone_number || '',
                     email: user.email || '',
-                    emergencyContact: '', // Dato no existente en DB Users actualmente
-                    rating: 4.9, 
-                    jobsCompleted: 15,
-                    yearsExperience: 3
+                    emergencyContact: '', 
+                    rating: 5.0, // Mock
+                    jobsCompleted: 0, // Mock
+                    yearsExperience: 1 // Mock
                 });
                 setPreviewImage(user.profile_picture_url);
+
+                // B. NUEVO: Cargar Servicios para sacar las Categorías
+                // Usamos el ID del usuario que acabamos de traer
+                const myServices = await servicesService.getByProvider(user.user_id);
+                
+                // Lógica JS: Extraer nombres de categorías únicos
+                // 1. Map para sacar solo nombres -> 2. Set para quitar duplicados -> 3. Array de nuevo
+                const uniqueCategories = [...new Set(myServices.map(s => s.category_name).filter(Boolean))];
+                setSpecialties(uniqueCategories);
+
             } catch (error) {
-                console.error("Error cargando perfil:", error);
-                alert("No se pudo cargar tu perfil.");
+                console.error("Error cargando datos:", error);
             } finally {
                 setLoading(false);
             }
         };
-        loadProfile();
+        loadData();
     }, []);
 
     const handleChange = (e) => {
@@ -99,7 +113,6 @@ export default function ProfileProvider() {
 
             const updatedUser = await userService.updateProfile(payload);
             
-            // Actualizar localStorage
             const currentUser = JSON.parse(localStorage.getItem('user'));
             localStorage.setItem('user', JSON.stringify({ ...currentUser, ...updatedUser.user }));
 
@@ -165,12 +178,12 @@ export default function ProfileProvider() {
 
                         {/* IZQUIERDA: TARJETA DE PRESENTACIÓN */}
                         <div className="flex flex-col border border-gray-200 bg-white rounded-xl p-6 gap-6 h-fit shadow-sm">
-                            <div className="flex flex-col items-center gap-4">
+                            <div className="flex flex-col items-center gap-3">
                                 <div className="relative">
                                     <Avatar
                                         alt="Provider Picture"
                                         src={previewImage || "/static/images/avatar/2.jpg"}
-                                        sx={{ width: 120, height: 120 }}
+                                        sx={{ width: 120, height: 120, border: '4px solid white', boxShadow: '0 2px 8px rgba(0,0,0,0.1)' }}
                                     />
                                     {isEditing && (
                                         <>
@@ -199,37 +212,70 @@ export default function ProfileProvider() {
                                     )}
                                 </div>
                                 
-                                <div className="text-center">
+                                <div className="text-center w-full">
                                     <h2 className="text-xl font-bold text-gray-800">{`${formData.firstName} ${formData.lastName}`}</h2>
-                                    <p className="text-gray-500 text-sm">{formData.location}</p>
+                                    
+                                    {/* NUEVO: Mostrar especialidades como etiquetas */}
+                                    {specialties.length > 0 ? (
+                                        <div className="flex flex-wrap justify-center gap-1 mt-2 mb-1">
+                                            {specialties.map((spec, idx) => (
+                                                <Chip 
+                                                    key={idx} 
+                                                    label={spec} 
+                                                    size="small" 
+                                                    sx={{ 
+                                                        fontSize: '0.7rem', 
+                                                        height: '20px', 
+                                                        bgcolor: '#e0f2f1', 
+                                                        color: '#00695c',
+                                                        fontWeight: 600 
+                                                    }} 
+                                                />
+                                            ))}
+                                        </div>
+                                    ) : (
+                                        <p className="text-xs text-gray-400 italic mt-1">Sin servicios activos</p>
+                                    )}
+
+                                    <p className="text-gray-500 text-sm mt-1 flex items-center justify-center gap-1">
+                                        <LocationOn fontSize="inherit"/>
+                                        {formData.location || "Sin ubicación"}
+                                    </p>
                                 </div>
 
+                                <Divider flexItem />
+
                                 <div className="flex justify-center gap-2 w-full">
-                                    <div className="flex flex-col items-center bg-orange-50 px-3 py-2 rounded-lg border border-orange-100 flex-1">
+                                    <div className="flex flex-col items-center bg-orange-50 px-2 py-2 rounded-lg border border-orange-100 flex-1">
                                         <div className="flex items-center gap-1">
-                                            <Star sx={{ color: '#f59e0b', fontSize: 18 }} />
-                                            <span className="font-bold text-gray-800">{formData.rating}</span>
+                                            <Star sx={{ color: '#f59e0b', fontSize: 16 }} />
+                                            <span className="font-bold text-gray-800 text-sm">{formData.rating}</span>
                                         </div>
                                         <span className="text-[10px] uppercase text-gray-500 font-bold tracking-wider">Rating</span>
                                     </div>
-                                    <div className="flex flex-col items-center bg-blue-50 px-3 py-2 rounded-lg border border-blue-100 flex-1">
-                                        <span className="font-bold text-gray-800">{formData.jobsCompleted}</span>
+                                    <div className="flex flex-col items-center bg-blue-50 px-2 py-2 rounded-lg border border-blue-100 flex-1">
+                                        <span className="font-bold text-gray-800 text-sm">{formData.jobsCompleted}</span>
                                         <span className="text-[10px] uppercase text-gray-500 font-bold tracking-wider">Trabajos</span>
                                     </div>
-                                    <div className="flex flex-col items-center bg-green-50 px-3 py-2 rounded-lg border border-green-100 flex-1">
-                                        <span className="font-bold text-gray-800">{formData.yearsExperience}+</span>
-                                        <span className="text-[10px] uppercase text-gray-500 font-bold tracking-wider">Años Exp.</span>
+                                    <div className="flex flex-col items-center bg-green-50 px-2 py-2 rounded-lg border border-green-100 flex-1">
+                                        <span className="font-bold text-gray-800 text-sm">{formData.yearsExperience}+</span>
+                                        <span className="text-[10px] uppercase text-gray-500 font-bold tracking-wider">Años</span>
                                     </div>
                                 </div>
                             </div>
 
-                            <Divider />
-
                             <div className="flex flex-col gap-3">
                                 <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">Insignias</span>
                                 <div className="flex flex-wrap gap-2">
-                                    <Chip icon={<VerifiedUser style={{width:16}}/>} label="Identidad Verificada" size="small" color="success" variant="outlined" />
-                                    <Chip icon={<Phone style={{width:16}}/>} label="Teléfono Verificado" size="small" color="success" variant="outlined" />
+                                    {formData.firstName && formData.lastName && (
+                                        <Chip icon={<VerifiedUser style={{width:14}}/>} label="Identidad Verificada" size="small" color="success" variant="outlined" />
+                                    )}
+                                    {formData.phone && (
+                                        <Chip icon={<Phone style={{width:14}}/>} label="Teléfono Verificado" size="small" color="success" variant="outlined" />
+                                    )}
+                                    {specialties.length > 0 && (
+                                         <Chip icon={<Badge style={{width:14}}/>} label="Proveedor Activo" size="small" color="primary" variant="outlined" />
+                                    )}
                                 </div>
                             </div>
                         </div>
