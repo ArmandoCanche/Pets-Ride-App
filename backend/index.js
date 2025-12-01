@@ -17,25 +17,29 @@ const petsRoutes = require('./routes/pets.routes');
 const bookingsRoutes = require('./routes/bookings.routes');
 const reviewsRoutes = require('./routes/reviews.routes'); 
 const servicesRoutes = require('./routes/services.routes');
+const userRoutes = require('./routes/user.routes');
 
 // --- DEFINICIÓN DE ENDPOINTS ---
 
-// 1. Autenticación (Login/Register)
+// Autenticación (Login/Register)
 // Esto habilitará: POST /api/login y POST /api/register
 app.use('/api', authRoutes); 
 
-// 2. Mascotas
+// Mascotas
 // Habilita rutas como: GET /api/pets, POST /api/pets
 app.use('/api/pets', petsRoutes);
 app.use('/api/services', servicesRoutes);
 
-// 3. Reservas
+// Reservas
 // Habilita rutas como: POST /api/bookings
 app.use('/api/bookings', bookingsRoutes);
 
-// 4. Reseñas
+// Reseñas
 // Habilita rutas como: POST /api/reviews
 app.use('/api/reviews', reviewsRoutes);
+
+// Ruta para operaciones de usuario (perfil, etc.)
+app.use('/api/users', userRoutes);
 
 // --- START ---
 app.listen(PORT, () => {
