@@ -146,25 +146,50 @@ const createBooking = async (req, res) => {
 };
 
 const getMyBookings = async (req, res) => {
-    const role = req.user.role;
+    // Usamos req.user.id consistentemente
+    const userId = req.user.id || req.user.user_id; 
+    const role = req.user.role; 
     const { status } = req.query;
 
+    console.log(`📅 Buscando reservas para: ${role} ${userId}`);
+
+    // Construimos la query con nombres explícitos para evitar errores
     let query = `
         SELECT 
-            b.*, 
+            b.booking_id,
+            b.booking_datetime,
+            b.end_datetime,
+            b.status,
+            b.price_at_booking,
+            b.service_name_snapshot,
+            b.notes,
+            b.service_location,
+            
+            -- Datos del Servicio
+            s.service_id,
             s.name as service_name,
-            s.price_unit,
+            s.price_unit,  -- <--- CORREGIDO: Nombre real en DB
+            
+            -- Datos de la Mascota
+            p.pet_id,
             p.name as pet_name,
             p.species as pet_species,
+            p.photo_url as pet_image,
+
+            -- Datos de la Otra Parte (Usuario)
+            -- Concatenamos nombre y apellido
             u.first_name || ' ' || u.last_name as other_party_name,
             u.profile_picture_url as other_party_photo,
             u.phone_number,
             u.email
+
         FROM Bookings b
-        JOIN Services s ON b.service_id = s.service_id
-        JOIN Pets p ON b.pet_id = p.pet_id
+        -- Usamos LEFT JOIN para que si se borra el servicio/mascota, la reserva siga visible
+        LEFT JOIN Services s ON b.service_id = s.service_id
+        LEFT JOIN Pets p ON b.pet_id = p.pet_id
     `;
 
+    // JOIN dinámico según el rol
     if (role === 'client') {
         query += ` JOIN Users u ON b.provider_id = u.user_id WHERE b.client_id = $1`;
     } else {
@@ -172,18 +197,22 @@ const getMyBookings = async (req, res) => {
     }
 
     const queryParams = [userId];
+
     if (status) {
         query += ` AND b.status = $2`;
         queryParams.push(status);
     }
+
     query += ` ORDER BY b.booking_datetime DESC`;
 
     try {
         const result = await db.query(query, queryParams);
+        console.log(`✅ Encontradas ${result.rows.length} reservas.`);
         res.json(result.rows);
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Error al obtener el historial' });
+        // Este log aparecerá en tu terminal del backend y te dirá la causa exacta
+        console.error("🔥 SQL Error en getMyBookings:", error.message);
+        res.status(500).json({ error: 'Error al obtener el historial de reservas' });
     }
 };
 
