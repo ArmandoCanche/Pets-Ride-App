@@ -170,23 +170,44 @@ const getAllServices = async (req, res) => {
   }
 };
 
-// --- OTROS (Sin cambios mayores, solo exportar) ---
 const getProviderServices = async (req, res) => {
-    // ... (Tu código actual está bien, solo asegúrate de SELECT *)
-    try {
-        const { providerId } = req.params;
-        const query = `
-            SELECT s.*, c.name as category_name 
-            FROM Services s
-            JOIN Service_Categories c ON s.category_id = c.category_id
-            WHERE s.provider_id = $1
-        `;
-        const result = await db.query(query, [providerId]);
-        res.json(result.rows);
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ message: "Error" });
-    }
+  try {
+    const { providerId } = req.params;
+    
+    // DEBUG: Ver qué ID está llegando realmente
+    console.log(`Buscando servicios para Provider ID: ${providerId}`);
+
+    const query = `
+      SELECT 
+        s.service_id,
+        s.name,
+        s.description,
+        s.price,
+        s.duration_minutes,
+        s.is_active,
+        s.price_unit,
+        s.coverage_area,
+        s.accepted_species,
+        s.service_days,
+        c.name as category_name 
+      FROM Services s
+      -- CAMBIO CRÍTICO: Usar LEFT JOIN en lugar de JOIN
+      -- Esto trae el servicio aunque la categoría sea null o no exista
+      LEFT JOIN Service_Categories c ON s.category_id = c.category_id
+      WHERE s.provider_id = $1
+      ORDER BY s.created_at DESC
+    `;
+    
+    const result = await db.query(query, [providerId]);
+    
+    // DEBUG: Ver cuántos encontró
+    console.log(`✅ Se encontraron ${result.rows.length} servicios.`);
+    
+    res.json(result.rows);
+  } catch (err) {
+    console.error("Error al obtener servicios del proveedor:", err);
+    res.status(500).json({ message: "Error al obtener servicios" });
+  }
 };
 
 const toggleServiceStatus = async (req, res) => {

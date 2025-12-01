@@ -55,9 +55,6 @@ const createBooking = async (req, res) => {
         throw new Error('El servicio no corresponde al proveedor seleccionado');
     }
 
-    // ---------------------------------------------------------
-    // PASO B: Cálculo Polimórfico de Tiempo (End Date)
-    // ---------------------------------------------------------
     let bookingEnd;
     const qty = Math.max(1, Number(quantity)); // Asegurar mínimo 1 y tipo número
 
