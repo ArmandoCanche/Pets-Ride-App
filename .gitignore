@@ -38,7 +38,12 @@ Thumbs.db
 
 frontend/.vite
 frontend/.eslintcache
+frontend/package-lock.json
+frontend/package.json
 
 backend/.env
 backend/.eslintcache
 backend/coverage
+backend/uploads
+backend/package-lock.json
+backend/package.json
