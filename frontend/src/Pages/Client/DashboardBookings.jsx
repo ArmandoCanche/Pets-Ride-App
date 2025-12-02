@@ -7,6 +7,7 @@ import { es } from "date-fns/locale";
 
 // Servicios e Imports Propios
 import { bookingService } from "../../services/bookingService";
+import { reviewsService } from "../../services/reviewsService";
 import BookingCard from "../../Components/BookingCard";
 import ClientBookingDetailModal from "../../Components/ClientBookingDetailModal";
 import ClientRescheduleModal from "../../Components/ClientRescheduleModal";
@@ -138,17 +139,32 @@ export default function DashboardBookings() {
 
     const handleSubmitRating = async (data) => {
         try {
-            // Aquí llamarías a un servicio para guardar la reseña
-            // await reviewService.create({ ...data, bookingId: selectedBooking.id });
-            console.log("Calificación enviada:", data);
+            // Llamamos al servicio real
+            await reviewsService.create({ 
+                bookingId: selectedBooking.id, // Aseguramos enviar el ID de la reserva
+                rating: data.rating,
+                comment: data.comment 
+            });
+            
+            // console.log("Calificación enviada:", data); <--- Ya no es necesario el log
+            
             setRateModalOpen(false);
             setSnackbar({
                 open: true,
                 message: `¡Gracias por calificar a ${selectedBooking.providerName}!`,
                 severity: 'success'
             });
+            
+            // Opcional: Recargar las reservas para actualizar el estado o UI si fuera necesario
+            // fetchBookings(); 
+
         } catch (error) {
-            console.error(error);
+            console.error("Error al enviar reseña:", error);
+            setSnackbar({
+                open: true,
+                message: error.response?.data?.message || 'Error al guardar la calificación',
+                severity: 'error'
+            });
         }
     };
 
