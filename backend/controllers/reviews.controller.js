@@ -83,4 +83,20 @@ const getProviderReviews = async (req, res) => {
   }
 };
 
-module.exports = { createReview, getProviderReviews };
+// --- OBTENER CONTEO DE RESEÑAS DEL CLIENTE ---
+const getClientReviewCount = async (req, res) => {
+  const clientId = req.user.id;
+  try {
+    const result = await db.query(
+      'SELECT COUNT(*) FROM Reviews WHERE client_id = $1',
+      [clientId]
+    );
+    // Postgres devuelve count como string, lo convertimos a número
+    res.json({ count: Number(result.rows[0].count) });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Error al obtener conteo' });
+  }
+};
+
+module.exports = { createReview, getProviderReviews, getClientReviewCount };

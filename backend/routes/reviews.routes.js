@@ -8,4 +8,6 @@ router.post('/', verifyToken, reviewsController.createReview);
 
 router.get('/providers/:providerId', reviewsController.getProviderReviews);
 
+router.get('/count', verifyToken, reviewsController.getClientReviewCount);
+
 module.exports = router;
