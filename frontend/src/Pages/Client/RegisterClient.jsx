@@ -214,7 +214,7 @@ export default function RegisterClient() {
                 <button
                     type="button"
                     onClick={handleGetLocation}
-                    className="flex items-center justify-center gap-2 w-full border border-[#005c71] text-[#005c71] bg-[#005c71]/10 hover:bg-[#005c71]/20 py-2 rounded-xl font-medium transition"
+                    className="flex items-center justify-center gap-2 w-full border border-[#f26644] text-[#f26644] bg-[#f26644]/10 hover:bg-[#f26644]/20 py-2 rounded-xl font-medium transition"
                 >
                     <MapPin className="w-4 h-4" />
                     {formData.latitude ? "Ubicación Guardada" : "Usar mi ubicación actual"}
