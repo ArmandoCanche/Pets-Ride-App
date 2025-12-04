@@ -169,12 +169,15 @@ const getMyBookings = async (req, res) => {
             s.service_id,
             s.name as service_name,
             s.price_unit,  -- <--- CORREGIDO: Nombre real en DB
-            
+            s.duration_minutes as service_duration,
+
             -- Datos de la Mascota
             p.pet_id,
             p.name as pet_name,
             p.species as pet_species,
             p.photo_url as pet_image,
+            p.age as pet_age,
+            p.weight_kg as pet_weight,
 
             -- Datos de la Otra Parte (Usuario)
             -- Concatenamos nombre y apellido

@@ -7,9 +7,14 @@ export const reviewsService = {
     return response.data.count;
   },
 
-  // Función para crear reseña
+  // Obtener reseñas de un proveedor (Público o Privado)
+  getByProviderId: async (providerId) => {
+    const response = await api.get(`/reviews/providers/${providerId}`);
+    return response.data; // Devuelve { items: [...], page: ... }
+  },
+
+  // Crear reseña
   create: async (data) => {
-    // data espera: { bookingId, rating, comment }
     const response = await api.post('/reviews', data);
     return response.data;
   }

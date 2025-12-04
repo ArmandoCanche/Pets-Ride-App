@@ -18,6 +18,8 @@ export default function BookingCardProvider({
     service,
     pet,
     petType,
+    petImage,
+    petName,
     status,
     date,
     time,
@@ -45,12 +47,13 @@ export default function BookingCardProvider({
             {/* HEADER */}
             <div className="flex items-start justify-between">
                 <div className="flex items-center gap-4">
-                    <Avatar 
-                        src={clientImage || "/placeholder.svg"} 
-                        alt={`${client}`}
-                        sx={{ width: 50, height: 50 }}
+                    <Avatar
+                    src={petImage} // Usa la foto de la mascota
+                    alt={petName || "Mascota"} // Usa el nombre de la mascota para accesibilidad
+                    sx={{ width: 56, height: 56 }} // Asegura un tamaño adecuado si es necesario
                     >
-                        {client?.charAt(0)}
+                    {/* Si no hay foto, muestra la inicial del nombre de la mascota */}
+                    {petName ? petName.charAt(0).toUpperCase() : <PetsIcon />}
                     </Avatar>
                     <div>
                         <h2 className="text-lg font-bold text-gray-800">{service}</h2>
