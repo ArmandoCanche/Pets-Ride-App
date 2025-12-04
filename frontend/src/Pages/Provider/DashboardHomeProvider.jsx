@@ -153,7 +153,7 @@ export default function DashboardHomeProvider() {
       <div className='w-full h-auto grid grid-cols-12 gap-4'>
 
         {/* Sección PRÓXIMAS RESERVAS */}
-        <div className='flex flex-col h-full border-2 gap-6 border-gray-200 rounded-lg p-10 bg-white justify-between col-span-12 xl:col-span-8'>
+        <div className='flex flex-col h-full border-2 gap-6 border-gray-200 rounded-lg p-10 bg-white col-span-12 xl:col-span-8'>
           <div className='flex flex-row justify-between items-center w-full'>
             <h1 className='text-2xl font-semibold'>PRÓXIMAS RESERVAS</h1>
             <NavLink to='/provider/bookings' className='text-[#005c71] font-medium hover:underline text-mxs'>Ver todas</NavLink>
