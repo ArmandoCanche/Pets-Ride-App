@@ -289,21 +289,23 @@ const [createPetModalOpen, setCreatePetModalOpen] = useState(false)
             <div className='w-full h-auto grid grid-cols-12 gap-4'>
 
               {/* Sección PRÓXIMAS RESERVAS */}
-              <div className='flex flex-col h-full border-2 gap-6 border-gray-200 rounded-lg p-10 bg-white  justify-between col-span-12  xl:col-span-8'>
+              <div className='flex flex-col h-full border-2 gap-6 border-gray-200 rounded-lg p-10 bg-white col-span-12  xl:col-span-8'>
                 <div className='flex flex-row justify-between items-center w-full'>
                   <h1 className='text-2xl font-semibold'>PRÓXIMAS RESERVAS</h1>
                   <NavLink to='/client/bookings' className='text-[#005c71] font-medium hover:underline text-mxs'>Ver todas</NavLink>
                 </div>
                 {/* CARDS */}
                 {upcomingBookings.length > 0 ? (
-                  upcomingBookings.map((booking) => (
-                <BookingCard
-                  key={booking.id}
-                  {...booking}
-                  onViewDetails={() => handleViewDetails(booking)}
-                  onReschedule={() => handleReschedule(booking)}
-                />
-                ))
+                  <div className='flex flex-col gap-4 justify-start'>
+                      {upcomingBookings.map((booking) => (
+                    <BookingCard
+                      key={booking.id}
+                      {...booking}
+                      onViewDetails={() => handleViewDetails(booking)}
+                      onReschedule={() => handleReschedule(booking)}
+                    />
+                ))}
+                  </div>
                ) : (
                   <div className="text-center py-12 bg-muted/30 rounded-xl border-2 border-dashed">
                     <Calendar className="h-12 w-12 text-muted-foreground mx-auto mb-3" />
