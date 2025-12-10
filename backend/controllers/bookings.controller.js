@@ -244,8 +244,90 @@ const updateBookingStatus = async (req, res) => {
     }
 };
 
+const getProviderStats = async (req, res) => {
+    const providerId = req.user.id;
+
+    try {
+        // 1. KPIs Generales (Ganancias, Pendientes, Completados)
+        const kpiQuery = `
+            SELECT 
+                COALESCE(SUM(CASE WHEN status = 'completed' THEN price_at_booking ELSE 0 END), 0) as total_earnings,
+                COUNT(CASE WHEN status = 'pending' THEN 1 END) as pending_bookings,
+                COUNT(CASE WHEN status = 'completed' THEN 1 END) as completed_services
+            FROM Bookings 
+            WHERE provider_id = $1
+        `;
+
+        // 2. Promedio de Calificación (Desde tabla Reviews)
+        const ratingQuery = `
+            SELECT COALESCE(AVG(rating), 0) as average_rating 
+            FROM Reviews 
+            WHERE provider_id = $1
+        `;
+
+        // 3. Datos para Gráfica de Mascotas (Agrupado por Especie)
+        const petsQuery = `
+            SELECT p.species, COUNT(*) as count
+            FROM Bookings b
+            JOIN Pets p ON b.pet_id = p.pet_id
+            WHERE b.provider_id = $1
+            GROUP BY p.species
+        `;
+
+        // 4. Datos para Gráfica Mensual (Últimos 6 meses)
+        const monthlyQuery = `
+            SELECT 
+                TO_CHAR(booking_datetime, 'Mon') as month_name,
+                EXTRACT(MONTH FROM booking_datetime) as month_num,
+                COUNT(*) as total_bookings,
+                COALESCE(SUM(CASE WHEN status = 'completed' THEN price_at_booking ELSE 0 END), 0) as monthly_earnings
+            FROM Bookings
+            WHERE provider_id = $1 
+            AND booking_datetime > NOW() - INTERVAL '6 months'
+            GROUP BY 1, 2
+            ORDER BY 2 ASC
+        `;
+
+        // 5. Servicios más populares
+        const servicesQuery = `
+            SELECT service_name_snapshot as name, COUNT(*) as value
+            FROM Bookings
+            WHERE provider_id = $1
+            GROUP BY service_name_snapshot
+            ORDER BY value DESC
+            LIMIT 5
+        `;
+
+        // Ejecutar todas las consultas en paralelo
+        const [kpiRes, ratingRes, petsRes, monthlyRes, servicesRes] = await Promise.all([
+            db.query(kpiQuery, [providerId]),
+            db.query(ratingQuery, [providerId]),
+            db.query(petsQuery, [providerId]),
+            db.query(monthlyQuery, [providerId]),
+            db.query(servicesQuery, [providerId])
+        ]);
+
+        res.json({
+            kpis: {
+                ...kpiRes.rows[0],
+                rating: parseFloat(ratingRes.rows[0].average_rating).toFixed(1)
+            },
+            charts: {
+                pets: petsRes.rows,
+                monthly: monthlyRes.rows,
+                services: servicesRes.rows
+            }
+        });
+
+    } catch (error) {
+        console.error('Error en getProviderStats:', error);
+        res.status(500).json({ error: 'Error al obtener estadísticas' });
+    }
+};
+
 module.exports = {
   createBooking,
   getMyBookings,
-  updateBookingStatus
+  updateBookingStatus,
+  getProviderStats
 };

@@ -21,3 +21,8 @@ export const bookingService = {
     return response.data;
   }
 };
+
+export const getProviderStats = async () => {
+  const response = await api.get('/bookings/stats');
+  return response.data;
+};
