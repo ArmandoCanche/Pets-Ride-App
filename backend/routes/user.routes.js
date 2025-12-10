@@ -13,4 +13,10 @@ router.get('/profile', userController.getProfile);
 // PATCH /api/users/profile (Soporta imagen 'profileImage')
 router.patch('/profile', upload.single('image'), userController.updateProfile);
 
+// DELETE /api/users/profile (NUEVA RUTA)
+router.delete('/profile', userController.deleteUser);
+
+// POST /api/users/change-password (NUEVA RUTA)
+router.patch('/change-password', userController.changePassword);
+
 module.exports = router;

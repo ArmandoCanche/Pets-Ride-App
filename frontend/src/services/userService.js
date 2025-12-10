@@ -28,5 +28,20 @@ export const userService = {
     });
     
     return response.data;
-  }
+  },
+
+  // Eliminar cuenta (NUEVO MÉTODO)
+  deleteUser: async () => {
+    const response = await api.delete('/users/profile');
+    return response.data;
+  },
+
+  changePassword: async (currentPassword, newPassword) => {
+    const response = await api.patch('/users/change-password', {
+      currentPassword,
+      newPassword
+    });
+    return response.data; 
+  },
+
 };

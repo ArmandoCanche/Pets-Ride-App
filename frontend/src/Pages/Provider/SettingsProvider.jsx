@@ -23,6 +23,8 @@ import { useState } from "react";
 import BaseModalCredit from "../../Components/BaseModalCredit";
 import AddCardForm from "../../Components/AddCardForm";
 import AddBankAccountForm from "../../Components/AddBankAccountForm";
+import { useNavigate } from "react-router-dom"; 
+import { userService } from "../../services/userService";
 
 const theme = createTheme({
     typography: { fontFamily: 'Poppins, sans-serif' },
@@ -33,6 +35,8 @@ const theme = createTheme({
 });
 
 export default function SettingsProvider() {
+    const navigate = useNavigate();
+
     const [creditCardModalOpen, setCreditCardModalOpen] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
 
@@ -58,6 +62,57 @@ export default function SettingsProvider() {
     const handleSaveCard = () =>{
         setCreditCardModalOpen(false);
     }
+
+    // --- NUEVA FUNCIÓN PARA ELIMINAR ---
+    const handleDeleteAccount = async () => {
+        const confirmDelete = window.confirm(
+            "¿Estás seguro de que deseas eliminar tu cuenta profesional? Perderás tu historial de trabajos y pagos pendientes."
+        );
+
+        if (confirmDelete) {
+            try {
+                await userService.deleteUser();
+                localStorage.removeItem('token');
+                // Redirigir al login de proveedores o al home general
+                navigate('/'); 
+            } catch (error) {
+                console.error("Error al eliminar cuenta:", error);
+                alert("Hubo un error al intentar eliminar tu cuenta.");
+            }
+        }
+    };
+
+        // Estados para el formulario de contraseña
+    const [passwords, setPasswords] = useState({
+        current: '',
+        new: ''
+    });
+
+    // Manejar cambios en los inputs
+    const handlePasswordChange = (e) => {
+        setPasswords({
+            ...passwords,
+            [e.target.name]: e.target.value
+        });
+    };
+
+    // Enviar el cambio
+    const handleSubmitPassword = async () => {
+        if (!passwords.current || !passwords.new) {
+            alert("Por favor completa ambos campos");
+            return;
+        }
+
+        try {
+            await userService.changePassword(passwords.current, passwords.new);
+            alert("¡Contraseña actualizada con éxito!");
+            setPasswords({ current: '', new: '' }); // Limpiar campos
+        } catch (error) {
+            console.error(error);
+            // Mostrar mensaje de error del backend si existe
+            alert(error.response?.data?.error || "Error al actualizar la contraseña");
+        }
+    };
 
     return (
         <ThemeProvider theme={theme}>
@@ -164,33 +219,48 @@ export default function SettingsProvider() {
 
                             <form className="flex flex-col gap-4">
                                 <div className="flex flex-col gap-1">
-                                    <label className="text-sm font-medium text-gray-700">Contraseña actual</label>
-                                    <TextField 
-                                        size="small" type="password" fullWidth 
-                                        sx={{ "& .MuiOutlinedInput-root": { borderRadius:"12px" } }}
-                                    />
-                                </div>
-                                <div className="flex flex-col gap-1">
-                                    <label className="text-sm font-medium text-gray-700">Nueva contraseña</label>
-                                    <TextField 
-                                        size="small" type={showPassword ? "text" : "password"} fullWidth 
+                                <label className="text-sm font-medium text-gray-700">Contraseña actual</label>
+                                <TextField
+                                    size="small"
+                                    type="password"
+                                    name="current" // IMPORTANTE: name coincide con el estado
+                                    value={passwords.current}
+                                    onChange={handlePasswordChange}
+                                    fullWidth
+                                    sx={{ "& .MuiOutlinedInput-root": { borderRadius:"12px" } }}
+                                />
+                            </div>
+                            <div className="flex flex-col gap-1">
+                                <label className="text-sm font-medium text-gray-700">Nueva contraseña</label>
+                                <TextField
+                                    size="small"
+                                    type={showPassword ? "text" : "password"}
+                                    name="new" // IMPORTANTE: name coincide con el estado
+                                    value={passwords.new}
+                                    onChange={handlePasswordChange}
+                                    fullWidth
                                         sx={{ "& .MuiOutlinedInput-root": { borderRadius:"12px" } }}
                                         slotProps={{
-                                            input: {
+                                            input:{
                                                 endAdornment: (
-                                                    <InputAdornment position="end">
-                                                        <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
-                                                            {showPassword ? <VisibilityOff /> : <Visibility />}
-                                                        </IconButton>
-                                                    </InputAdornment>
+                                                <InputAdornment position="end">
+                                                    <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
+                                                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                                                    </IconButton>
+                                                </InputAdornment>
                                                 )
                                             }
                                         }}
                                     />
                                 </div>
-                                <Button variant="contained" color="primary" sx={{borderRadius: 3, textTransform:'none', mt: 1}}>
-                                    Actualizar contraseña
-                                </Button>
+                                <Button 
+                                onClick={handleSubmitPassword} // Conectar la función aquí
+                                variant="contained" 
+                                color="primary" 
+                                sx={{borderRadius: 3, textTransform:'none', mt: 1}}
+                                >
+                                Actualizar contraseña
+                            </Button>
                             </form>
                         </div>
 
@@ -203,7 +273,13 @@ export default function SettingsProvider() {
                             <p className="text-sm text-red-600 mb-4">
                                 Al eliminar tu cuenta, perderás tu historial de trabajos, calificaciones y pagos pendientes.
                             </p>
-                            <Button variant="outlined" color="error" size="small" sx={{borderRadius: 3, textTransform:'none', borderColor: '#ef4444', backgroundColor:'white'}}>
+                            <Button 
+                                onClick={handleDeleteAccount} // VINCULAR EL EVENTO AQUÍ
+                                variant="outlined" 
+                                color="error" 
+                                size="small" 
+                                sx={{borderRadius: 3, textTransform:'none', borderColor: '#ef4444', backgroundColor:'white'}}
+                            >
                                 Eliminar mi cuenta
                             </Button>
                         </div>

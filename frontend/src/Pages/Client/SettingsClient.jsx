@@ -23,6 +23,8 @@ import {
 import { useState } from "react";
 import AddCardForm from "../../Components/AddCardForm";
 import BaseModalCredit from "../../Components/BaseModalCredit";
+import { useNavigate } from "react-router-dom"; 
+import { userService } from "../../services/userService"; 
 
 const theme = createTheme({
     typography: { fontFamily: 'Poppins, sans-serif' },
@@ -33,6 +35,7 @@ const theme = createTheme({
 });
 
 export default function SettingsClient() {
+    const navigate = useNavigate();
 
     const [creditCardModalOpen, setCreditCardModalOpen] = useState(false);
 
@@ -57,6 +60,58 @@ export default function SettingsClient() {
             ...notifications,
             [event.target.name]: event.target.checked,
         });
+    };
+
+    const handleDeleteAccount = async () => {
+        const confirmDelete = window.confirm(
+            "¿Estás seguro de que deseas eliminar tu cuenta permanentemente? Se perderán todas tus reservas y datos de mascotas."
+        );
+
+        if (confirmDelete) {
+            try {
+                await userService.deleteUser();
+                // Limpiar almacenamiento local
+                localStorage.removeItem('token');
+                localStorage.removeItem('user'); // Si guardas datos del usuario
+                // Redirigir al login
+                navigate('/');
+            } catch (error) {
+                console.error("Error al eliminar cuenta:", error);
+                alert("Hubo un error al intentar eliminar tu cuenta. Por favor intenta de nuevo.");
+            }
+        }
+    };
+
+    // Estados para el formulario de contraseña
+    const [passwords, setPasswords] = useState({
+        current: '',
+        new: ''
+    });
+
+    // Manejar cambios en los inputs
+    const handlePasswordChange = (e) => {
+        setPasswords({
+            ...passwords,
+            [e.target.name]: e.target.value
+        });
+    };
+
+    // Enviar el cambio
+    const handleSubmitPassword = async () => {
+        if (!passwords.current || !passwords.new) {
+            alert("Por favor completa ambos campos");
+            return;
+        }
+
+        try {
+            await userService.changePassword(passwords.current, passwords.new);
+            alert("¡Contraseña actualizada con éxito!");
+            setPasswords({ current: '', new: '' }); // Limpiar campos
+        } catch (error) {
+            console.error(error);
+            // Mostrar mensaje de error del backend si existe
+            alert(error.response?.data?.error || "Error al actualizar la contraseña");
+        }
     };
 
     return (
@@ -150,20 +205,26 @@ export default function SettingsClient() {
 
                             <form className="flex flex-col gap-4">
                                 <div className="flex flex-col gap-1">
-                                    <label className="text-sm font-medium text-gray-700">Contraseña actual</label>
-                                    <TextField
-                                        size="small"
-                                        type="password"
-                                        fullWidth
-                                        sx={{ "& .MuiOutlinedInput-root": { borderRadius:"12px" } }}
-                                    />
-                                </div>
-                                <div className="flex flex-col gap-1">
-                                    <label className="text-sm font-medium text-gray-700">Nueva contraseña</label>
-                                    <TextField
-                                        size="small"
-                                        type={showPassword ? "text" : "password"}
-                                        fullWidth
+                                <label className="text-sm font-medium text-gray-700">Contraseña actual</label>
+                                <TextField
+                                    size="small"
+                                    type="password"
+                                    name="current" // IMPORTANTE: name coincide con el estado
+                                    value={passwords.current}
+                                    onChange={handlePasswordChange}
+                                    fullWidth
+                                    sx={{ "& .MuiOutlinedInput-root": { borderRadius:"12px" } }}
+                                />
+                            </div>
+                            <div className="flex flex-col gap-1">
+                                <label className="text-sm font-medium text-gray-700">Nueva contraseña</label>
+                                <TextField
+                                    size="small"
+                                    type={showPassword ? "text" : "password"}
+                                    name="new" // IMPORTANTE: name coincide con el estado
+                                    value={passwords.new}
+                                    onChange={handlePasswordChange}
+                                    fullWidth
                                         sx={{ "& .MuiOutlinedInput-root": { borderRadius:"12px" } }}
                                         slotProps={{
                                             input:{
@@ -178,9 +239,14 @@ export default function SettingsClient() {
                                         }}
                                     />
                                 </div>
-                                <Button variant="contained" color="primary" sx={{borderRadius: 3, textTransform:'none', mt: 1}}>
-                                    Actualizar contraseña
-                                </Button>
+                                <Button 
+                                onClick={handleSubmitPassword} // Conectar la función aquí
+                                variant="contained" 
+                                color="primary" 
+                                sx={{borderRadius: 3, textTransform:'none', mt: 1}}
+                                >
+                                Actualizar contraseña
+                            </Button>
                             </form>
                         </div>
 
@@ -217,6 +283,7 @@ export default function SettingsClient() {
                             </div>
                         </div> */}
 
+                        {/* SECCIÓN DE ELIMINAR (dentro de la columna derecha) */}
                         <div className="bg-red-50 border border-red-100 rounded-xl p-6">
                             <div className="flex items-center gap-2 mb-2">
                                 <Delete color="error" fontSize="small" />
@@ -225,7 +292,13 @@ export default function SettingsClient() {
                             <p className="text-sm text-red-600 mb-4">
                                 Esta acción es permanente. Se borrarán tus reservas, historial y datos de mascotas.
                             </p>
-                            <Button variant="outlined" color="error" size="small" sx={{borderRadius: 3, textTransform:'none', borderColor: '#ef4444', backgroundColor:'white'}}>
+                            <Button 
+                                onClick={handleDeleteAccount} // VINCULAR EL EVENTO AQUÍ
+                                variant="outlined" 
+                                color="error" 
+                                size="small" 
+                                sx={{borderRadius: 3, textTransform:'none', borderColor: '#ef4444', backgroundColor:'white'}}
+                            >
                                 Eliminar mi cuenta
                             </Button>
                         </div>
